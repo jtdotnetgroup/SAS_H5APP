@@ -17,6 +17,12 @@
 			"style":{
 				"navigationBarTitleText":"日程"
 			}
+		},
+		{
+			"path":"pages/porfile/index",
+			"style":{
+				"navigationBarTitleText":"个人设置"
+			}
 		}
 	],
 	"globalStyle": {
@@ -28,7 +34,7 @@
 	"tabBar":{
 		"list":[
 			{
-				"pagePath":"pages/mytask/mytask",
+				"pagePath":"pages/mytask/index",
 				"text":"我的任务",
 				"iconPath":"static/mytask.png",
 				"selectedIconPath":"static/mytask1.png"
@@ -42,13 +48,15 @@
 			{
 				"text":"日程",
 				"iconPath":"static/schedule.png",
-				"selectedIconPath":"static/schedule1.png"
+				"selectedIconPath":"static/schedule1.png",
+				"pagePath":"pages/schedule/index"
 				
 			},
 			{
 				"text":"个人设置",
 				"iconPath":"static/porfile1.png",
-				"selectedIconPath":"static/porfile.png"
+				"selectedIconPath":"static/porfile.png",
+				"pagePath":"pages/porfile/index"
 			}
 		]
 	}
