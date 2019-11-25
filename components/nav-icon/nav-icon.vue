@@ -7,7 +7,7 @@
 </template>
 
 <script>
-	import {uniGrid, uniGridItem} from "@dcloudio/uni-ui"
+	import {uniGridItem} from "@dcloudio/uni-ui"
 	
 	export default {
 		data() {
@@ -16,7 +16,7 @@
 			}
 		},
 		components: {
-			uniGrid, uniGridItem
+			uniGridItem
 		},
 		props: {
 			'text': String,

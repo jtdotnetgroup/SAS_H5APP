@@ -3,10 +3,7 @@
 		<uni-section class="title" title="服务管理"></uni-section>
 		<view class="example-body">
 			<uni-grid :column="4" :show-border="false" :square="false">
-				<nav-icon text="客户管理" icon="icontongxunlu" color-style="#97f079"></nav-icon>
-				<nav-icon text="工单管理" icon="icongongdan" color-style="#79ddee"></nav-icon>
-				<nav-icon text="客户应收" icon="iconweibaogongdan" color-style="#d679ef"></nav-icon>
-				<nav-icon text="故障代报" icon="iconrizhiyichang" color-style="#be78f2"></nav-icon>
+				<slot></slot>
 			</uni-grid>
 		</view>
 	</view>
@@ -14,7 +11,6 @@
 
 <script>
 	import {uniGrid, uniSection} from "@dcloudio/uni-ui"
-	import navIcon from '../nav-icon/nav-icon.vue'
 	
 	export default {
 		data() {
@@ -22,7 +18,7 @@
 			}
 		},
 		components: {
-			uniGrid, uniSection, navIcon
+			uniGrid, uniSection
 		},
 		props: {
 			
