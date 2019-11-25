@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<uni-section class="title" title="服务管理"></uni-section>
+		<uni-section class="title" :title="title"></uni-section>
 		<view class="example-body">
 			<uni-grid :column="4" :show-border="false" :square="false">
 				<slot></slot>
@@ -21,7 +21,7 @@
 			uniGrid, uniSection
 		},
 		props: {
-			
+			'title': String
 		}
 	}
 </script>
