@@ -1,5 +1,7 @@
 <template>
-	<view class="">Profile</view>
+	<view class="content">
+		<view class="">Profile</view>
+	</view>
 </template>
 
 <script>

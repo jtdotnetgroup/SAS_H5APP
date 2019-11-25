@@ -15,4 +15,13 @@
 <style>
 	/*每个页面公共css */
 @import url("./static/iconfont/iconfont.css");
+
+.content {
+	background-color: #f5f6f8;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
 </style>
