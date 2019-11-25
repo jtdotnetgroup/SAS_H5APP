@@ -1,17 +1,20 @@
 <template>
 	<view class="content">
-		<view class="text-area">
-			<text class="title">{{title}}</text>
-		</view>
+		<nav-div></nav-div>
 	</view>
 </template>
 
 <script>
+	import navDiv from '../../components/nav-div/nav-div.vue'
+	
 	export default {
 		data() {
 			return {
 				title: 'Hello'
 			}
+		},
+		components: {
+			navDiv
 		},
 		onLoad() {
 
