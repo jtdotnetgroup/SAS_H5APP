@@ -32,9 +32,9 @@
 				}, {
 					content: 'https://img.php.cn/upload/article/000/000/020/5ceb57480713f714.jpg'
 				}],
-				current: 3,
+				current: 0,
 				interval:4000,
-				mode: 'default',
+				mode: 'round',
 			}
 		},
 		onLoad() {
@@ -52,7 +52,6 @@
 	.swiper{
 		height: 600upx;
 	}
-	// swiper-item 里面的图片高度
 	swiper-item image{
 		width: 100%;
 		height: 600upx;
