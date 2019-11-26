@@ -67,4 +67,8 @@
 		position: absolute;
 		right:20upx;
 	}
+	.swiper-box {
+		border-radius: 0rpx;
+		padding: 0px;
+	}
 </style>
