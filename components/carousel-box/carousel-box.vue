@@ -46,6 +46,7 @@
 	swiper-item image{
 		width: 100%;
 		height: 600upx;
+	}
 	.swiper-item {
 		display: block;
 		height: 300upx;
@@ -69,5 +70,9 @@
 	.info {
 		position: absolute;
 		right:20upx;
+	}
+	.swiper-box {
+		border-radius: 0rpx;
+		padding: 0px;
 	}
 </style>
