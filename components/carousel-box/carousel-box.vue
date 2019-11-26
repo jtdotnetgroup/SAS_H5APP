@@ -26,12 +26,9 @@
 				}, {
 					content: 'https://img.php.cn/upload/article/000/000/020/5ceb57480713f714.jpg'
 				}],
-<<<<<<< Updated upstream
 				current: 0,
 				interval:4000,
 				mode: 'round',
-=======
->>>>>>> Stashed changes
 			}
 		},
 		methods: {
@@ -46,17 +43,14 @@
 	.swiper {
 		height: 350upx;
 	}
-<<<<<<< Updated upstream
 	swiper-item image{
 		width: 100%;
 		height: 600upx;
-=======
 	.swiper-item {
 		display: block;
 		height: 300upx;
 		line-height: 300upx;
 		text-align: center;
->>>>>>> Stashed changes
 	}
 	.swiper-item image{
 			width: 100%;

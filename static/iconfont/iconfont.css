@@ -15,6 +15,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.iconshouji:before {
+  content: "\e630";
+}
+
+.icondianhua:before {
+  content: "\e6db";
+}
+
+.iconphone:before {
+  content: "\e831";
+}
+
 .icongongdan:before {
   content: "\e602";
 }
@@ -197,5 +209,9 @@
 
 .iconrongyu1:before {
   content: "\e62f";
+}
+
+.icondianhua-copy:before {
+  content: "\e6dc";
 }
 

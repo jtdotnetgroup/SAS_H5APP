@@ -27,8 +27,6 @@
 </script>
 
 <style>
-	@import url("../../static/iconfont/iconfont.css");
-	
 	.iconfont {
 		font-family: "iconfont" !important;
 		font-size: 50px;
