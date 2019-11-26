@@ -49,13 +49,32 @@
 </script>
 
 <style>
-	.swiper{
-		height: 600upx;
+	.swiper {
+		height: 350upx;
 	}
-	// swiper-item 里面的图片高度
-	swiper-item image{
-		width: 100%;
-		height: 600upx;
+	.swiper-item {
+		display: block;
+		height: 300upx;
+		line-height: 300upx;
+		text-align: center;
+	}
+	.swiper-item image{
+			width: 100%;
+			height: 600upx;
+	}
+	.swiper-list {
+		margin-top: 40upx;
+		margin-bottom: 0;
+	}
+	
+	.uni-common-mt{
+		margin-top:60upx;
+		position:relative;
+	}
+	
+	.info {
+		position: absolute;
+		right:20upx;
 	}
 	.swiper-box {
 		border-radius: 0rpx;
