@@ -22,8 +22,7 @@
 		</view>
 		<view class="btn">
 			<button class="mini-btn" size="mini">维修工单</button>
-			<span class="iconfont iconphone"></span>
-			<button class="phone" size="mini">维</button>
+			<span class="iconfont iconphone phone"></span>
 		</view>
 		<template v-slot:footer>
 			<view class="footer-box">
@@ -87,6 +86,9 @@
 	}
 	
 	.phone {
-		border-radius: 100upx;
+		font-size: 70upx;
+		position: absolute;
+		top: 100upx;
+		right: 50upx;
 	}
 </style>

@@ -1,6 +1,5 @@
 <template>
 	<view class="content">
-		
 		<car-box></car-box>
 		<card></card>
 	</view>
