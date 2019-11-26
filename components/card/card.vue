@@ -3,20 +3,20 @@
 		<view class="info">
 			<view class="line">
 				<label class="uni-list-cell uni-list-cell-pd" >
-					<view class="label">北京市朝阳区特种玻璃有限公司</view>
+					<view class="label">{{ info.company }}</view>
 				</label>
 			</view>
 			<view class="line">
 				<label class="uni-list-cell uni-list-cell-pd" >
 					<span class="iconfont iconhuizhengongzuoliang iconStyle"></span>
-					<view class="label sameLine">联系人：张三</view>
-					<view class="label sameLine">13845612345</view>
+					<view class="label sameLine">联系人：{{ info.contacts }}</view>
+					<view class="label sameLine">{{ info.tel }}</view>
 				</label>
 			</view>
 			<view class="line">
 				<label class="uni-list-cell uni-list-cell-pd" >
 					<span class="iconfont icondingwei iconStyle"></span>
-					<view class="label sameLine">佛山创意产业园</view>
+					<view class="label sameLine">{{ info.location }}</view>
 				</label>
 			</view>
 		</view>
@@ -26,7 +26,8 @@
 		</view>
 		<template v-slot:footer>
 			<view class="footer-box">
-				<view class="label">2019-11-26</view>
+				<view class="label">{{ info.date }}</view>
+				<view class="label right">已过去 5小时20分</view>
 			</view>
 		</template>
 	</uni-card>
@@ -42,7 +43,9 @@
 		components: {
 			uniCard
 		},
-		props: {}
+		props: {
+			'info': Object
+		}
 	}
 </script>
 
@@ -53,6 +56,7 @@
 	
 	.label {
 		font-size: 30upx;
+		display: inline-block;
 	}
 	
 	.sameLine {
@@ -90,5 +94,14 @@
 		position: absolute;
 		top: 100upx;
 		right: 50upx;
+	}
+	
+	.right {
+		position: absolute;
+		right: 10upx;
+		border: 1rpx solid #ffe289;
+		color: #fec6c6;
+		padding: 10upx;
+		margin-top: -7upx;
 	}
 </style>
