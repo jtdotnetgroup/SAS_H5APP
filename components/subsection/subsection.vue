@@ -40,7 +40,7 @@
 				if (this.current !== e.currentIndex) {
 					this.current = e.currentIndex;
 				}
-			}
+	        }
 	    }
 	}
 </script>
