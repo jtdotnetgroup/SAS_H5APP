@@ -43,9 +43,6 @@
 	.swiper {
 		height: 350upx;
 	}
-	swiper-item image{
-		width: 100%;
-		height: 600upx;
 	.swiper-item {
 		display: block;
 		height: 300upx;
