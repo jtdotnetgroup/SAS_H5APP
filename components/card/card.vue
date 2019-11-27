@@ -49,7 +49,7 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.uniCard {
 		margin: 10upx;
 	}

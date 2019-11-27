@@ -29,20 +29,20 @@
 <style>
 	.iconfont {
 		font-family: "iconfont" !important;
-		font-size: 50px;
+		font-size: 90upx;
 		font-style: normal;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
 	
 	.image {
-		width: 100rpx;
-		height: 100rpx;
+		width: 90rpx;
+		height: 90rpx;
 		margin: 0 auto;
 	}
 	
 	.text {
-		font-size: 26rpx;
+		font-size: 25rpx;
 		margin-top: 10rpx;
 		text-align: center;
 	}
