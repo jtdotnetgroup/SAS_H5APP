@@ -33,7 +33,8 @@
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "售后工单APP",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"backgroundColor": "#F8F8F8",
+		"navigationStyle":"custom"
 	},
 	"tabBar":{
 		"backgroundColor":"#FFFFFF",
