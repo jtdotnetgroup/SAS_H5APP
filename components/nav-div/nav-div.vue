@@ -13,6 +13,7 @@
 	import {uniGrid, uniSection} from "@dcloudio/uni-ui"
 	
 	export default {
+		name: "navDiv",
 		data() {
 			return {
 			}
