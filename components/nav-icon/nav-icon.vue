@@ -29,7 +29,7 @@
 <style>
 	.iconfont {
 		font-family: "iconfont" !important;
-		font-size: 50px;
+		font-size: 100upx;
 		font-style: normal;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
@@ -42,7 +42,7 @@
 	}
 	
 	.text {
-		font-size: 26rpx;
+		font-size: 20rpx;
 		margin-top: 10rpx;
 		text-align: center;
 	}
