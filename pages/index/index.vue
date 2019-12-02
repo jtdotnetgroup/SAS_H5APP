@@ -2,11 +2,9 @@
 	<view class="content">
 		<view v-for="(ditem,index) in dataList" :key="index">
 			<nav-div :title="ditem.title">
-				<uni-grid :column="4" :show-border="false" :square="false">
-					<view v-for="(titem,index) in ditem.textList" :key="index">
-						<nav-icon :text="titem.text" :icon="titem.icon" :color-style="titem.color"></nav-icon>
-					</view>
-				</uni-grid>
+				<view v-for="(titem,index) in ditem.textList" :key="index">
+					<nav-icon :text="titem.text" :icon="titem.icon" :color-style="titem.color" @click="clickItem"></nav-icon>
+				</view>
 			</nav-div>
 		</view>
 	</view>
@@ -20,7 +18,6 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello',
 				dataList: [
 					{
 						title: "服务管理", 
@@ -68,7 +65,9 @@
 
 		},
 		methods: {
-
+			clickItem() {
+				
+			}
 		}
 	}
 </script>

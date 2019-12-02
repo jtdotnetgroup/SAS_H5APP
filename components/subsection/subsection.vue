@@ -13,63 +13,14 @@
 	import card from '../../components/card/card.vue'
 
 	export default {
+		name: 'subSection',
 		components: {
 			uniSegmentedControl, card
 		},
 		data() {
 			return {
 				items: ['未接收', '待完工', '异常', '全部'],
-				current: 0,
-				datalist:[
-					{
-						'company': "北京市朝阳区特种玻璃有限公司",
-						'contacts': "张三",
-						'tel': "13845612345",
-						'location': "佛山创意产业园",
-						'date': "2019-11-26",
-						'status': 1,
-					},
-					{
-						'company': "北京市朝阳区特种玻璃有限公司",
-						'contacts': "张三",
-						'tel': "13845612345",
-						'location': "佛山创意产业园",
-						'date': "2019-11-26",
-						'status': 2,
-					},
-					{
-						'company': "北京市朝阳区特种玻璃有限公司",
-						'contacts': "张三",
-						'tel': "13845612345",
-						'location': "佛山创意产业园",
-						'date': "2019-11-26",
-						'status': 2,
-					},
-					{
-						'company': "北京市朝阳区特种玻璃有限公司",
-						'contacts': "张三",
-						'tel': "13845612345",
-						'location': "佛山创意产业园",
-						'date': "2019-11-26",
-						'status': 3,
-					},
-					{
-						'company': "北京市朝阳区特种玻璃有限公司",
-						'contacts': "张三",
-						'tel': "13845612345",
-						'location': "佛山创意产业园",
-						'date': "2019-11-26",
-						'status': 1,
-					},
-					{
-						'company': "北京市朝阳区特种玻璃有限公司",
-						'contacts': "张三",
-						'tel': "13845612345",
-						'location': "佛山创意产业园",
-						'date': "2019-11-26",
-						'status': 0,
-					},
-				]
+				current: 0
 			}
 		},
 		methods: {
@@ -77,12 +28,67 @@
 				if (this.current !== e.currentIndex) {
 					this.current = e.currentIndex;
 				}
-	        }
+			}
 		},
 		computed:{
 			displayList(){
-				return this.datalist.filter(e=>e.status===this.current)
+				let item = this.$store.getters['workOrder/getData']
+				console.log(item);
+				return item.filter(e=>e.status===this.current)
 			}
+		},
+		beforeCreate() {
+			var data = [
+				{
+					'company': "北京市朝阳区有限公司",
+					'contacts': "张三",
+					'tel': "13845612345",
+					'location': "北京创意产业园",
+					'date': "2019-11-26",
+					'status': 1
+				},
+				{
+					'company': "天津市朝阳区有限公司",
+					'contacts': "李四",
+					'tel': "13845612345",
+					'location': "天津创意产业园",
+					'date': "2019-11-26",
+					'status': 2
+				},
+				{
+					'company': "上海市朝阳区有限公司",
+					'contacts': "王五",
+					'tel': "13845612345",
+					'location': "上海创意产业园",
+					'date': "2019-11-26",
+					'status': 2
+				},
+				{
+					'company': "广州市朝阳区有限公司",
+					'contacts': "钱六",
+					'tel': "13845612345",
+					'location': "广州创意产业园",
+					'date': "2019-11-26",
+					'status': 3
+				},
+				{
+					'company': "深圳市朝阳区有限公司",
+					'contacts': "田七",
+					'tel': "13845612345",
+					'location': "深圳创意产业园",
+					'date': "2019-11-26",
+					'status': 1
+				},
+				{
+					'company': "佛山市朝阳区有限公司",
+					'contacts': "赵八",
+					'tel': "13845612345",
+					'location': "佛山创意产业园",
+					'date': "2019-11-26",
+					'status': 0
+				}
+			]
+			this.$store.dispatch('workOrder/GetDataList', data)
 		}
 	}
 </script>
