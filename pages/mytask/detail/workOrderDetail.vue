@@ -173,7 +173,7 @@
 	}
 	
 	.fontsmall {
-		font-size: 13rpx;
+		font-size: 25rpx;
 	}
 	
 	.bold {
