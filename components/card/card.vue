@@ -66,7 +66,9 @@
 		},
 		methods: {
 			goDetail(id) {
-				
+				uni.navigateTo({
+					url: '../../pages/mytask/detail/workOrderDetail?id=' + id
+				})
 			}
 		}
 	}

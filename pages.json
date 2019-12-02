@@ -27,6 +27,13 @@
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"navigationBarTitleText":"个人设置"
 			}
+		},
+		{
+			"path":"pages/mytask/detail/workOrderDetail",
+			"style":{
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText":"工单详情"
+			}
 		}
 	],
 	"globalStyle": {
