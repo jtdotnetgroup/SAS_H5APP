@@ -22,6 +22,7 @@
 		components: {
 			uniSwiperDot
 		},
+		name: 'carBox',
 		data() {
 			return {
 				autoplay:true,
@@ -65,6 +66,30 @@
 	.swiper-box {
 		border-radius: 0rpx;
 		padding: 0px;
+	}
+	.swiper-item {
+		display: block;
+		height: 300upx;
+		line-height: 300upx;
+		text-align: center;
+	}
+	.swiper-item image{
+			width: 100%;
+			height: 600upx;
+	}
+	.swiper-list {
+		margin-top: 40upx;
+		margin-bottom: 0;
+	}
+	
+	.uni-common-mt{
+		margin-top:60upx;
+		position:relative;
+	}
+	
+	.info {
+		position: absolute;
+		right:20upx;
 	}
 	.swiper-box {
 		border-radius: 0rpx;

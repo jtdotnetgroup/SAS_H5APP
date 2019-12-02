@@ -26,8 +26,8 @@
 		</view>
 		<template v-slot:footer>
 			<view class="footer-box">
-				<view class="label">{{ info.date }}</view>
-				<view class="label right">已过去 5小时20分</view>
+				<view class="label">{{ formatDate }}</view>
+				<view class="label right">{{ calculationTime }}</view>
 			</view>
 		</template>
 	</uni-card>
@@ -37,6 +37,7 @@
 	import {uniCard} from "@dcloudio/uni-ui"
 
 	export default {
+		name: 'card',
 		data() {
 			return {}
 		},
@@ -45,6 +46,42 @@
 		},
 		props: {
 			'info': Object
+		},
+		computed: {
+			formatDate() {
+				return this.$moment(this.info.date).format('YYYY-MM-DD HH:mm')
+			},
+			calculationTime() {
+				const dic = {
+					'a year' : '1 年',
+					'years' : '年',
+					'a month' : '1 个月',
+					'months' : '个月',
+					'a day' : '1 天',
+					'days' : '天',
+					'an hour' : '1 小时',
+					'hours' : '小时',
+					'a minute' : '1 分钟',
+					'minutes' : '分钟',
+					'a few seconds' : '刚刚'
+				}
+				let result
+				let date = this.$moment(this.formatDate)
+				if (date.isBefore(this.$moment())) {
+					result = '已过去 ' + date.fromNow(true)
+				} else {
+					result = '还有 ' + date.toNow(true)
+				}
+				for (let i in dic) {
+					let obj = Object.keys(dic)
+					if (result.indexOf(obj[obj.length-1]) != -1) {
+						result = dic[obj[obj.length-1]]
+					} else {
+						result = result.replace(i, dic[i])
+					}
+				}
+				return result
+			}
 		}
 	}
 </script>
