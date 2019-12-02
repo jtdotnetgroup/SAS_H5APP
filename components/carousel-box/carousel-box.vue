@@ -13,6 +13,7 @@
 </template>
 <script>
 	export default {
+		name: 'carBox',
 		data() {
 			return {
 				indicatorDots: true,

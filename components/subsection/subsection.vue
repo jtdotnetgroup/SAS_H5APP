@@ -14,6 +14,7 @@
 	import { getWorkOrderList } from '../../api/getWorkOrderList.js'
 
 	export default {
+		name: 'subSection',
 		components: {
 			uniSegmentedControl, card
 		},
