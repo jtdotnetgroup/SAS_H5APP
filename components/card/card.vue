@@ -27,7 +27,7 @@
 		<template v-slot:footer>
 			<view class="footer-box">
 				<view class="label">{{ formatDate }}</view>
-				<view class="label right">{{ calculationTime }}</view>
+				<view class="label right">{{ calTime(formatDate) }}</view>
 			</view>
 		</template>
 	</uni-card>
@@ -35,6 +35,7 @@
 
 <script>
 	import {uniCard} from "@dcloudio/uni-ui"
+	import {calculationTime} from '../../utils/moment.js'
 
 	export default {
 		name: 'card',
@@ -51,36 +52,10 @@
 			formatDate() {
 				return this.$moment(this.info.date).format('YYYY-MM-DD HH:mm')
 			},
-			calculationTime() {
-				const dic = {
-					'a year' : '1 年',
-					'years' : '年',
-					'a month' : '1 个月',
-					'months' : '个月',
-					'a day' : '1 天',
-					'days' : '天',
-					'an hour' : '1 小时',
-					'hours' : '小时',
-					'a minute' : '1 分钟',
-					'minutes' : '分钟',
-					'a few seconds' : '刚刚'
+			calTime(dateTime) {
+				return dateTime => {
+					return calculationTime(dateTime)
 				}
-				let result
-				let date = this.$moment(this.formatDate)
-				if (date.isBefore(this.$moment())) {
-					result = '已过去 ' + date.fromNow(true)
-				} else {
-					result = '还有 ' + date.toNow(true)
-				}
-				for (let i in dic) {
-					let obj = Object.keys(dic)
-					if (result.indexOf(obj[obj.length-1]) != -1) {
-						result = dic[obj[obj.length-1]]
-					} else {
-						result = result.replace(i, dic[i])
-					}
-				}
-				return result
 			}
 		}
 	}
