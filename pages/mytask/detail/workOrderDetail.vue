@@ -22,7 +22,7 @@
 								分配时间：
 							</view>
 							<view class="label sameLine fontsmall">
-								{{getTicket.date}}
+								{{formatDate(getTicket.date)}}
 							</view>
 						</view>
 					</label>
@@ -87,6 +87,7 @@
 	import {
 		uniCard
 	} from "@dcloudio/uni-ui"
+	import {format} from '../../../utils/formatDate.js'
 
 	export default {
 		name: "mytaskDetail",
@@ -105,6 +106,11 @@
 			getTicket() {
 				let ticketList = this.$store.getters['workOrder/getTicketList']
 				return ticketList.filter(e => e.id === this.id)[0]
+			},
+			formatDate(dateTime) {
+				return dateTime =>{
+					return format(dateTime)
+				}
 			}
 		}
 	}

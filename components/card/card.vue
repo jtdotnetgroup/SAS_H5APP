@@ -27,8 +27,8 @@
 			</view>
 			<template v-slot:footer>
 				<view class="footer-box">
-					<view class="label">{{ formatDate }}</view>
-					<view class="label right">{{ calTime(formatDate) }}</view>
+					<view class="label">{{ formatDate(info.date) }}</view>
+					<view class="label right">{{ calTime(formatDate(info.date)) }}</view>
 				</view>
 			</template>
 		</uni-card>
@@ -42,6 +42,7 @@
 	import {
 		calculationTime
 	} from '../../utils/moment.js'
+	import {format} from '../../utils/formatDate.js'
 
 	export default {
 		name: 'card',
@@ -55,8 +56,10 @@
 			'info': Object
 		},
 		computed: {
-			formatDate() {
-				return this.$moment(this.info.date).format('YYYY-MM-DD HH:mm')
+			formatDate(dateTime) {
+				return dateTime => {
+					return format(dateTime)
+				}
 			},
 			calTime(dateTime) {
 				return dateTime => {
