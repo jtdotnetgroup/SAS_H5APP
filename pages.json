@@ -34,6 +34,13 @@
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"navigationBarTitleText":"工单详情"
 			}
+		},
+		{
+			"path":"pages/mytask/repair/workOrderRepair",
+			"style":{
+				"navigationBarBackgroundColor": "#FFFFFF",
+				"navigationBarTitleText":"维修工单"
+			}
 		}
 	],
 	"globalStyle": {

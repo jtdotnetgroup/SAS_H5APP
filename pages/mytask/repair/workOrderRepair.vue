@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<uni-card class="uniCard" note="true">
+		<uni-card class="uniCard">
 			<view class="info">
 				<view class="line">
 					<label class="uni-list-cell uni-list-cell-pd">
@@ -27,11 +27,6 @@
 						</view>
 					</label>
 				</view>
-			</view>
-			<view class="btn">
-				<button class="mini-btn" size="mini">维修工单</button>
-			</view>
-			<template v-slot:footer>
 				<view class="line">
 					<label class="uni-list-cell uni-list-cell-pd">
 						<view class="sameLine">
@@ -45,42 +40,11 @@
 						<span class="iconfont icondingwei iconStyle"></span>
 					</label>
 				</view>
-				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								主联系人：
-							</view>
-							<view class="label sameLine fontsmall">
-								{{getTicket.contacts}}
-							</view>
-						</view>
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								职位：
-							</view>
-							<view class="label sameLine fontsmall">
-								院长
-							</view>
-						</view>
-					</label>
-				</view>
-				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								联系方式：
-							</view>
-							<view class="label sameLine fontsmall">
-								{{getTicket.tel}}
-							</view>
-						</view>
-						<span class="iconfont iconphone phone"></span>
-					</label>
-				</view>
-			</template>
+			</view>
+			<view class="btn">
+				<button class="mini-btn" size="mini">维修工单</button>
+			</view>
 		</uni-card>
-		<view @click="toRepair(id)">跳转维修工单</view>
 	</view>
 </template>
 
@@ -89,7 +53,7 @@
 		uniCard
 	} from "@dcloudio/uni-ui"
 	import {format} from '../../../utils/formatDate.js'
-
+	
 	export default {
 		name: "mytaskDetail",
 		data() {
@@ -112,13 +76,6 @@
 				return dateTime =>{
 					return format(dateTime)
 				}
-			}
-		},
-		methods: {
-			toRepair(id) {
-				uni.navigateTo({
-					url: '../repair/workOrderRepair?id=' + id
-				})
 			}
 		}
 	}
