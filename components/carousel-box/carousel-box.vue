@@ -1,25 +1,30 @@
 <template>
 	<view>
-		<view class="uni-margin-wrap">
-			<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+		<uni-swiper-dot :imageList="imageList" :current="current" field="content" :mode="mode">
+			<swiper class="swiper-box" @change="change"
+			 :indicator-dots="true"
+			 :autoplay="autoplay"
+			  :interval="interval">
 				<swiper-item v-for="(item ,index) in imageList" :key="index">
 					<view class="swiper-item">
 						<image :src="item.content" mode=""></image>
 					</view>
 				</swiper-item>
 			</swiper>
-		</view>
+		</uni-swiper-dot>
 	</view>
 </template>
+
 <script>
+	import uniSwiperDot from '@dcloudio/uni-ui/lib/uni-swiper-dot/uni-swiper-dot.vue'
+	
 	export default {
-		name: "carBox",
+		components: {
+			uniSwiperDot
+		},
 		data() {
 			return {
-				indicatorDots: true,
-				autoplay: true,
-				interval: 3000,
-				duration: 500,
+				autoplay:true,
 				imageList: [{
 					content: 'https://img-cdn-qiniu.dcloud.net.cn/static/images/ad/uniapp-xiaomi.png'
 				}, {
@@ -27,14 +32,17 @@
 				}, {
 					content: 'https://img.php.cn/upload/article/000/000/020/5ceb57480713f714.jpg'
 				}],
-				current: 0,
+				current: 3,
 				interval:4000,
-				mode: 'round',
+				mode: 'default',
 			}
 		},
+		onLoad() {
+
+		},
 		methods: {
-			changeAutoplay(e) {
-				this.autoplay = !this.autoplay
+			change(e) {
+				this.current = e.detail.current;
 			}
 		}
 	}
@@ -43,6 +51,10 @@
 <style>
 	.swiper {
 		height: 350upx;
+	}
+	swiper-item image{
+		width: 100%;
+		height: 600upx;
 	}
 	.swiper-item {
 		display: block;
