@@ -18,7 +18,6 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello',
 				dataList: [
 					{
 						title: "服务管理", 
