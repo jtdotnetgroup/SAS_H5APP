@@ -5,6 +5,8 @@ import moment from 'moment'
 
 Vue.config.productionTip = false
 
+
+moment.locale('cn')
 Vue.prototype.$moment = moment
 
 App.mpType = 'app'
