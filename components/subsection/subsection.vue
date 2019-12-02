@@ -13,14 +13,63 @@
 	import card from '../../components/card/card.vue'
 
 	export default {
-		name: 'subSection',
 		components: {
 			uniSegmentedControl, card
 		},
 		data() {
 			return {
 				items: ['未接收', '待完工', '异常', '全部'],
-				current: 0
+				current: 0,
+				datalist:[
+					{
+						'company': "北京市朝阳区特种玻璃有限公司",
+						'contacts': "张三",
+						'tel': "13845612345",
+						'location': "佛山创意产业园",
+						'date': "2019-11-26",
+						'status': 1,
+					},
+					{
+						'company': "北京市朝阳区特种玻璃有限公司",
+						'contacts': "张三",
+						'tel': "13845612345",
+						'location': "佛山创意产业园",
+						'date': "2019-11-26",
+						'status': 2,
+					},
+					{
+						'company': "北京市朝阳区特种玻璃有限公司",
+						'contacts': "张三",
+						'tel': "13845612345",
+						'location': "佛山创意产业园",
+						'date': "2019-11-26",
+						'status': 2,
+					},
+					{
+						'company': "北京市朝阳区特种玻璃有限公司",
+						'contacts': "张三",
+						'tel': "13845612345",
+						'location': "佛山创意产业园",
+						'date': "2019-11-26",
+						'status': 3,
+					},
+					{
+						'company': "北京市朝阳区特种玻璃有限公司",
+						'contacts': "张三",
+						'tel': "13845612345",
+						'location': "佛山创意产业园",
+						'date': "2019-11-26",
+						'status': 1,
+					},
+					{
+						'company': "北京市朝阳区特种玻璃有限公司",
+						'contacts': "张三",
+						'tel': "13845612345",
+						'location': "佛山创意产业园",
+						'date': "2019-11-26",
+						'status': 0,
+					},
+				]
 			}
 		},
 		methods: {
@@ -88,6 +137,8 @@
 				}
 			]
 			this.$store.dispatch('workOrder/GetDataList', data)
+				return this.datalist.filter(e=>e.status===this.current)
+			}
 		}
 	}
 </script>

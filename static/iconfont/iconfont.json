@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1105010",
+      "name": "手机",
+      "font_class": "shouji",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "5137887",
+      "name": "电话",
+      "font_class": "dianhua",
+      "unicode": "e6db",
+      "unicode_decimal": 59099
+    },
+    {
+      "icon_id": "5921237",
+      "name": "phone",
+      "font_class": "phone",
+      "unicode": "e831",
+      "unicode_decimal": 59441
+    },
+    {
       "icon_id": "7315893",
       "name": "工单",
       "font_class": "gongdan",
@@ -326,6 +347,13 @@
       "font_class": "rongyu1",
       "unicode": "e62f",
       "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "11965476",
+      "name": "电话",
+      "font_class": "dianhua-copy",
+      "unicode": "e6dc",
+      "unicode_decimal": 59100
     }
   ]
 }

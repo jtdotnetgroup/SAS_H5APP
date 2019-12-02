@@ -1,26 +1,28 @@
 <template>
 	<view class="content">
 		<car-box></car-box>
-		<card></card>
+		<sub-section></sub-section>
 	</view>
 </template>
 
 <script>
+
 	import carBox from '../../components/carousel-box/carousel-box.vue'
-	import card from '../../components/card/card.vue'
+	import subSection from '../../components/subsection/subsection.vue'
 	
 	export default{
 		name:"mytask",
 		data() {
 			return {
-				key: ""
+				
 			}
 		},
+
 		components: {
-			carBox, card
+			carBox, subSection
 		}
 	}
 </script>
 
-<style>
+<style scoped>
 </style>

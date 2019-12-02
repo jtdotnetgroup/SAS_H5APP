@@ -37,7 +37,6 @@
 	import {uniCard} from "@dcloudio/uni-ui"
 
 	export default {
-		name: "card",
 		data() {
 			return {}
 		},
