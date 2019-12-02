@@ -1,23 +1,23 @@
 const state = {
-	data: []
+	ticketList: []
 }
 
 const getters = {
-	getData() {
-		return state.data
+	getTicketList() {
+		return state.ticketList
 	}
 }
 
 const mutations = {
-	setData(state, payload) {
-		state.data = payload
+	setTicketList(state, payload) {
+		state.ticketList = payload
 	}
 }
 
 const actions = {
 	GetDataList({commit,state},payload){
 		setTimeout(()=>{
-			commit("setData",payload)
+			commit("setTicketList",payload)
 		},3000)
 	}
 }

@@ -5,11 +5,6 @@
 				<view v-for="(titem,index) in ditem.textList" :key="index">
 					<nav-icon :text="titem.text" :icon="titem.icon" :color-style="titem.color" @click="clickItem"></nav-icon>
 				</view>
-				<uni-grid :column="4" :show-border="false" :square="false">
-					<view v-for="(titem,index) in ditem.textList" :key="index">
-						<nav-icon :text="titem.text" :icon="titem.icon" :color-style="titem.color"></nav-icon>
-					</view>
-				</uni-grid>
 			</nav-div>
 		</view>
 	</view>

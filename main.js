@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store/index.js'
-
+import moment from 'moment'
 
 Vue.config.productionTip = false
+
+Vue.prototype.$moment = moment
 
 App.mpType = 'app'
 
