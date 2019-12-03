@@ -80,7 +80,7 @@
 				</view>
 			</template>
 		</uni-card>
-		<view @click="toRepair(id)">跳转维修工单</view>
+		<segment-control></segment-control>
 	</view>
 </template>
 
@@ -89,6 +89,7 @@
 		uniCard
 	} from "@dcloudio/uni-ui"
 	import {format} from '../../../utils/formatDate.js'
+	import segmentControl from '../../../components/segment/segment-control.vue'
 
 	export default {
 		name: "mytaskDetail",
@@ -98,7 +99,8 @@
 			}
 		},
 		components: {
-			uniCard
+			uniCard,
+			segmentControl
 		},
 		onLoad(option) {
 			this.id = option.id
