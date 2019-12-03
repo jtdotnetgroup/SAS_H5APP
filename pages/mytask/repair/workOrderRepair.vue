@@ -45,13 +45,27 @@
 				<button class="mini-btn" size="mini">维修工单</button>
 			</view>
 		</uni-card>
+		<view class="bottom">
+			<uni-grid :column="3" :show-border="false"  :square="false">
+			    <uni-grid-item>
+					<span class="iconfont icontijiao bottomIcon" style="color: #09a0f7;"></span>
+			        <text class="text">提交</text>
+			    </uni-grid-item>
+			    <uni-grid-item>
+					<span class="iconfont iconzancun bottomIcon" style="color: #999999;"></span>
+			        <text class="text">暂存</text>
+			    </uni-grid-item>
+			    <uni-grid-item>
+					<span class="iconfont iconfangqi bottomIcon" style="color: #d81e06;"></span>
+			        <text class="text">放弃</text>
+			    </uni-grid-item>
+			</uni-grid>
+		</view>
 	</view>
 </template>
 
 <script>
-	import {
-		uniCard
-	} from "@dcloudio/uni-ui"
+	import {uniCard, uniGrid, uniGridItem} from "@dcloudio/uni-ui"
 	import {format} from '../../../utils/formatDate.js'
 	
 	export default {
@@ -62,7 +76,7 @@
 			}
 		},
 		components: {
-			uniCard
+			uniCard, uniGrid, uniGridItem
 		},
 		onLoad(option) {
 			this.id = option.id
@@ -143,5 +157,24 @@
 	
 	.bold {
 		font-weight: bold;
+	}
+	
+	.text {
+		text-align: center;
+	}
+	
+	.bottom {
+		background-color: #FFFFFF;
+		padding: 20rpx 0;
+		width: 100%;
+		position: absolute;
+		left: 0;
+		bottom: 0;
+		z-index: 999;
+	}
+	
+	.bottomIcon {
+		text-align: center;
+		font-size: 50rpx;
 	}
 </style>

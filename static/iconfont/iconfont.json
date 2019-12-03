@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "689060",
+      "name": "成功",
+      "font_class": "chenggong",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "1033776",
+      "name": "放弃",
+      "font_class": "fangqi",
+      "unicode": "e9d0",
+      "unicode_decimal": 59856
+    },
+    {
       "icon_id": "1105010",
       "name": "手机",
       "font_class": "shouji",
@@ -25,6 +39,13 @@
       "font_class": "phone",
       "unicode": "e831",
       "unicode_decimal": 59441
+    },
+    {
+      "icon_id": "7069095",
+      "name": "提交",
+      "font_class": "tijiao",
+      "unicode": "e632",
+      "unicode_decimal": 58930
     },
     {
       "icon_id": "7315893",
@@ -347,6 +368,34 @@
       "font_class": "rongyu1",
       "unicode": "e62f",
       "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "7468901",
+      "name": "闹钟",
+      "font_class": "naozhong",
+      "unicode": "e68e",
+      "unicode_decimal": 59022
+    },
+    {
+      "icon_id": "10271564",
+      "name": "暂存",
+      "font_class": "zancun",
+      "unicode": "e6a5",
+      "unicode_decimal": 59045
+    },
+    {
+      "icon_id": "10342753",
+      "name": "禁止 (1)",
+      "font_class": "jinzhi",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "10398189",
+      "name": "叹号",
+      "font_class": "tanhao",
+      "unicode": "e634",
+      "unicode_decimal": 58932
     },
     {
       "icon_id": "11965476",
