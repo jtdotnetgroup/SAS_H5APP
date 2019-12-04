@@ -16,14 +16,13 @@
 				</view>
 				<view class="line">
 					<label class="uni-list-cell uni-list-cell-pd">
-						<span class="iconfont icondingwei iconStyle"></span>
-						<view class="label sameLine">{{ info.location }}</view>
+						<location :labelStyle="label" :label="info.location" :left_right="left_right"></location>
 					</label>
 				</view>
 			</view>
 			<view class="btn">
 				<button class="mini-btn" size="mini">维修工单</button>
-				<span class="iconfont iconphone phone"></span>
+				<phone></phone>
 			</view>
 			<template v-slot:footer>
 				<view class="footer-box">
@@ -36,21 +35,25 @@
 </template>
 
 <script>
-	import {
-		uniCard
-	} from "@dcloudio/uni-ui"
-	import {
-		calculationTime
-	} from '../../utils/moment.js'
+	import {uniCard} from "@dcloudio/uni-ui"
+	import {calculationTime} from '../../utils/moment.js'
 	import {format} from '../../utils/formatDate.js'
+	import location from '../location/location.vue'
+	import phone from '../phone/phone.vue'
 
 	export default {
 		name: 'card',
 		data() {
-			return {}
+			return {
+				label: {
+					'fontSize': '30upx',
+					'display': 'inline-block'
+				},
+				left_right: '左'
+			}
 		},
 		components: {
-			uniCard
+			uniCard, location, phone
 		},
 		props: {
 			'info': Object
@@ -118,10 +121,7 @@
 	}
 
 	.phone {
-		font-size: 70upx;
-		position: absolute;
-		top: 100upx;
-		right: 50upx;
+		top: 120upx;
 	}
 
 	.right {

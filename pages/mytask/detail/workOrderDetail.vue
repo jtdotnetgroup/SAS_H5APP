@@ -38,11 +38,8 @@
 							<view class="label sameLine fontsmall bold">
 								客户地址：
 							</view>
-							<view class="label sameLine fontsmall">
-								{{getTicket.location}}
-							</view>
+							<location :labelStyle="labelStyle" :label="getTicket.location" :left_right="left_right"></location>
 						</view>
-						<span class="iconfont icondingwei iconStyle"></span>
 					</label>
 				</view>
 				<view class="line">
@@ -75,7 +72,7 @@
 								{{getTicket.tel}}
 							</view>
 						</view>
-						<span class="iconfont iconphone phone"></span>
+						<phone></phone>
 					</label>
 				</view>
 			</template>
@@ -85,20 +82,25 @@
 </template>
 
 <script>
-	import {
-		uniCard
-	} from "@dcloudio/uni-ui"
+	import {uniCard} from "@dcloudio/uni-ui"
 	import {format} from '../../../utils/formatDate.js'
+	import location from '../../../components/location/location.vue'
+	import phone from '../../../components/phone/phone.vue'
 
 	export default {
 		name: "mytaskDetail",
 		data() {
 			return {
-				id: ''
+				id: '',
+				labelStyle: {
+					'fontSize': '25rpx',
+					'display': 'inline-block'
+				},
+				left_right: '右'
 			}
 		},
 		components: {
-			uniCard
+			uniCard, location, phone
 		},
 		onLoad(option) {
 			this.id = option.id
@@ -165,10 +167,7 @@
 	}
 
 	.phone {
-		font-size: 70upx;
-		position: absolute;
-		top: 280upx;
-		right: 50upx;
+		top: 270upx;
 	}
 
 	.right {
