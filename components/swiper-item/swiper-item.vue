@@ -5,7 +5,7 @@
 			<step-device :options="stageList" active-color="#007AFF" :active="active" direction="column">
 				<template v-slot:todo="{todo}">
 					<view class="sameLine">
-						<view class="uni-steps__column-title">
+						<view class="uni-steps__column-title" @click="toRepair(todo.id)">
 							{{todo.title}}
 							<span class="iconfont iconnaozhong alarmClock" ></span>
 							<span class="descstyle">{{dateTime(todo.desc)}}</span>
@@ -40,18 +40,24 @@
 			//uniSteps,
 			stepDevice
 		},
+		props:{
+			
+		},
 		data() {
 			return {
 				active: 0,
 				stageList: [{
+					id: '6',
 					title: '完工汇报',
 					desc: '2019-05-11 12:36:44',
 					status: 0
 				},{
+					id: '5',
 					title: '维修工单',
 					desc: '2019-06-04 15:45:11',
 					status: 0
 				},{
+					id: '4',
 					title: '故障处理',
 					desc: '2019-07-01 10:11:35',
 					status: 1
@@ -65,6 +71,11 @@
 				} else {
 					this.active = 0
 				}
+			},
+			toRepair(id) {
+				uni.navigateTo({
+					url: '../../mytask/repair/workOrderRepair?id='+id
+				})
 			}
 		},
 		computed: {

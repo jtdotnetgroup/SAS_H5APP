@@ -117,11 +117,7 @@
 			}
 		},
 		methods: {
-			toRepair(id) {
-				uni.navigateTo({
-					url: '../repair/workOrderRepair?id=' + id
-				})
-			}
+			
 		}
 	}
 </script>

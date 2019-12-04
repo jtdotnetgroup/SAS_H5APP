@@ -26,6 +26,9 @@
 			uniSegmentedControl,
 			stepItem
 		},
+		props:{
+			
+		},
 	    data() {
 			return {
 				items: ['项目阶段','项目团队','联系人'],
