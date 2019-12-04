@@ -77,7 +77,7 @@
 				</view>
 			</template>
 		</uni-card>
-		<view @click="toRepair(id)">跳转维修工单</view>
+		<segment-control></segment-control>
 	</view>
 </template>
 
@@ -86,6 +86,7 @@
 	import {format} from '../../../utils/formatDate.js'
 	import location from '../../../components/location/location.vue'
 	import phone from '../../../components/phone/phone.vue'
+	import segmentControl from '../../../components/segment/segment-control.vue'
 
 	export default {
 		name: "mytaskDetail",
@@ -100,7 +101,7 @@
 			}
 		},
 		components: {
-			uniCard, location, phone
+			uniCard, location, phone, segmentControl
 		},
 		onLoad(option) {
 			this.id = option.id
