@@ -19,7 +19,7 @@
 
 <script>
 	import uniSegmentedControl from "@dcloudio/uni-ui/lib/uni-segmented-control/uni-segmented-control.vue"
-	import stepItem from "../../components/swiper-item/swiper-item.vue"
+	import stepItem from "@/components/swiper-item/swiper-item.vue"
 	
 	export default {
 		components: {

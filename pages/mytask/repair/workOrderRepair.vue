@@ -123,9 +123,9 @@
 
 <script>
 	import {uniCard, uniGrid, uniGridItem} from "@dcloudio/uni-ui"
-	import {format} from '../../../utils/formatDate.js'
-	import confDiv from '../../../components/conf-div/conf-div.vue'
-	import location from '../../../components/location/location.vue'
+	import {format} from '@/utils/formatDate.js'
+	import confDiv from '@/components/conf-div/conf-div.vue'
+	import location from '@/components/location/location.vue'
 	import radioBtn from '@/components/radio-btn/radio-btn.vue'
 	import chooseImage from '@/components/xyz-choose-image/xyz-choose-image.vue';
 	
@@ -216,6 +216,7 @@
 			},
 			toBase64(path){
 				return new Promise((resolve, reject) => {
+					//#ifdef MP-WEIXIN || MP-TOUTIAO
 					uni.getFileSystemManager().readFile({
 						filePath: path, //选择图片返回的相对路径
 						encoding: 'base64', //编码格式
@@ -229,6 +230,7 @@
 							reject(err);
 						}
 					});
+					//#endif
 				})
 			}
 		}

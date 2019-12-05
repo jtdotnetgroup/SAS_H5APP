@@ -1,6 +1,5 @@
 <template>
 	<view>
-		<!-- <uni-section title="项目计划" type="line"></uni-section> -->
 		<view class="example-body">
 			<step-device :options="stageList" active-color="#007AFF" :active="active" direction="column">
 				<template v-slot:todo="{todo}">
@@ -29,15 +28,13 @@
 </template>
 
 <script>
-	//import uniSteps from '@dcloudio/uni-ui/lib/uni-steps/uni-steps.vue'
 	import uniSection from '@dcloudio/uni-ui/lib/uni-section/uni-section.vue'
-	import stepDevice from '.../../components/step-device/step-device.vue'
-	import {calculationTime} from '../../utils/moment.js'
+	import stepDevice from '@/components/step-device/step-device.vue'
+	import {calculationTime} from '@/utils/moment.js'
 
 	export default {
 		components: {
 			uniSection,
-			//uniSteps,
 			stepDevice
 		},
 		props:{

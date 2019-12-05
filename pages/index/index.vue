@@ -11,8 +11,8 @@
 </template>
 
 <script>
-	import navDiv from '../../components/nav-div/nav-div.vue'
-	import navIcon from '../../components/nav-icon/nav-icon.vue'
+	import navDiv from '@/components/nav-div/nav-div.vue'
+	import navIcon from '@/components/nav-icon/nav-icon.vue'
 	import {uniGrid} from "@dcloudio/uni-ui"
 	
 	export default {

@@ -83,10 +83,10 @@
 
 <script>
 	import {uniCard} from "@dcloudio/uni-ui"
-	import {format} from '../../../utils/formatDate.js'
-	import location from '../../../components/location/location.vue'
-	import phone from '../../../components/phone/phone.vue'
-	import segmentControl from '../../../components/segment/segment-control.vue'
+	import {format} from '@/utils/formatDate.js'
+	import location from '@/components/location/location.vue'
+	import phone from '@/components/phone/phone.vue'
+	import segmentControl from '@/components/segment/segment-control.vue'
 
 	export default {
 		name: "mytaskDetail",

@@ -36,8 +36,8 @@
 
 <script>
 	import {uniCard} from "@dcloudio/uni-ui"
-	import {calculationTime} from '../../utils/moment.js'
-	import {format} from '../../utils/formatDate.js'
+	import {calculationTime} from '@/utils/moment.js'
+	import {format} from '@/utils/formatDate.js'
 	import location from '../location/location.vue'
 	import phone from '../phone/phone.vue'
 

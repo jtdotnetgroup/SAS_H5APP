@@ -10,8 +10,8 @@
 
 <script>
 	import uniSegmentedControl from "@dcloudio/uni-ui/lib/uni-segmented-control/uni-segmented-control.vue"
-	import card from '../../components/card/card.vue'
-	import { getWorkOrderList } from '../../api/getWorkOrderList.js'
+	import card from '@/components/card/card.vue'
+	import { getWorkOrderList } from '@/api/getWorkOrderList.js'
 
 	export default {
 		name: 'subSection',

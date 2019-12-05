@@ -7,8 +7,8 @@
 
 <script>
 
-	import carBox from '../../components/carousel-box/carousel-box.vue'
-	import subSection from '../../components/subsection/subsection.vue'
+	import carBox from '@/components/carousel-box/carousel-box.vue'
+	import subSection from '@/components/subsection/subsection.vue'
 	
 	export default{
 		name:"mytask",
