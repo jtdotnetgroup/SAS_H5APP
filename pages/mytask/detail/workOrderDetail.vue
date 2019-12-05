@@ -100,7 +100,7 @@
 				left_right: '右'
 			}
 		},
-		components: {
+		components: { 
 			uniCard, location, phone, segmentControl
 		},
 		onLoad(option) {

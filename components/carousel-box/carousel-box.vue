@@ -20,11 +20,13 @@
 				interval: 3000,
 				duration: 500,
 				imageList: [{
-					content: 'https://img-cdn-qiniu.dcloud.net.cn/static/images/ad/uniapp-xiaomi.png'
+					content: "../../static/images/round/sosuth.jpg"
 				}, {
-					content: 'https://img-cdn-qiniu.dcloud.net.cn/static/images/ad/uniapp-douyin.jpg'
-				}, {
-					content: 'https://img.php.cn/upload/article/000/000/020/5ceb57480713f714.jpg'
+					content: '../../static/images/round/Technical_discussion.jpg'
+				}, {          
+					content: '../../static/images/round/customer_service.jpg'
+				}, {          
+					content: '../../static/images/round/equipment.jpg'
 				}],
 			}
 		},
@@ -38,17 +40,17 @@
 
 <style>
 	.swiper {
-		height: 400upx;
+		height: 360upx;
 	}
 	.swiper-item {
 		display: block;
-		height: 300upx;
+		height: 100%;
 		line-height: 300upx;
 		text-align: center;
 	}
 	.swiper-item image{
-			width: 100%;
-			height: 600upx;
+		width: 100%;
+		height: 100%;
 	}
 	.swiper-list {
 		margin-top: 40upx;
