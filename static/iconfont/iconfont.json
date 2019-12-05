@@ -13,6 +13,13 @@
       "unicode_decimal": 58929
     },
     {
+      "icon_id": "1021880",
+      "name": "签",
+      "font_class": "qian",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
       "icon_id": "1033776",
       "name": "放弃",
       "font_class": "fangqi",
@@ -25,6 +32,34 @@
       "font_class": "shouji",
       "unicode": "e630",
       "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "1215615",
+      "name": "相机 (2)",
+      "font_class": "xiangji2",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "3708390",
+      "name": "星",
+      "font_class": "xing",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "3790212",
+      "name": "添加用户",
+      "font_class": "tianjiayonghu",
+      "unicode": "e804",
+      "unicode_decimal": 59396
+    },
+    {
+      "icon_id": "4528078",
+      "name": "星",
+      "font_class": "xing1",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
     },
     {
       "icon_id": "5137887",
@@ -375,6 +410,13 @@
       "font_class": "naozhong",
       "unicode": "e68e",
       "unicode_decimal": 59022
+    },
+    {
+      "icon_id": "9190227",
+      "name": "交叉",
+      "font_class": "jiaocha",
+      "unicode": "e636",
+      "unicode_decimal": 58934
     },
     {
       "icon_id": "10271564",
