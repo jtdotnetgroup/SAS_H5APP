@@ -3,6 +3,7 @@ import App from './App'
 import store from './store/index.js'
 import moment from 'moment'
 
+/* 全局配置 */
 Vue.config.productionTip = false
 
 

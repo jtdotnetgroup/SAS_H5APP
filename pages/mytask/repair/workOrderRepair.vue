@@ -55,17 +55,48 @@
 				<location :labelStyle="labelStyle" :label="getTicket.location" :left_right="left_right"></location>
 			</conf-div>
 			<conf-div title="同行人员:">
-				<view class="label">选择人员</view>
+				<view class="big">
+					<view class="label user">选择人员</view>
+					<span class="iconfont icontianjiayonghu iconStyle Btn" @click="selectUser"></span>
+				</view>
 			</conf-div>
 			<conf-div title="签到时间:">
-				<view class="label">2019-12-03 14:51</view>
+				<view class="big">
+					<view class="label user">2019-12-03 14:51</view>
+					<span class="iconfont iconqian iconStyle Btn" @click="signIn"></span>
+				</view>
 			</conf-div>
 			<conf-div title="现场拍照:">
-				<view class="label">拍照</view>
+				<chooseImage :num="6" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="true" saveStr="chooseImage" :isClear="hasChooseImg" />
 			</conf-div>
 			<conf-div title="完成情况:">
-				<view class="label">完成</view>
-				<view class="label">继续</view>
+				<radio-btn :items="completion"></radio-btn>
+			</conf-div>
+			<conf-div title="故障判断:">
+				<textarea placeholder="请输入故障判断" />
+				<view class="separator"></view>
+				<label class="label operation">操作规程 >></label>
+			</conf-div>
+			<conf-div title="故障部位:">
+				<input placeholder="请输入故障部位" />
+			</conf-div>
+			<conf-div title="是否保质期内:">
+				<radio-btn :items="yes_no"></radio-btn>
+			</conf-div>
+			<conf-div title="费用合计(元):">
+				<input placeholder="请输入费用合计(元)" />
+			</conf-div>
+			<conf-div title="客户邮箱:">
+				<input placeholder="请输入客户邮箱" />
+			</conf-div>
+			<conf-div title="附件:">
+				<chooseImage :num="6" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="true" saveStr="chooseImage" :isClear="hasChooseImg" />
+			</conf-div>
+			<conf-div title="签出时间:">
+				<view class="big">
+					<view class="label user">2019-12-03 14:51</view>
+					<span class="iconfont iconqian iconStyle Btn" @click="signOut"></span>
+				</view>
 			</conf-div>
 			</scroll-view>
 		</view>
@@ -95,6 +126,8 @@
 	import {format} from '../../../utils/formatDate.js'
 	import confDiv from '../../../components/conf-div/conf-div.vue'
 	import location from '../../../components/location/location.vue'
+	import radioBtn from '@/components/radio-btn/radio-btn.vue'
+	import chooseImage from '@/components/xyz-choose-image/xyz-choose-image.vue';
 	
 	export default {
 		name: "mytaskRepair",
@@ -109,11 +142,36 @@
 				scrollTop: 0,
 				old: {
 					scrollTop: 0
-				}
+				},
+				hasChooseImg: '',
+				completion: [{
+						value: '1',
+						name: '完成'
+					},
+					{
+						value: '0',
+						name: '继续'
+					}
+				],
+				yes_no: [{
+						value: '1',
+						name: '是'
+					},
+					{
+						value: '0',
+						name: '否'
+					}
+				]
 			}
 		},
 		components: {
-			uniCard, uniGrid, uniGridItem, confDiv, location
+			uniCard, 
+			uniGrid, 
+			uniGridItem, 
+			confDiv, 
+			location, 
+			radioBtn,
+			chooseImage
 		},
 		onLoad(option) {
 			this.id = option.id
@@ -127,6 +185,51 @@
 				return dateTime =>{
 					return format(dateTime)
 				}
+			}
+		},
+		methods: {
+			selectUser() {
+				console.log('选择人员');
+			},
+			signIn() {
+				console.log("签到");
+			},
+			signOut() {
+				console.log("签出");
+			},
+			upper() {
+				console.log("到顶了");
+			},
+			lower() {
+				console.log("到底了");
+			},
+			scroll() {
+				console.log("滚动了");
+			},
+			async chooseImage(imgArr) {
+				console.log(imgArr);
+				let arr = [];
+				for(let i=0;i<imgArr.length;i++){
+					arr.push(await this.toBase64(imgArr[i]))
+				}
+				console.log(arr)		
+			},
+			toBase64(path){
+				return new Promise((resolve, reject) => {
+					uni.getFileSystemManager().readFile({
+						filePath: path, //选择图片返回的相对路径
+						encoding: 'base64', //编码格式
+						success: function(ress) {
+							//成功的回调
+							let base64 = 'data:image/jpeg;base64,' + ress.data;
+							resolve(base64)
+					
+						},
+						fail: function(err) {
+							reject(err);
+						}
+					});
+				})
 			}
 		}
 	}
@@ -172,13 +275,6 @@
 		background-color: #09a0f7;
 	}
 
-	.phone {
-		font-size: 70upx;
-		position: absolute;
-		top: 280upx;
-		right: 50upx;
-	}
-
 	.right {
 		position: absolute;
 		right: 10upx;
@@ -216,12 +312,29 @@
 		font-size: 50rpx;
 	}
 	
-	.posRight {
-		position: absolute;
-		right: 0;
-	}
-	
 	.scroll-Y {
 		height: calc(100vh - 113px - 95px);
+	}
+	
+	.big {
+		width: 100%;
+	}
+	
+	.user {
+		width: 90%;
+	}
+	
+	.Btn {
+		width: 10%;
+	}
+	
+	.separator {
+		border: 1rpx solid #C0C0C0;
+		margin: 10rpx 0;
+	}
+	
+	.operation {
+		color: #09a0f7;
+		margin-left: 500rpx;
 	}
 </style>
