@@ -90,7 +90,7 @@
 				<input placeholder="请输入客户邮箱" />
 			</conf-div>
 			<conf-div title="附件:">
-				<chooseImage :num="6" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="true" saveStr="chooseImage" :isClear="hasChooseImg" />
+				<Attachment mode="create" :canUploadFile="true" :uploadFileUrl="uploadFileUrl" :heaer="header" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess"></Attachment>
 			</conf-div>
 			<conf-div title="签出时间:">
 				<view class="big">
@@ -128,6 +128,7 @@
 	import location from '@/components/location/location.vue'
 	import radioBtn from '@/components/radio-btn/radio-btn.vue'
 	import chooseImage from '@/components/xyz-choose-image/xyz-choose-image.vue';
+	import Attachment from '@/components/jin-attachment/jin-attachment.vue';
 	
 	export default {
 		name: "mytaskRepair",
@@ -161,7 +162,12 @@
 						value: '0',
 						name: '否'
 					}
-				]
+				],
+				uploadFileUrl: 'http://localhost:8080', //替换成你的后端接收文件地址
+				header: {
+					// 如果需要header，请上传
+				},
+				attachmentList: []
 			}
 		},
 		components: {
@@ -171,7 +177,8 @@
 			confDiv, 
 			location, 
 			radioBtn,
-			chooseImage
+			chooseImage,
+			Attachment
 		},
 		onLoad(option) {
 			this.id = option.id
@@ -232,6 +239,20 @@
 					});
 					//#endif
 				})
+			},
+			uploadSuccess(result) {
+				if(result.statusCode == 200) {
+					//上传成功的回调处理
+					uni.showToast({
+						title: '上传成功',
+						icon: 'none'
+					});
+				}else{
+					uni.showToast({
+						title: '上传失败',
+						icon: 'none'
+					});
+				}
 			}
 		}
 	}
