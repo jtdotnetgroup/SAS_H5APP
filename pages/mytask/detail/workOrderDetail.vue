@@ -72,7 +72,7 @@
 								{{getTicket.tel}}
 							</view>
 						</view>
-						<phone></phone>
+						<phone :phoneNum="getTicket.tel"></phone>
 					</label>
 				</view>
 			</template>

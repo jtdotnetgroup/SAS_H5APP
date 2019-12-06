@@ -1,5 +1,5 @@
 <template>
-	<span class="iconfont iconphone phone"></span>
+	<span class="iconfont iconphone phone" @click.stop="call(phoneNum)"></span>
 </template>
 
 <script>
@@ -12,10 +12,16 @@
 		components: {
 		},
 		props: {
+			phoneNum: String
 		},
 		computed: {
 		},
 		methods: {
+			call(phoneNum) {
+				uni.makePhoneCall({
+				    phoneNumber: phoneNum //仅为示例
+				});
+			}
 		}
 	}
 </script>

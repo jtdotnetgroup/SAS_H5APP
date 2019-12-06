@@ -22,7 +22,7 @@
 			</view>
 			<view class="btn">
 				<button class="mini-btn" size="mini">维修工单</button>
-				<phone></phone>
+				<phone :phoneNum="info.tel"></phone>
 			</view>
 			<template v-slot:footer>
 				<view class="footer-box">
