@@ -34,7 +34,11 @@
 		computed:{
 			displayList(){
 				let item = this.$store.getters['workOrder/getTicketList']
-				return item.filter(e=>e.status===this.current)
+				if (this.current === 3) {
+					return item
+				} else {
+					return item.filter(e=>e.status===this.current)
+				}
 			}
 		},
 		beforeCreate() {
@@ -78,7 +82,7 @@
 					'tel': "13845612345",
 					'location': "广州创意产业园",
 					'date': "2019-11-03 09:10:11",
-					'status': 3,
+					'status': 1,
 				},
 				{
 					'id': '5',
