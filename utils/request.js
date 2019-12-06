@@ -1,13 +1,16 @@
 import axios from 'axios'
 
 export const http = axios.create({
-	baseURL: 'http://192.168.3.6:8088/sac',
+	baseURL: 'http://192.168.3.8:8096',
 	timeout: 5000
 })
 
 // Add a request interceptor
 http.interceptors.request.use(function (config) {
     // Do something before request is sent
+	uni.showLoading({
+	    title: '加载中'
+	});
     return config;
   }, function (error) {
     // Do something with request error
