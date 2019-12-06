@@ -16,10 +16,8 @@ const mutations = {
 
 const actions = {
 	GetDataList({commit,state},payload){
-		setTimeout(()=>{
-			commit("setTicketList",payload)
-			uni.hideLoading();
-		},3000)
+		commit("setTicketList",payload)
+		uni.hideLoading();
 	}
 }
 

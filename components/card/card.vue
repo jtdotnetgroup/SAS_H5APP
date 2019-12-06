@@ -4,30 +4,30 @@
 			<view class="info">
 				<view class="line">
 					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="label">{{ info.company }}</view>
+						<view class="label">{{ info.client.name }}</view>
 					</label>
 				</view>
 				<view class="line">
 					<label class="uni-list-cell uni-list-cell-pd">
 						<span class="iconfont iconhuizhengongzuoliang iconStyle"></span>
-						<view class="label sameLine">联系人：{{ info.contacts }}</view>
-						<view class="label sameLine">{{ info.tel }}</view>
+						<view class="label sameLine">联系人：{{ info.client.contact }}</view>
+						<view class="label sameLine">{{ info.client.telephone }}</view>
 					</label>
 				</view>
 				<view class="line">
 					<label class="uni-list-cell uni-list-cell-pd">
-						<location :labelStyle="label" :label="info.location" :left_right="left_right"></location>
+						<location :labelStyle="label" :label="info.client.area" :left_right="left_right"></location>
 					</label>
 				</view>
 			</view>
 			<view class="btn">
 				<button class="mini-btn" size="mini">维修工单</button>
-				<phone :phoneNum="info.tel"></phone>
+				<phone :phoneNum="info.client.telephone"></phone>
 			</view>
 			<template v-slot:footer>
 				<view class="footer-box">
-					<view class="label">{{ formatDate(info.date) }}</view>
-					<view class="label right">{{ calTime(formatDate(info.date)) }}</view>
+					<view class="label">{{ formatDate(info.ticketAssignTime) }}</view>
+					<view class="label right">{{ calTime(formatDate(info.ticketAssignTime)) }}</view>
 				</view>
 			</template>
 		</uni-card>
