@@ -5,7 +5,7 @@
 				<view class="info">
 					<view class="line">
 						<label class="uni-list-cell uni-list-cell-pd">
-							<view class="label">{{getTicket.company}}</view>
+							<view class="label">{{getTicket.client.name}}</view>
 						</label>
 					</view>
 					<view class="line">
@@ -15,7 +15,7 @@
 									工单编号：
 								</view>
 								<view class="label sameLine fontsmall">
-									F20191202
+									{{getTicket.ticketNum}}
 								</view>
 							</view>
 							<view class="sameLine">
@@ -23,7 +23,7 @@
 									分配时间：
 								</view>
 								<view class="label sameLine fontsmall">
-									{{formatDate(getTicket.date)}}
+									{{formatDate(getTicket.ticketAssignTime)}}
 								</view>
 							</view>
 						</label>
@@ -34,7 +34,7 @@
 								<view class="label sameLine fontsmall bold">
 									客户地址：
 								</view>
-								<location :labelStyle="labelStyle" :label="getTicket.location" :left_right="left_right"></location>
+								<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
 							</view>
 						</label>
 					</view>
@@ -48,56 +48,56 @@
 		
 		<view class="context">
 			<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
-			<conf-div title="工作要求:">
-				<view class="label">及时定位，拍照上传</view>
-			</conf-div>
-			<conf-div title="当前所在位置:">
-				<location :labelStyle="labelStyle" :label="getTicket.location" :left_right="left_right"></location>
-			</conf-div>
-			<conf-div title="同行人员:">
-				<view class="big">
-					<view class="label user">选择人员</view>
-					<span class="iconfont icontianjiayonghu iconStyle Btn" @click="selectUser"></span>
-				</view>
-			</conf-div>
-			<conf-div title="签到时间:">
-				<view class="big">
-					<view class="label user">2019-12-03 14:51</view>
-					<span class="iconfont iconqian iconStyle Btn" @click="signIn"></span>
-				</view>
-			</conf-div>
-			<conf-div title="现场拍照:">
-				<chooseImage :num="6" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="true" saveStr="chooseImage" :isClear="hasChooseImg" />
-			</conf-div>
-			<conf-div title="完成情况:">
-				<radio-btn :items="completion"></radio-btn>
-			</conf-div>
-			<conf-div title="故障判断:">
-				<textarea placeholder="请输入故障判断" />
-				<view class="separator"></view>
-				<label class="label operation">操作规程 >></label>
-			</conf-div>
-			<conf-div title="故障部位:">
-				<input placeholder="请输入故障部位" />
-			</conf-div>
-			<conf-div title="是否保质期内:">
-				<radio-btn :items="yes_no"></radio-btn>
-			</conf-div>
-			<conf-div title="费用合计(元):">
-				<input placeholder="请输入费用合计(元)" />
-			</conf-div>
-			<conf-div title="客户邮箱:">
-				<input placeholder="请输入客户邮箱" />
-			</conf-div>
-			<conf-div title="附件:">
-				<Attachment mode="create" :canUploadFile="true" :uploadFileUrl="uploadFileUrl" :heaer="header" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess"></Attachment>
-			</conf-div>
-			<conf-div title="签出时间:">
-				<view class="big">
-					<view class="label user">2019-12-03 14:51</view>
-					<span class="iconfont iconqian iconStyle Btn" @click="signOut"></span>
-				</view>
-			</conf-div>
+				<conf-div title="工作要求:">
+					<view class="label">及时定位，拍照上传</view>
+				</conf-div>
+				<conf-div title="当前所在位置:">
+					<location :labelStyle="labelStyle" :label="getTicket.location" :left_right="left_right"></location>
+				</conf-div>
+				<conf-div title="同行人员:">
+					<view class="big">
+						<view class="label user">选择人员</view>
+						<span class="iconfont icontianjiayonghu iconStyle Btn" @click="selectUser"></span>
+					</view>
+				</conf-div>
+				<conf-div title="签到时间:">
+					<view class="big">
+						<view class="label user">2019-12-03 14:51</view>
+						<span class="iconfont iconqian iconStyle Btn" @click="signIn"></span>
+					</view>
+				</conf-div>
+				<conf-div title="现场拍照:">
+					<chooseImage :num="6" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="true" saveStr="chooseImage" :isClear="hasChooseImg" />
+				</conf-div>
+				<conf-div title="完成情况:">
+					<radio-btn :items="completion"></radio-btn>
+				</conf-div>
+				<conf-div title="故障判断:">
+					<textarea placeholder="请输入故障判断" />
+					<view class="separator"></view>
+					<label class="label operation">操作规程 >></label>
+				</conf-div>
+				<conf-div title="故障部位:">
+					<input placeholder="请输入故障部位" />
+				</conf-div>
+				<conf-div title="是否保质期内:">
+					<radio-btn :items="yes_no"></radio-btn>
+				</conf-div>
+				<conf-div title="费用合计(元):">
+					<input placeholder="请输入费用合计(元)" />
+				</conf-div>
+				<conf-div title="客户邮箱:">
+					<input placeholder="请输入客户邮箱" />
+				</conf-div>
+				<conf-div title="附件:">
+					<Attachment mode="create" :canUploadFile="true" :uploadFileUrl="uploadFileUrl" :heaer="header" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess"></Attachment>
+				</conf-div>
+				<conf-div title="签出时间:">
+					<view class="big">
+						<view class="label user">2019-12-03 14:51</view>
+						<span class="iconfont iconqian iconStyle Btn" @click="signOut"></span>
+					</view>
+				</conf-div>
 			</scroll-view>
 		</view>
 		
