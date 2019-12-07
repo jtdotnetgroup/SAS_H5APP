@@ -21,7 +21,7 @@
 				</view>
 			</view>
 			<view class="btn">
-				<button class="mini-btn" size="mini">维修工单</button>
+				<button class="mini-btn" size="mini">{{ info.ticketModelId }}</button>
 				<phone :phoneNum="info.client.telephone"></phone>
 			</view>
 			<template v-slot:footer>
@@ -68,6 +68,10 @@
 				return dateTime => {
 					return calculationTime(dateTime)
 				}
+			},
+			formatModle() {
+				let dic = this.$store.getters['dic/getDicList']
+				// return dic.filter(e=> )
 			}
 		},
 		methods: {
