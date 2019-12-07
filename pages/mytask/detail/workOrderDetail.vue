@@ -4,7 +4,7 @@
 			<view class="info">
 				<view class="line">
 					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="label">{{getTicket.company}}</view>
+						<view class="label">{{getTicket.client.name}}</view>
 					</label>
 				</view>
 				<view class="line">
@@ -14,7 +14,7 @@
 								工单编号：
 							</view>
 							<view class="label sameLine fontsmall">
-								F20191202
+								{{getTicket.ticketNum}}
 							</view>
 						</view>
 						<view class="sameLine">
@@ -22,7 +22,7 @@
 								分配时间：
 							</view>
 							<view class="label sameLine fontsmall">
-								{{formatDate(getTicket.date)}}
+								{{formatDate(getTicket.ticketAssignTime)}}
 							</view>
 						</view>
 					</label>
@@ -38,7 +38,7 @@
 							<view class="label sameLine fontsmall bold">
 								客户地址：
 							</view>
-							<location :labelStyle="labelStyle" :label="getTicket.location" :left_right="left_right"></location>
+							<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
 						</view>
 					</label>
 				</view>
@@ -49,7 +49,7 @@
 								主联系人：
 							</view>
 							<view class="label sameLine fontsmall">
-								{{getTicket.contacts}}
+								{{getTicket.client.contact}}
 							</view>
 						</view>
 						<view class="sameLine">
@@ -69,10 +69,10 @@
 								联系方式：
 							</view>
 							<view class="label sameLine fontsmall">
-								{{getTicket.tel}}
+								{{getTicket.client.telephone}}
 							</view>
 						</view>
-						<phone></phone>
+						<phone :phoneNum="getTicket.client.telephone"></phone>
 					</label>
 				</view>
 			</template>

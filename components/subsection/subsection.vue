@@ -2,9 +2,9 @@
 	<view>
 		<uni-segmented-control class="borderStyle" :current="current" :values="items" @clickItem="onClickItem" style-type="button" active-color="#09a0f7">
 		</uni-segmented-control>
-		<view>
+		<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
 			<card v-for="(item,index) in displayList" :info="item" :key="index"></card>
-		</view>
+		</scroll-view>
 	</view>
 </template>
 
@@ -21,7 +21,11 @@
 		data() {
 			return {
 				items: ['未接收', '待完工', '异常', '全部'],
-				current: 0
+				current: 0,
+				scrollTop: 0,
+				old: {
+					scrollTop: 0
+				}
 			}
 		},
 		methods: {
@@ -29,7 +33,16 @@
 				if (this.current !== e.currentIndex) {
 					this.current = e.currentIndex;
 				}
-			}
+			},
+			upper() {
+				console.log("到顶了");
+			},
+			lower() {
+				console.log("到底了");
+			},
+			scroll() {
+				console.log("滚动了");
+			},
 		},
 		computed:{
 			displayList(){
@@ -37,73 +50,23 @@
 				if (this.current === 3) {
 					return item
 				} else {
-					return item.filter(e=>e.status===this.current)
+					return item.filter(e=>e.ticketStatus===this.current)
 				}
 			}
 		},
 		beforeCreate() {
 			getWorkOrderList().then(response => {
 				console.log(response);
+				this.$store.dispatch('workOrder/GetDataList', response.data.body.ticketList)
 			}).catch(error => {
 				console.log(error);
+				uni.hideLoading();
+				uni.showToast({
+				    title: error.toString(),
+				    duration: 2000,
+					icon: 'none'
+				});
 			})
-			var data = [
-				{
-					'id': '1',
-					'company': "北京市朝阳区有限公司",
-					'contacts': "张三",
-					'tel': "13845612345",
-					'location': "北京创意产业园",
-					'date': "2019-11-28 15:20:15",
-					'status': 1,
-				},
-				{
-					'id': '2',
-					'company': "天津市朝阳区有限公司",
-					'contacts': "李四",
-					'tel': "13845612345",
-					'location': "天津创意产业园",
-					'date': "2019-11-15 18:30:00",
-					'status': 2,
-				},
-				{
-					'id': '3',
-					'company': "上海市朝阳区有限公司",
-					'contacts': "王五",
-					'tel': "13845612345",
-					'location': "上海创意产业园",
-					'date': "2019-11-10 11:15:16",
-					'status': 2,
-				},
-				{
-					'id': '4',
-					'company': "广州市朝阳区有限公司",
-					'contacts': "钱六",
-					'tel': "13845612345",
-					'location': "广州创意产业园",
-					'date': "2019-11-03 09:10:11",
-					'status': 1,
-				},
-				{
-					'id': '5',
-					'company': "深圳市朝阳区有限公司",
-					'contacts': "田七",
-					'tel': "13845612345",
-					'location': "深圳创意产业园",
-					'date': "2019-11-30 15:00:15",
-					'status': 1,
-				},
-				{
-					'id': '6',
-					'company': "佛山市朝阳区有限公司",
-					'contacts': "赵八",
-					'tel': "13845612345",
-					'location': "佛山创意产业园",
-					'date': "2019-12-02 10:04:30",
-					'status': 0,
-				}
-			]
-			this.$store.dispatch('workOrder/GetDataList', data)
 		}
 	}
 </script>
@@ -111,5 +74,9 @@
 <style scoped>
 	.borderStyle {
 		margin: 15upx;
+	}
+	
+	.scroll-Y {
+		height: calc(100vh - 180px - 36px - 70px);
 	}
 </style>
