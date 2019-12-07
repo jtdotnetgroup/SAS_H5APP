@@ -21,9 +21,15 @@ http.interceptors.request.use(function (config) {
 http.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
+	uni.hideLoading();
     return response;
   }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+	uni.showToast({
+	    title: error.toString(),
+	    duration: 2000,
+		icon: 'none'
+	});
     return Promise.reject(error);
   });

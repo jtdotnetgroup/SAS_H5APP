@@ -27,12 +27,6 @@
 				this.$store.dispatch('dic/GetDataList', response.data.body.dicList)
 			}).catch(error => {
 				console.log(error);
-				uni.hideLoading();
-				uni.showToast({
-				    title: error.toString(),
-				    duration: 2000,
-					icon: 'none'
-				});
 			})
 		}
 	}

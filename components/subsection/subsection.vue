@@ -20,7 +20,7 @@
 		},
 		data() {
 			return {
-				items: ['未接收', '待完工', '异常', '全部'],
+				items: ['待分派', '进行中', '已完成', '已关闭', '异常', '超时'],
 				current: 0,
 				scrollTop: 0,
 				old: {
@@ -60,12 +60,6 @@
 				this.$store.dispatch('workOrder/GetDataList', response.data.body.ticketList)
 			}).catch(error => {
 				console.log(error);
-				uni.hideLoading();
-				uni.showToast({
-				    title: error.toString(),
-				    duration: 2000,
-					icon: 'none'
-				});
 			})
 		}
 	}

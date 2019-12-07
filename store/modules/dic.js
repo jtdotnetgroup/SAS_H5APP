@@ -17,7 +17,6 @@ const mutations = {
 const actions = {
 	GetDataList({commit,state},payload){
 		commit("setDicList",payload)
-		uni.hideLoading();
 	}
 }
 
