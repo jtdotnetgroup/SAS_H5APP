@@ -68,10 +68,6 @@
 				return dateTime => {
 					return calculationTime(dateTime)
 				}
-			},
-			formatModle() {
-				let dic = this.$store.getters['dic/getDicList']
-				// return dic.filter(e=> )
 			}
 		},
 		methods: {

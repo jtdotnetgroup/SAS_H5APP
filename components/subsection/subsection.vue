@@ -47,11 +47,7 @@
 		computed:{
 			displayList(){
 				let item = this.$store.getters['workOrder/getTicketList']
-				if (this.current === 3) {
-					return item
-				} else {
-					return item.filter(e=>e.ticketStatus===this.current)
-				}
+				return item.filter(e=>e.ticketStatus===this.current + 1)
 			}
 		},
 		beforeCreate() {

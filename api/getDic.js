@@ -1,7 +1,7 @@
 import { http } from '@/utils/request.js'
 
-export function getDicList() {
+export function getDicList(treeName) {
 	return http({
-		url: '/f/mobile/dic/list'
+		url: '/f/mobile/dic/list?treeName=' + treeName
 	})
 }
