@@ -10,7 +10,7 @@
         <view class="content">
 			<view v-for="(item ,index) in items" :key="index">
 				<view v-show="current === index">
-					<step-item></step-item>
+					<step-item :ticketId="ticketId"></step-item>
 				</view>
 			</view>
         </view>
@@ -27,7 +27,12 @@
 			stepItem
 		},
 		props:{
-			
+			ticketId:{
+				type: String,
+				default () {
+					return ""
+				}
+			}
 		},
 	    data() {
 			return {
