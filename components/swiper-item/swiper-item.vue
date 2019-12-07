@@ -76,7 +76,7 @@
 			},
 			toRepair(stageId,ticketId) {
 				uni.navigateTo({
-					url: '../../mytask/repair/workOrderRepair?id='+id
+					url: '../../mytask/repair/workOrderRepair?id='+ stageId + "&ticketId="+ticketId
 				})
 			}
 		},

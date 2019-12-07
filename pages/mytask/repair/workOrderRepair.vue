@@ -135,6 +135,7 @@
 		data() {
 			return {
 				id: '',
+				ticketId: "",
 				labelStyle: {
 					'fontSize': '25rpx',
 					'display': 'inline-block'
@@ -181,12 +182,14 @@
 			Attachment
 		},
 		onLoad(option) {
+			console.log(option);
 			this.id = option.id
+			this.ticketId = option.ticketId
 		},
 		computed: {
 			getTicket() {
 				let ticketList = this.$store.getters['workOrder/getTicketList']
-				return ticketList.filter(e => e.id === this.id)[0]
+				return ticketList.filter(e => e.id === this.ticketId)[0]
 			},
 			formatDate(dateTime) {
 				return dateTime =>{
