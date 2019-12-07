@@ -77,7 +77,7 @@
 				</view>
 			</template>
 		</uni-card>
-		<segment-control></segment-control>
+		<segment-control :ticketId="getTicket.id"></segment-control>
 	</view>
 </template>
 
