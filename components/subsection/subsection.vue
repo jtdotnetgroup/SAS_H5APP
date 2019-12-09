@@ -50,9 +50,8 @@
 				return item.filter(e=>e.ticketStatus===this.current + 1)
 			}
 		},
-		beforeCreate() {
+		beforeMount() {
 			getWorkOrderList().then(response => {
-				console.log(response);
 				this.$store.dispatch('workOrder/GetDataList', response.data.body.ticketList)
 			}).catch(error => {
 				console.log(error);

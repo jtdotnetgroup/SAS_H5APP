@@ -21,9 +21,8 @@
 		components: {
 			carBox, subSection
 		},
-		beforeCreate() {
+		onLoad() {
 			getDicList('工单类型').then(response => {
-				console.log(response);
 				this.$store.dispatch('dic/GetDataList', response.data.body.dicList)
 			}).catch(error => {
 				console.log(error);

@@ -21,7 +21,7 @@
 				</view>
 			</view>
 			<view class="btn">
-				<button class="mini-btn" size="mini">{{ info.ticketModelId }}</button>
+				<button class="mini-btn" size="mini">{{ formatModel }}</button>
 				<phone :phoneNum="info.client.telephone"></phone>
 			</view>
 			<template v-slot:footer>
@@ -68,6 +68,16 @@
 				return dateTime => {
 					return calculationTime(dateTime)
 				}
+			},
+			formatModel() {
+				let dic = this.$store.getters['dic/getDicList']
+				let result
+				if (dic != '') {
+					result = dic.filter(e=>e.key == this.info.ticketModelId)[0].value
+				} else {
+					result = ''
+				}
+				return result
 			}
 		},
 		methods: {
