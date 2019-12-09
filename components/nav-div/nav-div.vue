@@ -10,8 +10,6 @@
 </template>
 
 <script>
-	import {uniGrid, uniSection} from "@dcloudio/uni-ui"
-	
 	export default {
 		name: "navDiv",
 		data() {
@@ -19,7 +17,8 @@
 			}
 		},
 		components: {
-			uniGrid, uniSection
+			uniGrid: () => import('@dcloudio/uni-ui/lib/uni-grid/uni-grid.vue'), 
+			uniSection: () => import('@dcloudio/uni-ui/lib/uni-section/uni-section.vue')
 		},
 		props: {
 			'title': String
@@ -62,8 +61,8 @@
 	}
 	
 	.title {
-		background-color: #FFFFFF;
-		margin-top: 15upx;
+		background-color: #FFFFFF !important;
+		margin-top: 15upx !important;
 	}
 	
 	.container {

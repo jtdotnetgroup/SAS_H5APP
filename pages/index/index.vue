@@ -11,10 +11,6 @@
 </template>
 
 <script>
-	import navDiv from '@/components/nav-div/nav-div.vue'
-	import navIcon from '@/components/nav-icon/nav-icon.vue'
-	import {uniGrid} from "@dcloudio/uni-ui"
-	
 	export default {
 		data() {
 			return {
@@ -59,7 +55,8 @@
 			}
 		},
 		components: {
-			navDiv, uniGrid, navIcon
+			navDiv: () => import('@/components/nav-div/nav-div.vue'), 
+			navIcon: () => import('@/components/nav-icon/nav-icon.vue')
 		},
 		onLoad() {
 

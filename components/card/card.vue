@@ -21,7 +21,7 @@
 				</view>
 			</view>
 			<view class="btn">
-				<mobel-label :modelLabel="formatModel"></mobel-label>
+				<model-label :modelLabel="formatModel"></model-label>
 				<phone :phoneNum="info.client.telephone"></phone>
 			</view>
 			<template v-slot:footer>
@@ -35,12 +35,8 @@
 </template>
 
 <script>
-	import {uniCard} from "@dcloudio/uni-ui"
 	import {calculationTime} from '@/utils/moment.js'
 	import {format} from '@/utils/formatDate.js'
-	import location from '../location/location.vue'
-	import phone from '../phone/phone.vue'
-	import mobelLabel from '@/components/model-label/model-label.vue'
 
 	export default {
 		name: 'card',
@@ -54,7 +50,10 @@
 			}
 		},
 		components: {
-			uniCard, location, phone, mobelLabel
+			uniCard: () => import('@dcloudio/uni-ui/lib/uni-card/uni-card.vue'), 
+			location: () => import('../location/location.vue'), 
+			phone: () => import('../phone/phone.vue'), 
+			modelLabel: () => import('@/components/model-label/model-label.vue')
 		},
 		props: {
 			'info': Object
@@ -93,7 +92,7 @@
 
 <style scoped>
 	.uniCard {
-		margin: 10upx;
+		margin: 10upx !important;
 	}
 
 	.label {

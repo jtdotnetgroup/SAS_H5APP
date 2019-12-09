@@ -40,7 +40,7 @@
 					</view>
 				</view>
 				<view class="btn">
-					<mobel-label :modelLabel="formatModel"></mobel-label>
+					<model-label :modelLabel="formatModel"></model-label>
 				</view>
 			</uni-card>
 		</view>
@@ -52,7 +52,7 @@
 					<view class="label">及时定位，拍照上传</view>
 				</conf-div>
 				<conf-div title="当前所在位置:">
-					<location :labelStyle="labelStyle" :label="getTicket.location" :left_right="left_right"></location>
+					<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
 				</conf-div>
 				<conf-div title="同行人员:">
 					<view class="big">
@@ -122,14 +122,7 @@
 </template>
 
 <script>
-	import {uniCard, uniGrid, uniGridItem} from "@dcloudio/uni-ui"
 	import {format} from '@/utils/formatDate.js'
-	import confDiv from '@/components/conf-div/conf-div.vue'
-	import location from '@/components/location/location.vue'
-	import radioBtn from '@/components/radio-btn/radio-btn.vue'
-	import chooseImage from '@/components/xyz-choose-image/xyz-choose-image.vue';
-	import Attachment from '@/components/jin-attachment/jin-attachment.vue';
-	import mobelLabel from '@/components/model-label/model-label.vue'
 	
 	export default {
 		name: "mytaskRepair",
@@ -173,15 +166,15 @@
 			}
 		},
 		components: {
-			uniCard, 
-			uniGrid, 
-			uniGridItem, 
-			confDiv, 
-			location, 
-			radioBtn,
-			chooseImage,
-			Attachment,
-			mobelLabel
+			uniCard: () => import('@dcloudio/uni-ui/lib/uni-card/uni-card.vue'), 
+			uniGrid: () => import('@dcloudio/uni-ui/lib/uni-grid/uni-grid.vue'), 
+			uniGridItem: () => import('@dcloudio/uni-ui/lib/uni-grid-item/uni-grid-item.vue'), 
+			confDiv: () => import('@/components/conf-div/conf-div.vue'), 
+			location: () => import('@/components/location/location.vue'), 
+			radioBtn: () => import('@/components/radio-btn/radio-btn.vue'),
+			chooseImage: () => import('@/components/xyz-choose-image/xyz-choose-image.vue'),
+			Attachment: () => import('@/components/jin-attachment/jin-attachment.vue'),
+			modelLabel: () => import('@/components/model-label/model-label.vue')
 		},
 		onLoad(option) {
 			console.log(option);

@@ -36,11 +36,10 @@
 </template>
 
 <script>
-	import uniIcons from '@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'
 	export default {
 		name: 'UniSteps',
 		components: {
-			uniIcons
+			uniIcons: () => import('@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue')
 		},
 		props: {
 			direction: {

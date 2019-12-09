@@ -9,8 +9,6 @@
 </template>
 
 <script>
-	import {uniGridItem} from "@dcloudio/uni-ui"
-	
 	export default {
 		name: "navIcon",
 		data() {
@@ -19,7 +17,7 @@
 			}
 		},
 		components: {
-			uniGridItem
+			uniGridItem: () => import('@dcloudio/uni-ui/lib/uni-grid-item/uni-grid-item.vue')
 		},
 		props: {
 			'text': String,

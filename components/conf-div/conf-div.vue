@@ -2,16 +2,12 @@
 	<view class="container">
 		<uni-section class="title" :title="title"></uni-section>
 		<view class="example-body">
-			<!-- <uni-grid :column="4" :show-border="false" :square="false"> -->
-				<slot></slot>
-			<!-- </uni-grid> -->
+			<slot></slot>
 		</view>
 	</view>
 </template>
 
 <script>
-	import {uniGrid, uniSection} from "@dcloudio/uni-ui"
-	
 	export default {
 		name: "confDiv",
 		data() {
@@ -19,7 +15,7 @@
 			}
 		},
 		components: {
-			uniGrid, uniSection
+			uniSection: () => import('@dcloudio/uni-ui/lib/uni-section/uni-section.vue')
 		},
 		props: {
 			'title': String
@@ -62,9 +58,9 @@
 	}
 	
 	.title {
-		background-color: #f5f6f8;
-		margin-top: 0;
-		height: auto;
+		background-color: #f5f6f8 !important;
+		margin-top: 0 !important;
+		height: auto !important;
 		color: #09a0f7;
 	}
 </style>

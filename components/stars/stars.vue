@@ -8,10 +8,8 @@
 </template>
 
 <script>
-	import uniIcons from "@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue";
 	export default {
 		components: {
-			uniIcons
 		},
 		props:{
 			starOptions: {
