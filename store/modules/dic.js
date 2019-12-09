@@ -1,22 +1,22 @@
 const state = {
-	ticketList: []
+	dicList: []
 }
 
 const getters = {
-	getTicketList() {
-		return state.ticketList
+	getDicList() {
+		return state.dicList
 	}
 }
 
 const mutations = {
-	setTicketList(state, payload) {
-		state.ticketList = payload
+	setDicList(state, payload) {
+		state.dicList = payload
 	}
 }
 
 const actions = {
 	GetDataList({commit,state},payload){
-		commit("setTicketList",payload)
+		commit("setDicList",payload)
 	}
 }
 

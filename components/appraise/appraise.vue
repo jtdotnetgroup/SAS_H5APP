@@ -27,15 +27,11 @@
 </template>
 
 <script>
-	import uniIcons from "@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue";	
-	import uniTag from '@dcloudio/uni-ui/lib/uni-tag/uni-tag.vue';	
-	import starTemplate from "@/components/stars/stars.vue";
-	
 	export default {
 		components: {
-			uniIcons,
-			starTemplate,
-			uniTag
+			uniIcons: () => import('@dcloudio/uni-ui/lib/uni-icons/uni-icons.vue'),
+			starTemplate: () => import('@/components/stars/stars.vue'),
+			uniTag: () => import('@dcloudio/uni-ui/lib/uni-tag/uni-tag.vue')
 		},
 		props:{
 			

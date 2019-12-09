@@ -9,18 +9,17 @@
 </template>
 
 <script>
-	import uniSegmentedControl from "@dcloudio/uni-ui/lib/uni-segmented-control/uni-segmented-control.vue"
-	import card from '@/components/card/card.vue'
 	import { getWorkOrderList } from '@/api/getWorkOrderList.js'
 
 	export default {
 		name: 'subSection',
 		components: {
-			uniSegmentedControl, card
+			uniSegmentedControl: () => import('@dcloudio/uni-ui/lib/uni-segmented-control/uni-segmented-control.vue'), 
+			card: () => import('@/components/card/card.vue')
 		},
 		data() {
 			return {
-				items: ['未接收', '待完工', '异常', '全部'],
+				items: ['待分派', '进行中', '已完成', '已关闭', '异常', '超时'],
 				current: 0,
 				scrollTop: 0,
 				old: {
@@ -47,25 +46,14 @@
 		computed:{
 			displayList(){
 				let item = this.$store.getters['workOrder/getTicketList']
-				if (this.current === 3) {
-					return item
-				} else {
-					return item.filter(e=>e.ticketStatus===this.current)
-				}
+				return item.filter(e=>e.ticketStatus===this.current + 1)
 			}
 		},
-		beforeCreate() {
+		beforeMount() {
 			getWorkOrderList().then(response => {
-				console.log(response);
 				this.$store.dispatch('workOrder/GetDataList', response.data.body.ticketList)
 			}).catch(error => {
 				console.log(error);
-				uni.hideLoading();
-				uni.showToast({
-				    title: error.toString(),
-				    duration: 2000,
-					icon: 'none'
-				});
 			})
 		}
 	}
@@ -75,8 +63,22 @@
 	.borderStyle {
 		margin: 15upx;
 	}
-	
-	.scroll-Y {
-		height: calc(100vh - 180px - 36px - 70px);
+	/* iphone X */
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		.scroll-Y {
+			height: calc(100vh - 180px - 36px - 100px);
+		}
+	}
+	/* iphone 6~8 */
+	@media only screen and (device-width : 375px) and (device-height : 667px) and (-webkit-device-pixel-ratio : 2) {
+		.scroll-Y {
+			height: calc(100vh - 180px - 36px - 70px);
+		}
+	}
+	/* iphone 6 plus~8 plus */
+	@media only screen and (device-width : 414px) and (device-height : 736px) and (-webkit-device-pixel-ratio : 3) {
+		.scroll-Y {
+			height: calc(100vh - 180px - 36px - 70px);
+		}
 	}
 </style>

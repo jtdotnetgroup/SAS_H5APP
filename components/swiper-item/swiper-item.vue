@@ -28,14 +28,11 @@
 </template>
 
 <script>
-	import uniSection from '@dcloudio/uni-ui/lib/uni-section/uni-section.vue'
-	import stepDevice from '@/components/step-device/step-device.vue'
 	import {calculationTime} from '@/utils/moment.js'
 
 	export default {
 		components: {
-			uniSection,
-			stepDevice
+			stepDevice: () => import('@/components/step-device/step-device.vue')
 		},
 		props:{
 			ticketId:{

@@ -29,7 +29,7 @@
 				</view>
 			</view>
 			<view class="btn">
-				<button class="mini-btn" size="mini">维修工单</button>
+				<model-label :modelLabel="formatModel"></model-label>
 			</view>
 			<template v-slot:footer>
 				<view class="line">
@@ -82,11 +82,7 @@
 </template>
 
 <script>
-	import {uniCard} from "@dcloudio/uni-ui"
 	import {format} from '@/utils/formatDate.js'
-	import location from '@/components/location/location.vue'
-	import phone from '@/components/phone/phone.vue'
-	import segmentControl from '@/components/segment/segment-control.vue'
 
 	export default {
 		name: "mytaskDetail",
@@ -101,7 +97,11 @@
 			}
 		},
 		components: { 
-			uniCard, location, phone, segmentControl
+			uniCard: () => import('@dcloudio/uni-ui/lib/uni-card/uni-card.vue'), 
+			location: () => import('@/components/location/location.vue'), 
+			phone: () => import('@/components/phone/phone.vue'), 
+			segmentControl: () => import('@/components/segment/segment-control.vue'), 
+			modelLabel: () => import('@/components/model-label/model-label.vue')
 		},
 		onLoad(option) {
 			this.id = option.id
@@ -115,6 +115,10 @@
 				return dateTime =>{
 					return format(dateTime)
 				}
+			},
+			formatModel() {
+				let dic = this.$store.getters['dic/getDicList']
+				return dic.filter(e=>e.key == this.getTicket.ticketModelId)[0].value
 			}
 		},
 		methods: {

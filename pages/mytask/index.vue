@@ -7,8 +7,7 @@
 
 <script>
 
-	import carBox from '@/components/carousel-box/carousel-box.vue'
-	import subSection from '@/components/subsection/subsection.vue'
+	import {getDicList} from '@/api/getDic.js'
 	
 	export default{
 		name:"mytask",
@@ -17,9 +16,16 @@
 				
 			}
 		},
-
 		components: {
-			carBox, subSection
+			carBox: () => import('@/components/carousel-box/carousel-box.vue'), 
+			subSection: () => import('@/components/subsection/subsection.vue')
+		},
+		onLoad() {
+			getDicList('工单类型').then(response => {
+				this.$store.dispatch('dic/GetDataList', response.data.body.dicList)
+			}).catch(error => {
+				console.log(error);
+			})
 		}
 	}
 </script>

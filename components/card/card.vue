@@ -21,7 +21,7 @@
 				</view>
 			</view>
 			<view class="btn">
-				<button class="mini-btn" size="mini">维修工单</button>
+				<model-label :modelLabel="formatModel"></model-label>
 				<phone :phoneNum="info.client.telephone"></phone>
 			</view>
 			<template v-slot:footer>
@@ -35,11 +35,8 @@
 </template>
 
 <script>
-	import {uniCard} from "@dcloudio/uni-ui"
 	import {calculationTime} from '@/utils/moment.js'
 	import {format} from '@/utils/formatDate.js'
-	import location from '../location/location.vue'
-	import phone from '../phone/phone.vue'
 
 	export default {
 		name: 'card',
@@ -53,7 +50,10 @@
 			}
 		},
 		components: {
-			uniCard, location, phone
+			uniCard: () => import('@dcloudio/uni-ui/lib/uni-card/uni-card.vue'), 
+			location: () => import('../location/location.vue'), 
+			phone: () => import('../phone/phone.vue'), 
+			modelLabel: () => import('@/components/model-label/model-label.vue')
 		},
 		props: {
 			'info': Object
@@ -68,6 +68,16 @@
 				return dateTime => {
 					return calculationTime(dateTime)
 				}
+			},
+			formatModel() {
+				let dic = this.$store.getters['dic/getDicList']
+				let result
+				if (dic != '') {
+					result = dic.filter(e=>e.key == this.info.ticketModelId)[0].value
+				} else {
+					result = ''
+				}
+				return result
 			}
 		},
 		methods: {
@@ -82,7 +92,7 @@
 
 <style scoped>
 	.uniCard {
-		margin: 10upx;
+		margin: 10upx !important;
 	}
 
 	.label {
@@ -110,14 +120,6 @@
 
 	.btn {
 		display: inline-block;
-	}
-
-	.mini-btn {
-		position: absolute;
-		top: 15upx;
-		right: 10upx;
-		color: #FFFFFF;
-		background-color: #09a0f7;
 	}
 
 	.phone {

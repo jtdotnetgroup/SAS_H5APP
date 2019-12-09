@@ -18,13 +18,10 @@
 </template>
 
 <script>
-	import uniSegmentedControl from "@dcloudio/uni-ui/lib/uni-segmented-control/uni-segmented-control.vue"
-	import stepItem from "@/components/swiper-item/swiper-item.vue"
-	
 	export default {
 		components: {
-			uniSegmentedControl,
-			stepItem
+			uniSegmentedControl: () => import('@dcloudio/uni-ui/lib/uni-segmented-control/uni-segmented-control.vue'),
+			stepItem: () => import('@/components/swiper-item/swiper-item.vue')
 		},
 		props:{
 			ticketId:{
