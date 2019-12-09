@@ -21,7 +21,7 @@
 				</view>
 			</view>
 			<view class="btn">
-				<button class="mini-btn" size="mini">{{ formatModel }}</button>
+				<mobel-label :modelLabel="formatModel"></mobel-label>
 				<phone :phoneNum="info.client.telephone"></phone>
 			</view>
 			<template v-slot:footer>
@@ -40,6 +40,7 @@
 	import {format} from '@/utils/formatDate.js'
 	import location from '../location/location.vue'
 	import phone from '../phone/phone.vue'
+	import mobelLabel from '@/components/model-label/model-label.vue'
 
 	export default {
 		name: 'card',
@@ -53,7 +54,7 @@
 			}
 		},
 		components: {
-			uniCard, location, phone
+			uniCard, location, phone, mobelLabel
 		},
 		props: {
 			'info': Object
@@ -120,14 +121,6 @@
 
 	.btn {
 		display: inline-block;
-	}
-
-	.mini-btn {
-		position: absolute;
-		top: 15upx;
-		right: 10upx;
-		color: #FFFFFF;
-		background-color: #09a0f7;
 	}
 
 	.phone {

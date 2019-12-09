@@ -40,7 +40,7 @@
 					</view>
 				</view>
 				<view class="btn">
-					<button class="mini-btn" size="mini">维修工单</button>
+					<mobel-label :modelLabel="formatModel"></mobel-label>
 				</view>
 			</uni-card>
 		</view>
@@ -129,6 +129,7 @@
 	import radioBtn from '@/components/radio-btn/radio-btn.vue'
 	import chooseImage from '@/components/xyz-choose-image/xyz-choose-image.vue';
 	import Attachment from '@/components/jin-attachment/jin-attachment.vue';
+	import mobelLabel from '@/components/model-label/model-label.vue'
 	
 	export default {
 		name: "mytaskRepair",
@@ -179,7 +180,8 @@
 			location, 
 			radioBtn,
 			chooseImage,
-			Attachment
+			Attachment,
+			mobelLabel
 		},
 		onLoad(option) {
 			console.log(option);
@@ -195,6 +197,10 @@
 				return dateTime =>{
 					return format(dateTime)
 				}
+			},
+			formatModel() {
+				let dic = this.$store.getters['dic/getDicList']
+				return dic.filter(e=>e.key == this.getTicket.ticketModelId)[0].value
 			}
 		},
 		methods: {

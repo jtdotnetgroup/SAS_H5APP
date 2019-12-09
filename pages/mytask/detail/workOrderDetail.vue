@@ -29,7 +29,7 @@
 				</view>
 			</view>
 			<view class="btn">
-				<button class="mini-btn" size="mini">维修工单</button>
+				<mobel-label :modelLabel="formatModel"></mobel-label>
 			</view>
 			<template v-slot:footer>
 				<view class="line">
@@ -87,6 +87,7 @@
 	import location from '@/components/location/location.vue'
 	import phone from '@/components/phone/phone.vue'
 	import segmentControl from '@/components/segment/segment-control.vue'
+	import mobelLabel from '@/components/model-label/model-label.vue'
 
 	export default {
 		name: "mytaskDetail",
@@ -101,7 +102,7 @@
 			}
 		},
 		components: { 
-			uniCard, location, phone, segmentControl
+			uniCard, location, phone, segmentControl, mobelLabel
 		},
 		onLoad(option) {
 			this.id = option.id
@@ -115,6 +116,10 @@
 				return dateTime =>{
 					return format(dateTime)
 				}
+			},
+			formatModel() {
+				let dic = this.$store.getters['dic/getDicList']
+				return dic.filter(e=>e.key == this.getTicket.ticketModelId)[0].value
 			}
 		},
 		methods: {
