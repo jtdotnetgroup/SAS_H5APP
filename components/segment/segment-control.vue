@@ -8,10 +8,14 @@
 		active-color="#09a0f7">
 		</uni-segmented-control>
         <view class="content">
-			<view v-for="(item ,index) in items" :key="index">
-				<view v-show="current === index">
-					<step-item :ticketId="ticketId"></step-item>
-				</view>
+			<view v-if="current == 0">
+				<step-item :ticketId="ticketId"></step-item>
+			</view>
+			<view v-else-if="current == 1">
+				
+			</view>
+			<view v-else>
+				
 			</view>
         </view>
     </view>
