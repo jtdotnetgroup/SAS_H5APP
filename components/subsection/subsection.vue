@@ -64,8 +64,22 @@
 	.borderStyle {
 		margin: 15upx;
 	}
-	
-	.scroll-Y {
-		height: calc(100vh - 180px - 36px - 70px);
+	/* iphone X */
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		.scroll-Y {
+			height: calc(100vh - 180px - 36px - 100px);
+		}
+	}
+	/* iphone 6~8 */
+	@media only screen and (device-width : 375px) and (device-height : 667px) and (-webkit-device-pixel-ratio : 2) {
+		.scroll-Y {
+			height: calc(100vh - 180px - 36px - 70px);
+		}
+	}
+	/* iphone 6 plus~8 plus */
+	@media only screen and (device-width : 414px) and (device-height : 736px) and (-webkit-device-pixel-ratio : 3) {
+		.scroll-Y {
+			height: calc(100vh - 180px - 36px - 70px);
+		}
 	}
 </style>
