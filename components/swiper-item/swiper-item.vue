@@ -36,8 +36,8 @@
 		components: {
 			stepDevice: () => import('@/components/step-device/step-device.vue')
 		},
-		props:{
-			ticketId:{
+		props: {
+			ticketId: {
 				type: String,
 				default () {
 					return ""
@@ -59,13 +59,13 @@
 		methods: {
 			toRepair(stageId,ticketId) {
 				uni.navigateTo({
-					url: '../../mytask/repair/workOrderRepair?id='+ stageId + "&ticketId="+ticketId
+					url: '../../mytask/repair/workOrderRepair?id=' + stageId + "&ticketId=" + ticketId
 				})
 			}
 		},
 		computed: {
-			dateTime(time){
-				return time =>{
+			dateTime(time) {
+				return time => {
 					return calculationTime(time);
 				}
 			},
@@ -216,39 +216,39 @@
 		padding: 15px;
 		flex-direction: row;
 	}
-	
+
 
 	/* 自定义 */
-	.alarmClock{
-		padding-left:110rpx;
-		padding-right:15rpx;
-		color:#4395ff;
+	.alarmClock {
+		padding-left: 110rpx;
+		padding-right: 15rpx;
+		color: #4395ff;
 	}
-	
-	.iconSuccess{
-		font-weight:bold;
+
+	.iconSuccess {
+		font-weight: bold;
 		font-size: 21px;
-		color:rgb(82, 196, 26);
+		color: rgb(82, 196, 26);
 	}
-	
-	.exclamationMark{
-		font-weight:600;
+
+	.exclamationMark {
+		font-weight: 600;
 		font-size: 18px;
 		color: rgb(208, 2, 27);
 	}
-	
-	.iconstyle{
+
+	.iconstyle {
 		font-size: 14px;
 		color: #DD524D;
 	}
-	
+
 	.sameLine {
 		display: inline-block;
 	}
-	
+
 	.fiexRight {
-		float:right;
+		float: right;
 		/* position: absolute; */
-		margin:10px;
+		margin: 10px;
 	}
 </style>

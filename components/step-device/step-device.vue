@@ -1,7 +1,7 @@
 <template>
 	<view class="uni-steps">
 		<view :class="[direction==='column'?'uni-steps__column':'uni-steps__row']">
-			
+
 			<view :class="[direction==='column'?'uni-steps__column-text-container':'uni-steps__row-text-container']">
 				<view v-for="(item,index) in options" :key="index" :class="[direction==='column'?'uni-steps__column-text':'uni-steps__row-text']">
 					<view>
@@ -68,7 +68,7 @@
 					return []
 				}
 			} // 数据
-			
+
 		},
 		data() {
 			return {}
