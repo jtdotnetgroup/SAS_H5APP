@@ -3,23 +3,25 @@
 		<view class="example-body">
 			<step-device :options="stageList" active-color="#007AFF" :active="active" direction="column">
 				<template v-slot:todo="{todo}">
-					<view class="sameLine">
-						<view class="uni-steps__column-title" @click="toRepair(todo.id,ticketId)">
-							{{todo.name}}
-							<!-- <span class="iconfont iconnaozhong alarmClock" ></span> -->
-							<!-- <span class="descstyle">{{dateTime(todo.date)}}</span> -->
+					<view @click="toRepair(todo.id,ticketId)">
+						<view class="sameLine">
+							<view class="uni-steps__column-title">
+								{{todo.name}}
+								<!-- <span class="iconfont iconnaozhong alarmClock" ></span> -->
+								<!-- <span class="descstyle">{{dateTime(todo.date)}}</span> -->
+							</view>
+							<view class="uni-steps__column-desc" v-if="completedDate != ''">
+								{{ formatDate(completedDate) }}	
+							</view>
 						</view>
-						<view class="uni-steps__column-desc" v-if="completedDate != ''">
-							{{ formatDate(completedDate) }}	
+						<view class="sameLine fiexRight">
+							<span v-if="todo.stageStatus === 1">
+								<span class="iconfont iconchenggong iconSuccess" ></span>
+							</span>
+							<span v-else>
+								<span class="iconfont icontanhao exclamationMark "></span>
+							</span>
 						</view>
-					</view>
-					<view class="sameLine fiexRight">
-						<span v-if="todo.stageStatus === 1">
-							<span class="iconfont iconchenggong iconSuccess" ></span>
-						</span>
-						<span v-else>
-							<span class="iconfont icontanhao exclamationMark "></span>
-						</span>
 					</view>
 				</template>
 			</step-device>

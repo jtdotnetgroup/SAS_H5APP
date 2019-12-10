@@ -34,13 +34,13 @@
 				}
 			},
 			upper() {
-				console.log("到顶了");
+				// console.log("到顶了");
 			},
 			lower() {
-				console.log("到底了");
+				// console.log("到底了");
 			},
 			scroll() {
-				console.log("滚动了");
+				// console.log("滚动了");
 			},
 		},
 		computed:{
