@@ -13,7 +13,7 @@
 						:class="[direction==='column'?'uni-steps__column-desc':'uni-steps__row-desc']">
 							{{item.desc}}
 						</text> -->
-						<slot name="todo" v-bind:todo="item">
+						<slot name="todo" v-bind:todo="item,index">
 						</slot>
 					</view>
 				</view>

@@ -2,9 +2,9 @@
 	<view>
 		<view class="example-body">
 			<step-device :options="stageList" active-color="#007AFF" :active="active" direction="column">
-				<template v-slot:todo="{todo}">
+				<template v-slot:todo="{todo,index}">
 					<view class="sameLine">
-						<view class="uni-steps__column-title" @click="toRepair(todo.id,ticketId)">
+						<view @click="toRepair(todo.id,ticketId)" >
 							{{todo.name}}
 							<span class="iconfont iconnaozhong alarmClock" ></span>
 							<span class="descstyle">{{dateTime(todo.date)}}</span>
