@@ -1,22 +1,32 @@
 const state = {
-	dicList: []
+	typeList: [],/* 工单类型 */
+	statusList:[]/* 工单状态 */
 }
 
 const getters = {
-	getDicList() {
-		return state.dicList
+	getTypeList() {
+		return state.typeList
+	},
+	getStatusList() {
+		return state.statusList
 	}
 }
 
 const mutations = {
-	setDicList(state, payload) {
-		state.dicList = payload
+	setTypeList(state, payload) {
+		state.typeList = payload
+	},
+	setStatusList(state, payload) {
+		state.statusList = payload
 	}
 }
 
 const actions = {
-	GetDataList({commit,state},payload){
-		commit("setDicList",payload)
+	GetTypeList({commit,state},payload){
+		commit("setTypeList",payload)
+	},
+	GetStatusList({commit,state},payload){
+		commit("setStatusList",payload)
 	}
 }
 

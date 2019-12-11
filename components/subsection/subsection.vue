@@ -19,7 +19,6 @@
 		},
 		data() {
 			return {
-				items: ['待分派', '进行中', '已完成', '已关闭', '异常', '超时'],
 				current: 0,
 				scrollTop: 0,
 				old: {
@@ -47,6 +46,14 @@
 			displayList(){
 				let item = this.$store.getters['workOrder/getTicketList']
 				return item.filter(e=>e.ticketStatus===this.current + 1)
+			},
+			items() {
+				let item = this.$store.getters['dic/getStatusList']
+				let items = []
+				item.forEach((list) => {
+					items.push(list.value) 
+				})
+				return items
 			}
 		},
 		beforeMount() {

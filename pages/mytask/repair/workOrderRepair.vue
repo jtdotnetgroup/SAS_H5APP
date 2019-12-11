@@ -49,14 +49,14 @@
 		<view class="context">
 			<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
 				<conf-div title="工作要求:">
-					<view class="label">及时定位，拍照上传</view>
+					<view class="label">{{stage.memo}}</view>
 				</conf-div>
 				<conf-div title="当前所在位置:">
 					<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
 				</conf-div>
 				<conf-div title="同行人员:">
 					<view class="big">
-						<view class="label user">选择人员</view>
+						<view class="label user">{{stage.stageProcess.person}}</view>
 						<span class="iconfont icontianjiayonghu iconStyle Btn" @click="selectUser"></span>
 					</view>
 				</conf-div>
@@ -176,8 +176,8 @@
 					// 如果需要header，请上传
 				},
 				attachmentList: [],
-				stage: {},
-				stageLists: []
+				stage: {},/* 阶段对象 */
+				stageLists: []/* 阶段列表（VUEX） */
 			}
 		},
 		components: {
@@ -197,6 +197,7 @@
 			this.ticketId = option.ticketId
 			this.stageLists = this.$store.getters['stage/getStageList']
 			this.stage = this.stageLists.filter(e=>e.id === this.id)[0]
+			console.log(this.stage);
 		},
 		computed: {
 			getTicket() {

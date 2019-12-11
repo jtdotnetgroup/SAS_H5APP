@@ -21,8 +21,13 @@
 			subSection: () => import('@/components/subsection/subsection.vue')
 		},
 		onLoad() {
+			getDicList('工单状态').then(response => {
+				this.$store.dispatch('dic/GetStatusList', response.data.body.dicList)
+			}).catch(error => {
+				console.log(error);
+			}),
 			getDicList('工单类型').then(response => {
-				this.$store.dispatch('dic/GetDataList', response.data.body.dicList)
+				this.$store.dispatch('dic/GetTypeList', response.data.body.dicList)
 			}).catch(error => {
 				console.log(error);
 			})
