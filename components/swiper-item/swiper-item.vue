@@ -2,24 +2,26 @@
 	<view>
 		<view class="example-body">
 			<step-device :options="stageList" active-color="#007AFF" :active="active" direction="column">
-				<template v-slot:todo="{todo,index}">
-					<view class="sameLine">
-						<view @click="toRepair(todo.id,ticketId)" >
-							{{todo.name}}
-							<span class="iconfont iconnaozhong alarmClock" ></span>
-							<span class="descstyle">{{dateTime(todo.date)}}</span>
+				<template v-slot:todo="{todo}">
+					<view @click="toRepair(todo.id,ticketId)">
+						<view class="sameLine">
+							<view class="uni-steps__column-title">
+								{{todo.name}}
+								<!-- <span class="iconfont iconnaozhong alarmClock" ></span> -->
+								<!-- <span class="descstyle">{{dateTime(todo.date)}}</span> -->
+							</view>
+							<view class="uni-steps__column-desc" v-if="completedDate != ''">
+								{{ formatDate(completedDate) }}	
+							</view>
 						</view>
-						<view class="uni-steps__column-desc">
-							{{ todo.date }}	
+						<view class="sameLine fiexRight">
+							<span v-if="todo.stageStatus === 1">
+								<span class="iconfont iconchenggong iconSuccess" ></span>
+							</span>
+							<span v-else>
+								<span class="iconfont icontanhao exclamationMark "></span>
+							</span>
 						</view>
-					</view>
-					<view class="sameLine fiexRight">
-						<span v-if="todo.stageStatus === 1">
-							<span class="iconfont iconchenggong iconSuccess" ></span>
-						</span>
-						<span v-else>
-							<span class="iconfont icontanhao exclamationMark "></span>
-						</span>
 					</view>
 				</template>
 			</step-device>
@@ -30,6 +32,7 @@
 <script>
 	import {calculationTime} from '@/utils/moment.js'
 	import {getStageList} from '@/api/getStageList.js'
+	import {format} from '@/utils/formatDate.js'
 
 	export default {
 		components: {
@@ -52,18 +55,11 @@
 		data() {
 			return {
 				active: 0,
-				stageList: []
+				completedDate: ''
 			}
 		},
 		methods: {
-			change() {
-				if (this.active < this.stageList.length - 1) {
-					this.active += 1
-				} else {
-					this.active = 0
-				}
-			},
-			toRepair(stageId, ticketId) {
+			toRepair(stageId,ticketId) {
 				uni.navigateTo({
 					url: '../../mytask/repair/workOrderRepair?id=' + stageId + "&ticketId=" + ticketId
 				})
@@ -74,19 +70,32 @@
 				return time => {
 					return calculationTime(time);
 				}
+			},
+			formatDate(time) {
+				return time => {
+					return format(time)
+				}
+			},
+			stageList() {
+				let stageLists = this.$store.getters['stage/getStageList']
+				this.active = 0
+				this.completedDate = ''
+				stageLists.forEach((list, index) => {
+					if (list.current == 1) {
+						this.active = index
+					}
+					if (list.stageProcess != null) {
+						this.completedDate = list.stageProcess.completedDate
+					}
+				})
+				return stageLists
 			}
 		},
 		beforeMount() {
 			let ticketType = this.ticketType
 			let ticketId = this.ticketId
 			getStageList(ticketType, ticketId).then(response => {
-				console.log(response.data.body.pageList);
-				this.stageList = response.data.body.pageList
-				this.stageList.forEach((list, index) => {
-					if (list.current == 1) {
-						this.active = index
-					}
-				})
+				this.$store.dispatch('stage/GetDataList', response.data.body.pageList)
 			}).catch(error => {
 				console.log(error);
 			})

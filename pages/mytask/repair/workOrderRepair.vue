@@ -49,55 +49,68 @@
 		<view class="context">
 			<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
 				<conf-div title="工作要求:">
-					<view class="label">及时定位，拍照上传</view>
+					<view class="label">{{stage.memo}}</view>
 				</conf-div>
 				<conf-div title="当前所在位置:">
 					<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
 				</conf-div>
 				<conf-div title="同行人员:">
 					<view class="big">
-						<view class="label user">选择人员</view>
+						<view class="label user">{{stage.stageProcess.person}}</view>
 						<span class="iconfont icontianjiayonghu iconStyle Btn" @click="selectUser"></span>
 					</view>
 				</conf-div>
-				<conf-div title="签到时间:">
-					<view class="big">
-						<view class="label user">2019-12-03 14:51</view>
-						<span class="iconfont iconqian iconStyle Btn" @click="signIn"></span>
-					</view>
-				</conf-div>
-				<conf-div title="现场拍照:">
-					<chooseImage :num="6" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="true" saveStr="chooseImage" :isClear="hasChooseImg" />
-				</conf-div>
+				<view v-show="stage.signFlag === 1">
+					<conf-div title="签到时间:">
+						<view class="big">
+							<view class="label user">2019-12-03 14:51</view>
+							<span class="iconfont iconqian iconStyle Btn" @click="signIn"></span>
+						</view>
+					</conf-div>
+				</view>
+				<view v-show="stage.photoFlag === 1">
+					<conf-div title="现场拍照:">
+						<chooseImage :num="6" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="true" saveStr="chooseImage" :isClear="hasChooseImg" />
+					</conf-div>
+				</view>
 				<conf-div title="完成情况:">
 					<radio-btn :items="completion"></radio-btn>
 				</conf-div>
-				<conf-div title="故障判断:">
-					<textarea placeholder="请输入故障判断" />
-					<view class="separator"></view>
-					<label class="label operation">操作规程 >></label>
-				</conf-div>
+				<view v-show="stage.useProcedure === 1">
+					<conf-div title="故障判断:">
+						<textarea placeholder="请输入故障判断" />
+						<view class="separator"></view>
+						<label class="label operation">操作规程 >></label>
+					</conf-div>
+				</view>
 				<conf-div title="故障部位:">
 					<input placeholder="请输入故障部位" />
 				</conf-div>
 				<conf-div title="是否保质期内:">
 					<radio-btn :items="yes_no"></radio-btn>
 				</conf-div>
-				<conf-div title="费用合计(元):">
-					<input placeholder="请输入费用合计(元)" />
-				</conf-div>
+				<view v-show="stage.tmplateFlag === 1">
+					<conf-div title="费用合计(元):">
+						<input placeholder="请输入费用合计(元)" />
+					</conf-div>
+				</view>
 				<conf-div title="客户邮箱:">
 					<input placeholder="请输入客户邮箱" />
 				</conf-div>
-				<conf-div title="附件:">
-					<Attachment mode="create" :canUploadFile="true" :uploadFileUrl="uploadFileUrl" :heaer="header" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess"></Attachment>
-				</conf-div>
-				<conf-div title="签出时间:">
-					<view class="big">
-						<view class="label user">2019-12-03 14:51</view>
-						<span class="iconfont iconqian iconStyle Btn" @click="signOut"></span>
-					</view>
-				</conf-div>
+				<view v-show="stage.submitAttach === 1">
+					<conf-div title="附件:">
+						<Attachment mode="create" :canUploadFile="true" :uploadFileUrl="uploadFileUrl" :heaer="header" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess"></Attachment>
+					</conf-div>
+				</view>
+				<view v-show="stage.signOutFlag === 1">
+					<conf-div title="签出时间:">
+						<view class="big">
+							<view class="label user">2019-12-03 14:51</view>
+							<span class="iconfont iconqian iconStyle Btn" @click="signOut"></span>
+						</view>
+					</conf-div>
+				</view>
+				<view style="height: 75px;"></view>
 			</scroll-view>
 		</view>
 		
@@ -128,8 +141,8 @@
 		name: "mytaskRepair",
 		data() {
 			return {
-				id: '',
-				ticketId: "",
+				id: '',/* 阶段id */
+				ticketId: "",/* 工单id */
 				labelStyle: {
 					'fontSize': '25rpx',
 					'display': 'inline-block'
@@ -162,7 +175,9 @@
 				header: {
 					// 如果需要header，请上传
 				},
-				attachmentList: []
+				attachmentList: [],
+				stage: {},/* 阶段对象 */
+				stageLists: []/* 阶段列表（VUEX） */
 			}
 		},
 		components: {
@@ -180,6 +195,9 @@
 			console.log(option);
 			this.id = option.id
 			this.ticketId = option.ticketId
+			this.stageLists = this.$store.getters['stage/getStageList']
+			this.stage = this.stageLists.filter(e=>e.id === this.id)[0]
+			console.log(this.stage);
 		},
 		computed: {
 			getTicket() {
@@ -192,8 +210,7 @@
 				}
 			},
 			formatModel() {
-				let dic = this.$store.getters['dic/getDicList']
-				return dic.filter(e=>e.key == this.getTicket.ticketModelId)[0].value
+				return this.stageLists.filter(e=>e.id === this.id)[0].name
 			}
 		},
 		methods: {
@@ -207,13 +224,13 @@
 				console.log("签出");
 			},
 			upper() {
-				console.log("到顶了");
+				// console.log("到顶了");
 			},
 			lower() {
-				console.log("到底了");
+				// console.log("到底了");
 			},
 			scroll() {
-				console.log("滚动了");
+				// console.log("滚动了");
 			},
 			async chooseImage(imgArr) {
 				console.log(imgArr);
@@ -326,7 +343,7 @@
 		background-color: #FFFFFF;
 		padding: 20rpx 0;
 		width: 100%;
-		position: absolute;
+		position: fixed;
 		left: 0;
 		bottom: 0;
 		z-index: 999;
@@ -335,10 +352,6 @@
 	.bottomIcon {
 		text-align: center;
 		font-size: 50rpx;
-	}
-	
-	.scroll-Y {
-		height: calc(100vh - 113px - 95px);
 	}
 	
 	.big {

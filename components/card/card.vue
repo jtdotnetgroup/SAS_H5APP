@@ -70,7 +70,7 @@
 				}
 			},
 			formatModel() {
-				let dic = this.$store.getters['dic/getDicList']
+				let dic = this.$store.getters['dic/getTypeList']
 				let result
 				if (dic != '') {
 					result = dic.filter(e=>e.key == this.info.ticketModelId)[0].value

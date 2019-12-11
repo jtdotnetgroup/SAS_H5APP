@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import workOrder from './modules/workOrder.js'
 import dic from './modules/dic.js'
+import stage from './modules/stage.js'
 
 Vue.use(Vuex)
 
@@ -22,7 +23,8 @@ export default new Vuex.Store({
   },
   modules:{
 	  workOrder,
-	  dic
+	  dic,
+	  stage
   },
   strict: debug
 })
