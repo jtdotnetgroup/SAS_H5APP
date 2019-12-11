@@ -2,10 +2,10 @@
 	<view>
 		<view class="example-body">
 			<step-device :options="stageList" active-color="#007AFF" :active="active" direction="column">
-				<template v-slot:todo="{todo}">
+				<template v-slot:todo="{todo,index}">
 					<view @click="toRepair(todo.id,ticketId)">
 						<view class="sameLine">
-							<view class="uni-steps__column-title">
+							<view class="uni-steps__column-title" :style="{color:index <=active ? index == active ?activeColor : goColor :deactiveColor}">
 								{{todo.name}}
 								<!-- <span class="iconfont iconnaozhong alarmClock" ></span> -->
 								<!-- <span class="descstyle">{{dateTime(todo.date)}}</span> -->
@@ -19,7 +19,9 @@
 								<span class="iconfont iconchenggong iconSuccess" ></span>
 							</span>
 							<span v-else>
-								<span class="iconfont icontanhao exclamationMark "></span>
+								<!-- class=" " :style="{color:}" -->
+								<span class='iconfont icontanhao'
+									:class="[ index == active ? 'exclamationMark' :'exclamation' ]"></span>
 							</span>
 						</view>
 					</view>
@@ -54,6 +56,9 @@
 		},
 		data() {
 			return {
+				goColor:'#1DC21C',  // 绿色
+				activeColor:'rgb(0, 122, 255)',  // 蓝色
+				deactiveColor:'red',			// 红色
 				active: 0,
 				completedDate: ''
 			}
@@ -236,7 +241,16 @@
 	.exclamationMark {
 		font-weight: 600;
 		font-size: 18px;
-		color: rgb(208, 2, 27);
+		filter:alpha(Opacity=40);
+		-moz-opacity:0.4;
+		opacity: 0.4;
+		color: #DD524D;
+	}
+	
+	.exclamation {
+		font-weight: 600;
+		font-size: 18px;
+		color: #DD524D;
 	}
 
 	.iconstyle {
