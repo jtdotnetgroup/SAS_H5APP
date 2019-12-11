@@ -63,7 +63,7 @@
 				<view v-show="stage.signFlag === 1">
 					<conf-div title="签到时间:">
 						<view class="big">
-							<view class="label user">2019-12-03 14:51</view>
+							<view class="label user">{{signInTime}}</view>
 							<span class="iconfont iconqian iconStyle Btn" @click="signIn"></span>
 						</view>
 					</conf-div>
@@ -95,7 +95,7 @@
 					</conf-div>
 				</view>
 				<conf-div title="客户邮箱:">
-					<input placeholder="请输入客户邮箱" />
+					<view class="label">{{getTicket.client.email}}</view>
 				</conf-div>
 				<view v-show="stage.submitAttach === 1">
 					<conf-div title="附件:">
@@ -105,7 +105,7 @@
 				<view v-show="stage.signOutFlag === 1">
 					<conf-div title="签出时间:">
 						<view class="big">
-							<view class="label user">2019-12-03 14:51</view>
+							<view class="label user">{{signOutTime}}</view>
 							<span class="iconfont iconqian iconStyle Btn" @click="signOut"></span>
 						</view>
 					</conf-div>
@@ -118,16 +118,22 @@
 		<view class="bottom">
 			<uni-grid :column="3" :show-border="false"  :square="false">
 			    <uni-grid-item>
-					<span class="iconfont icontijiao bottomIcon" style="color: #09a0f7;"></span>
-			        <text class="text">提交</text>
+					<view class="bottomIcon" @click="commit">
+						<span class="iconfont icontijiao bottomIcon" style="color: #09a0f7;"></span>
+						<text class="text">提交</text>
+					</view>
 			    </uni-grid-item>
 			    <uni-grid-item>
-					<span class="iconfont iconzancun bottomIcon" style="color: #999999;"></span>
-			        <text class="text">暂存</text>
+					<view class="bottomIcon" @click="">
+						<span class="iconfont iconzancun bottomIcon" style="color: #999999;"></span>
+						<text class="text">暂存</text>
+					</view>
 			    </uni-grid-item>
 			    <uni-grid-item>
-					<span class="iconfont iconfangqi bottomIcon" style="color: #d81e06;"></span>
-			        <text class="text">放弃</text>
+					<view class="bottomIcon" @click="">
+						<span class="iconfont iconfangqi bottomIcon" style="color: #d81e06;"></span>
+						<text class="text">放弃</text>
+					</view>
 			    </uni-grid-item>
 			</uni-grid>
 		</view>
@@ -177,7 +183,10 @@
 				},
 				attachmentList: [],
 				stage: {},/* 阶段对象 */
-				stageLists: []/* 阶段列表（VUEX） */
+				stageLists: [],/* 阶段列表（VUEX） */
+				signInTime: '',
+				signOutTime: '',
+				dataForm: {}
 			}
 		},
 		components: {
@@ -198,6 +207,15 @@
 			this.stageLists = this.$store.getters['stage/getStageList']
 			this.stage = this.stageLists.filter(e=>e.id === this.id)[0]
 			console.log(this.stage);
+			
+			/* 获取当前位置信息 */
+			uni.getLocation({
+			    type: 'wgs84',
+			    success: function (res) {
+			        console.log('当前位置的经度：' + res.longitude);
+			        console.log('当前位置的纬度：' + res.latitude);
+			    }
+			});
 		},
 		computed: {
 			getTicket() {
@@ -218,10 +236,19 @@
 				console.log('选择人员');
 			},
 			signIn() {
-				console.log("签到");
+				this.signInTime = format(this.$moment())
 			},
 			signOut() {
-				console.log("签出");
+				this.signOutTime = format(this.$moment())
+			},
+			commit() {
+				console.log("提交");
+				this.dataForm = {
+					participant: this.stage.stageProcess.person,/* 同行人员 */
+					signInTime: this.signInTime,/* 签到时间 */
+					
+				}
+				console.log(this.dataForm);
 			},
 			upper() {
 				// console.log("到顶了");
@@ -233,10 +260,11 @@
 				// console.log("滚动了");
 			},
 			async chooseImage(imgArr) {
-				console.log(imgArr);
+				// console.log(imgArr);
 				let arr = [];
 				for(let i=0;i<imgArr.length;i++){
-					arr.push(await this.toBase64(imgArr[i]))
+					// arr.push(await this.toBase64(imgArr[i]))
+					arr.push(imgArr[i])
 				}
 				console.log(arr)		
 			},
@@ -337,6 +365,7 @@
 	.text {
 		text-align: center;
 		font-size: 20rpx;
+		display: block;
 	}
 	
 	.bottom {
@@ -351,7 +380,7 @@
 	
 	.bottomIcon {
 		text-align: center;
-		font-size: 50rpx;
+		font-size: 60rpx;
 	}
 	
 	.big {
