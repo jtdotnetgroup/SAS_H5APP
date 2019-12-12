@@ -33,7 +33,7 @@
 
 <script>
 	import {calculationTime} from '@/utils/moment.js'
-	import {getStageList} from '@/api/getStageList.js'
+	import {getStageList} from '@/api/Ticket.js'
 	import {format} from '@/utils/formatDate.js'
 
 	export default {

@@ -49,53 +49,53 @@
 		<view class="context">
 			<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
 				<conf-div title="工作要求:">
-					<view class="label">{{stage.memo}}</view>
+					<span class="label">{{stage.memo}}</span>
 				</conf-div>
 				<conf-div title="当前所在位置:">
 					<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
 				</conf-div>
 				<conf-div title="同行人员:">
 					<view class="big">
-						<view class="label user">{{stage.stageProcess.person}}</view>
+						<span class="label user" ref="participant">{{stage.stageProcess.person}}</span>
 						<span class="iconfont icontianjiayonghu iconStyle Btn" @click="selectUser"></span>
 					</view>
 				</conf-div>
 				<view v-show="stage.signFlag === 1">
 					<conf-div title="签到时间:">
 						<view class="big">
-							<view class="label user">{{signInTime}}</view>
+							<span class="label user" ref="signInTime">{{signInTime}}</span>
 							<span class="iconfont iconqian iconStyle Btn" @click="signIn"></span>
 						</view>
 					</conf-div>
 				</view>
 				<view v-show="stage.photoFlag === 1">
 					<conf-div title="现场拍照:">
-						<chooseImage :num="6" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="true" saveStr="chooseImage" :isClear="hasChooseImg" />
+						<chooseImage :num="6" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" />
 					</conf-div>
 				</view>
 				<conf-div title="完成情况:">
-					<radio-btn :items="completion"></radio-btn>
+					<radio-btn :items="completion" @radioChange="comChange"></radio-btn>
 				</conf-div>
 				<view v-show="stage.useProcedure === 1">
 					<conf-div title="故障判断:">
-						<textarea placeholder="请输入故障判断" />
+						<textarea placeholder="请输入故障判断" ref="faultJudgement"/>
 						<view class="separator"></view>
 						<label class="label operation">操作规程 >></label>
 					</conf-div>
 				</view>
 				<conf-div title="故障部位:">
-					<input placeholder="请输入故障部位" />
+					<input placeholder="请输入故障部位" ref="faultLocation"/>
 				</conf-div>
 				<conf-div title="是否保质期内:">
-					<radio-btn :items="yes_no"></radio-btn>
+					<radio-btn :items="yes_no" @radioChange="yes_noChange"></radio-btn>
 				</conf-div>
 				<view v-show="stage.tmplateFlag === 1">
 					<conf-div title="费用合计(元):">
-						<input placeholder="请输入费用合计(元)" />
+						<input placeholder="请输入费用合计(元)" type="number" ref="cost"/>
 					</conf-div>
 				</view>
 				<conf-div title="客户邮箱:">
-					<view class="label">{{getTicket.client.email}}</view>
+					<span class="label">{{getTicket.client.email}}</span>
 				</conf-div>
 				<view v-show="stage.submitAttach === 1">
 					<conf-div title="附件:">
@@ -105,7 +105,7 @@
 				<view v-show="stage.signOutFlag === 1">
 					<conf-div title="签出时间:">
 						<view class="big">
-							<view class="label user">{{signOutTime}}</view>
+							<span class="label user">{{signOutTime}}</span>
 							<span class="iconfont iconqian iconStyle Btn" @click="signOut"></span>
 						</view>
 					</conf-div>
@@ -142,6 +142,7 @@
 
 <script>
 	import {format} from '@/utils/formatDate.js'
+	import {ticketRepairSave} from '@/api/Ticket.js'
 	
 	export default {
 		name: "mytaskRepair",
@@ -161,20 +162,24 @@
 				hasChooseImg: '',
 				completion: [{
 						value: '1',
-						name: '完成'
+						name: '完成',
+						checked: true
 					},
 					{
 						value: '0',
-						name: '继续'
+						name: '继续',
+						checked: false
 					}
 				],
 				yes_no: [{
 						value: '1',
-						name: '是'
+						name: '是',
+						checked: true
 					},
 					{
 						value: '0',
-						name: '否'
+						name: '否',
+						checked: false
 					}
 				],
 				uploadFileUrl: 'http://localhost:8080', //替换成你的后端接收文件地址
@@ -184,8 +189,11 @@
 				attachmentList: [],
 				stage: {},/* 阶段对象 */
 				stageLists: [],/* 阶段列表（VUEX） */
-				signInTime: '',
-				signOutTime: '',
+				signInTime: '',/* 签到时间 */
+				signOutTime: '',/* 签出时间 */
+				arr: [],/* 图片选择数组 */
+				completeStatus: '',/* 完成情况 */
+				isQGP: '',/* 是否保质期内 */
 				dataForm: {}
 			}
 		},
@@ -206,7 +214,7 @@
 			this.ticketId = option.ticketId
 			this.stageLists = this.$store.getters['stage/getStageList']
 			this.stage = this.stageLists.filter(e=>e.id === this.id)[0]
-			console.log(this.stage);
+			// console.log(this.stage);
 			
 			/* 获取当前位置信息 */
 			uni.getLocation({
@@ -216,6 +224,17 @@
 			        console.log('当前位置的纬度：' + res.latitude);
 			    }
 			});
+			
+			this.completion.forEach((item) => {
+				if (item.checked) {
+					this.completeStatus = item.value
+				}
+			})
+			this.yes_no.forEach((item) => {
+				if (item.checked) {
+					this.isQGP = item.value
+				}
+			})
 		},
 		computed: {
 			getTicket() {
@@ -243,12 +262,23 @@
 			},
 			commit() {
 				console.log("提交");
-				this.dataForm = {
-					participant: this.stage.stageProcess.person,/* 同行人员 */
-					signInTime: this.signInTime,/* 签到时间 */
-					
+				let formData = new FormData();
+				formData.append('participant', this.$refs.participant.innerText)/* 同行人员 */
+				formData.append('signInTime', this.$refs.signInTime.innerText)/* 签到时间 */
+				for (let i = 0; i < this.arr.length; i++) {
+					formData.append('photo', this.arr[i])/* 现场拍照 */
 				}
-				console.log(this.dataForm);
+				formData.append('completeStatus', this.completeStatus)/* 完成情况 */
+				formData.append('faultJudgement', this.$refs.faultJudgement.valueComposition)/* 故障判断 */
+				formData.append('faultLocation', this.$refs.faultLocation.inputValue)/* 故障部位 */
+				formData.append('isQGP', this.isQGP)/* 是否保质期内 */
+				formData.append('cost', this.$refs.cost.inputValue)/* 费用合计 */
+				formData.append('signOutTime', this.signOutTime)/* 签出时间 */
+				ticketRepairSave(formData).then(response => {
+					
+				}).catch(error => {
+					console.log(error);
+				})
 			},
 			upper() {
 				// console.log("到顶了");
@@ -260,13 +290,13 @@
 				// console.log("滚动了");
 			},
 			async chooseImage(imgArr) {
-				// console.log(imgArr);
-				let arr = [];
+				console.log(imgArr);
+				this.arr = [];
 				for(let i=0;i<imgArr.length;i++){
 					// arr.push(await this.toBase64(imgArr[i]))
-					arr.push(imgArr[i])
+					this.arr.push(imgArr[i])
 				}
-				console.log(arr)		
+				console.log(this.arr)		
 			},
 			toBase64(path){
 				return new Promise((resolve, reject) => {
@@ -300,6 +330,12 @@
 						icon: 'none'
 					});
 				}
+			},
+			comChange(value) {
+				this.completeStatus = value
+			},
+			yes_noChange(value) {
+				this.isQGP = value
 			}
 		}
 	}

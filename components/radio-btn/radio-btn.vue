@@ -4,7 +4,7 @@
 			<view class="big">
 				<view class="sameLine label">{{item.name}}</view>
 				<view class="sameLine">
-					<radio class="radioBtn" :value="item.value" :checked="index === current" />
+					<radio class="radioBtn" :value="item.value" :checked="item.checked" />
 				</view>
 				<view class="separator" v-if="index != items.length-1"></view>
 			</view>
@@ -17,7 +17,6 @@
 		name: 'radio',
 		data() {
 			return {
-				current: 0
 			}
 		},
 		components: {
@@ -31,10 +30,11 @@
 			radioChange: function(evt) {
 				for (let i = 0; i < this.items.length; i++) {
 					if (this.items[i].value === evt.target.value) {
-						this.current = i;
+						this.items[i].checked = true
 						break;
 					}
 				}
+				this.$emit('radioChange', evt.target.value)
 			}
 		}
 	}

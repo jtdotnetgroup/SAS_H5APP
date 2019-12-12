@@ -7,7 +7,7 @@
 
 <script>
 
-	import {getDicList} from '@/api/getDic.js'
+	import {getDicList} from '@/api/Ticket.js'
 	
 	export default{
 		name:"mytask",

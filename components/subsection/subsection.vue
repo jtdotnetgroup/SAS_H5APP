@@ -9,7 +9,7 @@
 </template>
 
 <script>
-	import { getWorkOrderList } from '@/api/getWorkOrderList.js'
+	import { getWorkOrderList } from '@/api/Ticket.js'
 
 	export default {
 		name: 'subSection',
