@@ -3,7 +3,7 @@
 		<view class="example-body">
 			<step-device :options="stageList" active-color="#007AFF" :active="active" direction="column">
 				<template v-slot:todo="{todo,index}">
-					<view @click="toRepair(todo.id,ticketId)">
+					<view @click="toRepair(todo.id,ticketId, todo.stageStatus)">
 						<view class="sameLine">
 							<view class="uni-steps__column-title" :style="{color:index <=active ? index == active ?activeColor : goColor :deactiveColor}">
 								{{todo.name}}
@@ -64,9 +64,9 @@
 			}
 		},
 		methods: {
-			toRepair(stageId,ticketId) {
+			toRepair(stageId,ticketId,stageStatus) {
 				uni.navigateTo({
-					url: '../../mytask/repair/workOrderRepair?id=' + stageId + "&ticketId=" + ticketId
+					url: '../../mytask/repair/workOrderRepair?id=' + stageId + "&ticketId=" + ticketId + "&stageStatus=" + stageStatus
 				})
 			}
 		},
@@ -89,17 +89,17 @@
 					if (list.current == 1) {
 						this.active = index
 					}
-					if (list.stageProcess != null) {
+					if (list.stageProcess != undefined) {
 						this.completedDate = list.stageProcess.completedDate
 					}
 				})
 				return stageLists
 			}
 		},
-		beforeMount() {
+		async beforeMount() {
 			let ticketType = this.ticketType
 			let ticketId = this.ticketId
-			getStageList(ticketType, ticketId).then(response => {
+			await getStageList(ticketType, ticketId).then(response => {
 				this.$store.dispatch('stage/GetDataList', response.data.body.pageList)
 			}).catch(error => {
 				console.log(error);

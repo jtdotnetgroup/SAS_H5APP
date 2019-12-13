@@ -56,42 +56,42 @@
 				</conf-div>
 				<conf-div title="同行人员:">
 					<view class="big">
-						<span class="label user" ref="participant">{{stage.stageProcess.person}}</span>
-						<span class="iconfont icontianjiayonghu iconStyle Btn" @click="selectUser"></span>
+						<span class="label user" ref="participant">{{person}}</span>
+						<span class="iconfont icontianjiayonghu iconStyle Btn" @click="stageStatus != 1 ? selectUser() : ''"></span>
 					</view>
 				</conf-div>
 				<view v-show="stage.signFlag === 1">
 					<conf-div title="签到时间:">
 						<view class="big">
 							<span class="label user" ref="signInTime">{{signInTime}}</span>
-							<span class="iconfont iconqian iconStyle Btn" @click="signIn"></span>
+							<span class="iconfont iconqian iconStyle Btn" @click="stageStatus != 1 ? signIn() : ''"></span>
 						</view>
 					</conf-div>
 				</view>
 				<view v-show="stage.photoFlag === 1">
 					<conf-div title="现场拍照:">
-						<chooseImage :num="6" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" />
+						<chooseImage :num="9" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList" />
 					</conf-div>
 				</view>
 				<conf-div title="完成情况:">
-					<radio-btn :items="completion" @radioChange="comChange"></radio-btn>
+					<radio-btn :items="completion" @radioChange="comChange" :stageStatus="stageStatus"></radio-btn>
 				</conf-div>
 				<view v-show="stage.useProcedure === 1">
 					<conf-div title="故障判断:">
-						<textarea placeholder="请输入故障判断" ref="faultJudgement"/>
+						<textarea placeholder="请输入故障判断" ref="faultJudgement" :value="faultJudgement" :disabled="stageStatus ==1 ? true : false"/>
 						<view class="separator"></view>
 						<label class="label operation">操作规程 >></label>
 					</conf-div>
 				</view>
 				<conf-div title="故障部位:">
-					<input placeholder="请输入故障部位" ref="faultLocation"/>
+					<input placeholder="请输入故障部位" ref="faultLocation" :disabled="stageStatus ==1 ? true : false"/>
 				</conf-div>
 				<conf-div title="是否保质期内:">
-					<radio-btn :items="yes_no" @radioChange="yes_noChange"></radio-btn>
+					<radio-btn :items="yes_no" @radioChange="yes_noChange" :stageStatus="stageStatus"></radio-btn>
 				</conf-div>
 				<view v-show="stage.tmplateFlag === 1">
 					<conf-div title="费用合计(元):">
-						<input placeholder="请输入费用合计(元)" type="number" ref="cost"/>
+						<input placeholder="请输入费用合计(元)" type="number" ref="cost" :disabled="stageStatus ==1 ? true : false"/>
 					</conf-div>
 				</view>
 				<conf-div title="客户邮箱:">
@@ -99,43 +99,47 @@
 				</conf-div>
 				<view v-show="stage.submitAttach === 1">
 					<conf-div title="附件:">
-						<Attachment mode="create" :canUploadFile="true" :uploadFileUrl="uploadFileUrl" :heaer="header" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess"></Attachment>
+						<Attachment mode="create" :canUploadFile="true" :uploadFileUrl="uploadFileUrl" :header="header" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess" :stageStatus="stageStatus"></Attachment>
 					</conf-div>
 				</view>
 				<view v-show="stage.signOutFlag === 1">
 					<conf-div title="签出时间:">
 						<view class="big">
 							<span class="label user">{{signOutTime}}</span>
-							<span class="iconfont iconqian iconStyle Btn" @click="signOut"></span>
+							<span class="iconfont iconqian iconStyle Btn" @click="stageStatus != 1 ? signOut() : ''"></span>
 						</view>
 					</conf-div>
 				</view>
-				<view style="height: 75px;"></view>
+				<view v-show="stageStatus != 1">
+					<view style="height: 75px;"></view>
+				</view>
 			</scroll-view>
 		</view>
 		
 		
-		<view class="bottom">
-			<uni-grid :column="3" :show-border="false"  :square="false">
-			    <uni-grid-item>
-					<view class="bottomIcon" @click="commit">
-						<span class="iconfont icontijiao bottomIcon" style="color: #09a0f7;"></span>
-						<text class="text">提交</text>
-					</view>
-			    </uni-grid-item>
-			    <uni-grid-item>
-					<view class="bottomIcon" @click="">
-						<span class="iconfont iconzancun bottomIcon" style="color: #999999;"></span>
-						<text class="text">暂存</text>
-					</view>
-			    </uni-grid-item>
-			    <uni-grid-item>
-					<view class="bottomIcon" @click="">
-						<span class="iconfont iconfangqi bottomIcon" style="color: #d81e06;"></span>
-						<text class="text">放弃</text>
-					</view>
-			    </uni-grid-item>
-			</uni-grid>
+		<view v-show="stageStatus != 1">
+			<view class="bottom">
+				<uni-grid :column="3" :show-border="false"  :square="false">
+					<uni-grid-item>
+						<view class="bottomIcon" @click="commit">
+							<span class="iconfont icontijiao bottomIcon" style="color: #09a0f7;"></span>
+							<text class="text">提交</text>
+						</view>
+					</uni-grid-item>
+					<uni-grid-item>
+						<view class="bottomIcon" @click="">
+							<span class="iconfont iconzancun bottomIcon" style="color: #999999;"></span>
+							<text class="text">暂存</text>
+						</view>
+					</uni-grid-item>
+					<uni-grid-item>
+						<view class="bottomIcon" @click="">
+							<span class="iconfont iconfangqi bottomIcon" style="color: #d81e06;"></span>
+							<text class="text">放弃</text>
+						</view>
+					</uni-grid-item>
+				</uni-grid>
+			</view>
 		</view>
 	</view>
 </template>
@@ -143,6 +147,7 @@
 <script>
 	import {format} from '@/utils/formatDate.js'
 	import {ticketRepairSave} from '@/api/Ticket.js'
+	import * as dd from 'dingtalk-jsapi'
 	
 	export default {
 		name: "mytaskRepair",
@@ -150,6 +155,7 @@
 			return {
 				id: '',/* 阶段id */
 				ticketId: "",/* 工单id */
+				stageStatus: '',/* 阶段完成状态 */
 				labelStyle: {
 					'fontSize': '25rpx',
 					'display': 'inline-block'
@@ -182,19 +188,19 @@
 						checked: false
 					}
 				],
-				uploadFileUrl: 'http://localhost:8080', //替换成你的后端接收文件地址
-				header: {
-					// 如果需要header，请上传
-				},
+				uploadFileUrl: 'http://192.168.3.8:8096/f/mobile/stageProcess/save', //替换成你的后端接收文件地址
 				attachmentList: [],
+				imageList: [],
 				stage: {},/* 阶段对象 */
 				stageLists: [],/* 阶段列表（VUEX） */
+				person: '',/* 同行人员 */
 				signInTime: '',/* 签到时间 */
 				signOutTime: '',/* 签出时间 */
 				arr: [],/* 图片选择数组 */
 				completeStatus: '',/* 完成情况 */
 				isQGP: '',/* 是否保质期内 */
-				dataForm: {}
+				dataForm: {},
+				faultJudgement: ''/* 故障判断 */
 			}
 		},
 		components: {
@@ -212,18 +218,36 @@
 			console.log(option);
 			this.id = option.id
 			this.ticketId = option.ticketId
+			this.stageStatus = option.stageStatus
 			this.stageLists = this.$store.getters['stage/getStageList']
 			this.stage = this.stageLists.filter(e=>e.id === this.id)[0]
-			// console.log(this.stage);
+			console.log(this.stage);
+			if (this.stage.stageProcess != undefined) {
+				this.person = this.stage.stageProcess.person
+				this.signInTime = format(this.stage.stageProcess.completedDate)
+				this.signOutTime = format(this.stage.stageProcess.completedDate)
+				this.faultJudgement = this.stage.stageProcess.memo
+				this.completion.forEach((i) => {
+					if (i.value == this.stage.stageProcess.completeStatus) {
+						i.checked = true
+					}
+				})
+				this.yes_no.forEach((i) => {
+					if (i.value == this.getTicket.warrantyPeriod) {
+						i.checked = true
+					}
+				})
+				var fileArr = this.stage.stageProcess.fileNames.split(',')
+				for (let i = 0; i < fileArr.length; i++) {
+					var file = {'fileName': fileArr[i], 'index': i, 'process': 100, 'type': 'file'}
+					this.attachmentList.push(file)
+				}
+			}
 			
-			/* 获取当前位置信息 */
-			uni.getLocation({
-			    type: 'wgs84',
-			    success: function (res) {
-			        console.log('当前位置的经度：' + res.longitude);
-			        console.log('当前位置的纬度：' + res.latitude);
-			    }
-			});
+			// var arr = ['http://192.168.3.8:8096/upload/file/car2.jpg']
+			// for (var i = 0; i < arr.length; i++) {
+			// 	this.getFile(arr[i])
+			// }
 			
 			this.completion.forEach((item) => {
 				if (item.checked) {
@@ -248,11 +272,27 @@
 			},
 			formatModel() {
 				return this.stageLists.filter(e=>e.id === this.id)[0].name
+			},
+			header() {
+				var headerObj = {
+					'ticketId': this.ticketId,
+					'stageId': this.id
+				}
+				return headerObj
 			}
 		},
 		methods: {
 			selectUser() {
 				console.log('选择人员');
+				// dd.ready(() => {
+					
+				// })
+				// dd.error((error) => {
+				// 	uni.showModal({
+				// 		title: '错误',
+				// 		content: 'dd error: ' + JSON.stringify(error)
+				// 	})
+				// })
 			},
 			signIn() {
 				this.signInTime = format(this.$moment())
@@ -265,20 +305,22 @@
 				let formData = new FormData();
 				formData.append('participant', this.$refs.participant.innerText)/* 同行人员 */
 				formData.append('signInTime', this.$refs.signInTime.innerText)/* 签到时间 */
-				for (let i = 0; i < this.arr.length; i++) {
-					formData.append('photo', this.arr[i])/* 现场拍照 */
-				}
 				formData.append('completeStatus', this.completeStatus)/* 完成情况 */
 				formData.append('faultJudgement', this.$refs.faultJudgement.valueComposition)/* 故障判断 */
 				formData.append('faultLocation', this.$refs.faultLocation.inputValue)/* 故障部位 */
 				formData.append('isQGP', this.isQGP)/* 是否保质期内 */
 				formData.append('cost', this.$refs.cost.inputValue)/* 费用合计 */
 				formData.append('signOutTime', this.signOutTime)/* 签出时间 */
-				ticketRepairSave(formData).then(response => {
+				let header = {
+					'ticketId': this.ticketId,
+					'stageId': this.id
+				}
+				ticketRepairSave(formData, header).then(response => {
 					
 				}).catch(error => {
 					console.log(error);
 				})
+				this.uploadImg()
 			},
 			upper() {
 				// console.log("到顶了");
@@ -290,13 +332,13 @@
 				// console.log("滚动了");
 			},
 			async chooseImage(imgArr) {
-				console.log(imgArr);
+				// console.log(imgArr);
 				this.arr = [];
 				for(let i=0;i<imgArr.length;i++){
 					// arr.push(await this.toBase64(imgArr[i]))
 					this.arr.push(imgArr[i])
 				}
-				console.log(this.arr)		
+				// console.log(this.arr)		
 			},
 			toBase64(path){
 				return new Promise((resolve, reject) => {
@@ -336,6 +378,72 @@
 			},
 			yes_noChange(value) {
 				this.isQGP = value
+			},
+			uploadImg() {
+				for (let i = 0; i < this.arr.length; i++) {
+					uni.uploadFile({
+						url: this.uploadFileUrl,
+						filePath: this.arr[i],
+						name: 'photo',
+						header: {
+							'ticketId': this.ticketId,
+							'stageId': this.id
+						},
+						success: (res) => {
+							
+						},
+						fail: (err) => {
+							
+						}
+					})
+				}
+			},
+			getImageBlob (url, cb) {
+				var xhr  = new XMLHttpRequest();
+				xhr.open("get", url, true);
+				xhr.responseType = "blob";
+				xhr.onload = function() {
+					if (this.status == 200) {
+						if(cb) cb(this.response);
+					}
+				};
+				xhr.send();
+			},
+			getFile (url) {
+			    let reader = new FileReader()
+				this.getImageBlob(url, function(blob) {
+					reader.readAsDataURL(blob)
+				})
+				let $this = this
+			    reader.onload = function (e) {
+			      const base64Data = e.target.result
+			      // 调用dataURItoBlob转换方法
+			      // console.log($this.dataURItoBlob(base64Data))
+				  $this.imageList.push($this.dataURItoBlob(base64Data))
+			    }
+			},
+			dataURItoBlob (base64Data) {
+			    // console.log(base64Data, base64Data.length)
+			    let byteString = base64Data
+			    if (base64Data.split(',')[0].indexOf('base64') >= 0) {
+			      byteString = atob(base64Data.split(',')[1]) // base64 解码
+			    } else {
+			      byteString = unescape(base64Data.split(',')[1])
+			    }
+			    // 获取文件类型
+			    let mimeString = base64Data.split(',')[0].match(/:(.*?);/)[1] // mime类型
+			
+			    let uintArr = new Uint8Array(byteString.length) // 创建视图
+			
+			    for (let i = 0; i < byteString.length; i++) {
+			      uintArr[i] = byteString.charCodeAt(i)
+			    }
+			    // 生成blob图片
+			    const blob = new Blob([uintArr], {
+			      type: mimeString
+			    })
+			    // console.log(uintArr, blob)
+			    return URL.createObjectURL(blob)
 			}
 		}
 	}

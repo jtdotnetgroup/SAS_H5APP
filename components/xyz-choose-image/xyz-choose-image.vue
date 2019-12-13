@@ -39,6 +39,10 @@ export default {
 			//是否转base64 受数据传输长度限制，不建议在组件中使用，如果一定要使用，在返回结果中自己转换
 			type: Boolean,
 			default: false
+		},
+		imageList: {
+			type: Array,
+			default: []
 		}
 	},
 	data() {
@@ -114,6 +118,8 @@ export default {
 		}
 	},
 	mounted() {
+		console.log(this.imageList);
+		this.imgList = this.imageList
 		if (this.isSave) {
 			let str = uni.getStorageSync(this.saveStr);
 			if (str != '') {

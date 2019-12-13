@@ -56,8 +56,8 @@
 				return items
 			}
 		},
-		beforeMount() {
-			getWorkOrderList().then(response => {
+		async beforeMount() {
+			await getWorkOrderList().then(response => {
 				this.$store.dispatch('workOrder/GetDataList', response.data.body.ticketList)
 			}).catch(error => {
 				console.log(error);

@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const http = axios.create({
 	baseURL: 'http://192.168.3.8:8096',
-	timeout: 5000
+	timeout: 10000
 })
 
 // Add a request interceptor

@@ -3,14 +3,15 @@
 		<view class="imgs">
 			<!-- file -->
 			<view class="file" v-for="(item, key) in list" :key="key" v-if="item.type == 'file'">
-				<view class="noImg" @click="downLoad(item.url)" @longpress="deleteItem(key)">{{ item.fileName }}</view>
-				<progress :percent="item.process" activeColor="#67C23A" :backgroundColor="item.process == 100 || item.process == undefined ? '#67C23A' : '#F56C6C'"
-				 stroke-width="3" v-if="mode == 'create' && showProcess" />
-				<view class="del" @tap="deleteItem(key)">×</view>
+				<view class="noImg" @click="false ? downLoad(item.url) : ''" @longpress="deleteItem(key)">{{ item.fileName }}</view>
+				<progress :percent="item.process" activeColor="#67C23A" :backgroundColor="item.process == 100 || item.process == undefined ? '#67C23A' : '#F56C6C'" stroke-width="3" v-if="mode == 'create' && showProcess" />
+				<view v-show="stageStatus != 1">
+					<view class="del" @tap="deleteItem(key)">×</view>
+				</view>
 			</view>
 			<!-- add button -->
-			<view v-if="mode == 'create'" class="single addNew" @click="chooseFile">
-				<image src="/static/upload.png" mode="widthFix" style="width: 150rpx; height: 152rpx;"></image>
+			<view v-show="stageStatus != 1" style="width: 100%;">
+				<button class="btn" type="primary" @click="chooseFile">上传文件</button>
 			</view>
 		</view>
 	</view>
@@ -47,6 +48,9 @@
 			canUploadFile: {
 				type: Boolean,
 				default: false
+			},
+			stageStatus: {	// 阶段完成状态（为 1 就是已完成，只能查看；为 0 就是继续，可编辑）
+				type: String
 			}
 		},
 		computed: {
@@ -167,7 +171,7 @@
 					if (typeof temps[1] == 'undefined') {
 						return;
 					}
-					var tempFiles = temps[1].tempFilePaths;
+					var tempFiles = temps[1].tempFiles;
 				} else {
 					// #ifdef MP-WEIXIN
 					var res = await uni.showActionSheet({
@@ -209,13 +213,14 @@
 				}
 		
 				for (let i in tempFiles) {
-					let path = tempFiles[i];
-					if(typeof fileNames != 'undefined' && typeof fileNames[i] != 'undefined') {
-						var fileName = fileNames[i];
-					}else{
-						var fileName = path.split('/');
-						fileName = fileName[fileName.length - 1];
-					}
+					let path = tempFiles[i].path;
+					var fileName = tempFiles[i].name;
+					// if(typeof fileNames != 'undefined' && typeof fileNames[i] != 'undefined') {
+					// 	var fileName = fileNames[i];
+					// }else{
+					// 	var fileName = path.split('/');
+					// 	fileName = fileName[fileName.length - 1];
+					// }
 					let index = this.list.length;
 					// 开始上传，先暂存文件
 					this.list.push({
@@ -231,7 +236,7 @@
 						url: this.uploadFileUrl,
 						filePath: path,
 						name: this.fileKeyName,
-						headers: this.header,
+						header: this.header,
 						success: res => {
 							// 上传完成后处理
 							this.$emit('uploadSuccess', res);
@@ -306,31 +311,12 @@
 			font-size: 30rpx;
 			z-index: 100;
 		}
-		& .single {
-			// width: 125upx;
-			// height: 150upx;
-			// border: 1px solid #ccc;
-			// border-radius: 10upx;
-			margin-top: 20upx;
-			margin-right: 12rpx;
-			position: relative;
-			// &:nth-of-type(5n) {
-			// 	margin-right: 0;
-			// }
-			&.addNew {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				text {
-					font-size: 50rpx;
-					color: #999;
-				}
-			}
-			& image {
-				width: 100%;
-				height: 100%;
-				display: block;
-			}
+		.btn {
+			width: 100%;
+			margin: 20upx 0;
+			color: #007AFF;
+			background-color: #FFFFFF;
+			border: #007AFF 2upx solid;
 		}
 	}
 </style>

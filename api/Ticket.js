@@ -29,13 +29,11 @@ export function getWorkOrderList() {
 }
 
 /* 阶段维护保存 */
-export function ticketRepairSave(params) {
+export function ticketRepairSave(params, header) {
 	return http({
-		url: '/f/work/uploadPicture',
+		url: '/f/mobile/stageProcess/save',
 		method: 'post',
-		headers: {
-			'Content-Type': 'multipart/form-data'
-		},
+		headers: header,
 		data: params
 	})
 }
