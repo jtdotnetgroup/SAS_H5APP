@@ -3,7 +3,7 @@
 		<view class="example-body">
 			<step-device :options="stageList" active-color="#007AFF" :active="active" direction="column">
 				<template v-slot:todo="{todo,index}">
-					<view @click="toRepair(todo.id,ticketId, todo.stageStatus)">
+					<view @click="toRepair(todo.id,ticketId, todo.stageStatus, index)">
 						<view class="sameLine">
 							<view class="uni-steps__column-title" :style="{color:index <=active ? index == active ?activeColor : goColor :deactiveColor}">
 								{{todo.name}}
@@ -64,7 +64,18 @@
 			}
 		},
 		methods: {
-			toRepair(stageId,ticketId,stageStatus) {
+			toRepair(stageId,ticketId,stageStatus, index) {
+				if (index > 0) {
+					if (this.stageList[index-1].stageStatus === 0) {
+						uni.showToast({
+							title: '请按照阶段顺序执行！',
+							mask: true,
+							duration: 2000,
+							icon: 'none'
+						})
+						return;
+					}
+				}
 				uni.navigateTo({
 					url: '../../mytask/repair/workOrderRepair?id=' + stageId + "&ticketId=" + ticketId + "&stageStatus=" + stageStatus
 				})
