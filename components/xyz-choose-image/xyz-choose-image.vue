@@ -1,7 +1,7 @@
 <template>
 	<view class=" chooseImage " style="display: flex;flex-wrap: wrap;">
 		<view style="position: relative;" v-for="(item, index) in imgList" :key="index" :style="{ width: size + 'rpx', height: size + 'rpx' }">
-			<image :src="imgList[index]" :style="{ width: size + 'rpx', height: size + 'rpx' }" mode="aspectFill" @click="viewImg(imgList[index])"></image>
+			<image :src="imgList[index].path" :style="{ width: size + 'rpx', height: size + 'rpx' }" mode="aspectFill" @click="viewImg(imgList[index])"></image>
 			<view class="icon_close " style="position: absolute;" @click="delImg(index)">
 				<i class="iconfont iconjiaocha" style=""></i>
 			</view>
@@ -13,6 +13,9 @@
 </template>
 
 <script>
+	import {delUploadFile} from '@/api/Ticket.js'
+	import {guid} from '@/utils/common.js'
+	
 export default {
 	props: {
 		size: {
@@ -48,66 +51,94 @@ export default {
 	data() {
 		return {
 			imgList: [],
-			base64: ''
+			base64: '',
+			uploadPhotoUrl: this.$IP + '/f/mobile/upload/uploadPicture', //替换成你的后端接收文件地址
+			fileImage:[]
 		};
 	},
 	methods: {
 		chooseImage: async function() {
 			let _this = this;
 			await _this.getImage();
-			this.$emit('chooseImage', _this.imgList);
 		},
 		getImage() {
 			let _this = this;
 			let _count = _this.num - _this.imgList.length;
-			return new Promise((resolve, reject) => {
-				uni.chooseImage({
-					count: _count, //默认9
-					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-					sourceType: ['album', 'camera'], //从相册选择
-					success: function(res) {
-						if (_this.isBase64) {
-							//#ifdef MP-WEIXIN || MP-TOUTIAO
-							uni.getFileSystemManager().readFile({
-								filePath: res.tempFilePaths[0], //选择图片返回的相对路径
-								encoding: 'base64', //编码格式
-								success: function(ress) {
-									//成功的回调
-									let base64 = 'data:image/jpeg;base64,' + ress.data;
-									if (_this.imgList.length != 0) {
-										_this.imgList = _this.imgList.concat(base64);
-									} else {
-										_this.imgList = [base64];
-									}
-								},
-								fail: function(err) {
-									console.log(err);
-								}
-							});
-							//#endif
-						} else {
-							if (_this.imgList.length != 0) {
-								_this.imgList = _this.imgList.concat(res.tempFilePaths);
-							} else {
-								_this.imgList = res.tempFilePaths;
-							}
-						}
-
-						if (_this.isSave) {
-							uni.setStorageSync(_this.saveStr, _this.imgList.join(','));
-						}
-						resolve(_this.imgList);
+			uni.chooseImage({
+				count: _count, //默认9
+				sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+				sourceType: ['album', 'camera'], //从相册选择
+				success: function(res) {
+					for (var i = 0; i < res.tempFilePaths.length; i++) {
+						var obj = {id: guid(), path: res.tempFilePaths[i]}
+						_this.imgList.push(obj)
 					}
-				});
+					
+
+					if (_this.isSave) {
+						uni.setStorageSync(_this.saveStr, _this.imgList.join(','));
+					}
+					
+					for (let i = 0; i < _this.imgList.length; i++) {
+						uni.uploadFile({
+							url: _this.uploadPhotoUrl,
+							filePath: _this.imgList[i].path,
+							name: 'photo',
+							formData: {
+								id : _this.imgList[i].id
+							},
+							success: (res) => {
+								let json=JSON.parse(res.data);
+								var  fileEntity =json.body.filesEntity;
+								_this.fileImage.push(fileEntity);
+								console.log(_this.fileImage);
+								_this.$emit('uploadPhotoSuccess', res,_this.fileImage);
+								if (res.statusCode  == 200) {
+									_this.$emit('update:photoList', _this.imgList);
+									_this.$forceUpdate();
+								} else {
+									
+								}
+							},
+							fail: (err) => {
+								
+							}
+						})
+					}
+				}
 			});
 		},
 		delImg(idx) {
-			this.imgList.splice(idx, 1);
-			this.imgList = this.imgList;
+			uni.showModal({
+				title: '提示',
+				content: '确定要删除此项吗？',
+				success: res => {
+					if (res.confirm) {
+						this.fileImage.forEach((i, index) => {
+							if (i.id == this.imgList[idx].id) {
+								delUploadFile(i.id).then(response => {
+									if (response.status === 200) {
+										uni.showToast({
+											title: '删除成功',
+											icon: 'none'
+										});
+									}
+								}).catch(error => {
+									console.log(error);
+								})
+								this.fileImage.splice(index, 1)
+							}
+						})
+						this.imgList.splice(idx, 1);
+						this.$forceUpdate();
+						this.$emit('deletePhotoSuccess', res,this.fileImage);
+						this.$emit('update:photoList', this.imgList);
+					}
+				}
+			});
 			if (this.isSave) {
 				uni.setStorageSync(this.saveStr, this.imgList.join(','));
 			}
-			this.$emit('delImg', this.imgList);
 		},
 		viewImg(path) {
 			uni.previewImage({

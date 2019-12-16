@@ -37,3 +37,10 @@ export function ticketRepairSave(params, header) {
 		data: params
 	})
 }
+
+export function delUploadFile(id) {
+	return http({
+		url: '/f/mobile/upload/deleteUpFile?id=' + id,
+		method: 'get'
+	})
+}

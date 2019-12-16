@@ -18,6 +18,9 @@
 </template>
 
 <script>
+	import {delUploadFile} from '@/api/Ticket.js'
+	import {guid} from '@/utils/common.js'
+	
 	export default {
 		props: {
 			attachmentList: {
@@ -25,10 +28,6 @@
 			},
 			mode: {
 				type: String //模式： create => 可新增或编辑附件 不填或其他 => 只能查看附件
-			},
-			uploadFileUrl: {
-				type: String,
-				dafault: '#' // 上传文件的服务器url
 			},
 			showProcess: {
 				type: Boolean,
@@ -60,7 +59,8 @@
 		},
 		data() {
 			return {
-				fileList:[]
+				fileList:[],
+				uploadFileUrl: this.$IP + '/f/mobile/upload/uploadFile', //替换成你的后端接收文件地址
 			};
 		},
 		methods: {
@@ -129,8 +129,24 @@
 							if (this.list[index].process != 100) {
 								typeof this.list[index].uploadTask != 'undefined' && this.list[index].uploadTask.abort();
 							}
+							this.fileList.forEach((i, idx) => {
+								if (i.id == this.list[index].id) {
+									delUploadFile(i.id).then(response => {
+										if (response.status === 200) {
+											uni.showToast({
+												title: '删除成功',
+												icon: 'none'
+											});
+										}
+									}).catch(error => {
+										console.log(error);
+									})
+									this.fileList.splice(idx, 1)
+								}
+							})
 							this.list.splice(index, 1);
 							this.$forceUpdate();
+							this.$emit('deleteSuccess', res,this.fileList);
 							this.$emit('update:attachmentList', this.list);
 						}
 					}
@@ -173,7 +189,13 @@
 					if (typeof temps[1] == 'undefined') {
 						return;
 					}
-					var tempFiles = temps[1].tempFiles;
+					var tempFileList = temps[1].tempFiles
+					var tempFiles = []
+					for (var i = 0; i < tempFileList.length; i++) {
+						var obj = {id: guid(), path: tempFileList[i].path, name: tempFileList[i].name, size: tempFileList[i].size}
+						tempFiles.push(obj)
+					}
+					console.log(tempFiles);
 				} else {
 					// #ifdef MP-WEIXIN
 					var res = await uni.showActionSheet({
@@ -215,18 +237,13 @@
 				}
 		
 				for (let i in tempFiles) {
-					
+					let id = tempFiles[i].id
 					let path = tempFiles[i].path;
 					var fileName = tempFiles[i].name;
-					// if(typeof fileNames != 'undefined' && typeof fileNames[i] != 'undefined') {
-					// 	var fileName = fileNames[i];
-					// }else{
-					// 	var fileName = path.split('/');
-					// 	fileName = fileName[fileName.length - 1];
-					// }
 					let index = this.list.length;
 					// 开始上传，先暂存文件
 					this.list.push({
+						id: id,
 						fileName: fileName,
 						url: path,
 						type: this.isImg(path) ? 'image' : 'file',
@@ -240,6 +257,9 @@
 						filePath: path,
 						name: this.fileKeyName,
 						header: this.header,
+						formData: {
+							id : id
+						},
 						success: res => {
 							 let json=JSON.parse(res.data);
 							 var  fileEntity =json.body.filesEntity;

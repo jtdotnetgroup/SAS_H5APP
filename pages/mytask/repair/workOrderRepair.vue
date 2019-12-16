@@ -70,7 +70,7 @@
 				</view>
 				<view v-show="stage.photoFlag === 1">
 					<conf-div title="现场拍照:">
-						<chooseImage :num="9" :size="150" @chooseImage="chooseImage" @delImg="chooseImage" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList" />
+						<chooseImage :num="9" :size="150" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList" :photoList.sync="photoList" @uploadPhotoSuccess="uploadPhotoSuccess" @deletePhotoSuccess="uploadPhotoSuccess" />
 					</conf-div>
 				</view>
 				<conf-div title="完成情况:">
@@ -99,8 +99,7 @@
 				</conf-div>
 				<view v-show="stage.submitAttach === 1">
 					<conf-div title="附件:">
-						<Attachment mode="create" :canUploadFile="true" :uploadFileUrl="uploadFileUrl" :header="header" :showProcess="true" :attachmentList.sync="attachmentList"
-						 @uploadSuccess="uploadSuccess" :stageStatus="stageStatus"></Attachment>
+						<Attachment mode="create" :canUploadFile="true" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess" @deleteSuccess="uploadSuccess" :stageStatus="stageStatus"></Attachment>
 					</conf-div>
 				</view>
 				<view v-show="stage.signOutFlag === 1">
@@ -189,9 +188,8 @@
 						checked: false
 					}
 				],
-				uploadPhotoUrl: 'http://192.168.3.8:8096/f/mobile/upload/uploadPicture', //替换成你的后端接收文件地址
-				uploadFileUrl: 'http://192.168.3.8:8096/f/mobile/upload/uploadFile', //替换成你的后端接收文件地址
 				attachmentList: [],
+				photoList: [],
 				fileList:[],
 				imageList: [],
 				fileImage:[],
@@ -225,7 +223,7 @@
 			this.stageStatus = option.stageStatus
 			this.stageLists = this.$store.getters['stage/getStageList']
 			this.stage = this.stageLists.filter(e=>e.id === this.id)[0]
-			console.log(this.stage);
+			// console.log(this.stage);
 			if (this.stage.stageProcess != undefined) {
 				this.person = this.stage.stageProcess.person
 				this.signInTime = format(this.stage.stageProcess.completedDate)
@@ -276,13 +274,6 @@
 			},
 			formatModel() {
 				return this.stageLists.filter(e=>e.id === this.id)[0].name
-			},
-			header() {
-				var headerObj = {
-					'ticketId': this.ticketId,
-					'stageId': this.id
-				}
-				return headerObj
 			}
 		},
 		methods: {
@@ -342,7 +333,7 @@
 							fileId = fileId + fileList[i].id;
 							fileName = fileName + fileList[i].fileName; 
 						}else{
-							fileId = imageId + fileList[i].id+",";
+							fileId = fileId + fileList[i].id+",";
 							fileName = fileName + fileList[i].fileName+","; 
 						}
 					}
@@ -354,7 +345,17 @@
 					'stageId': this.id
 				}
 				ticketRepairSave(formData, header).then(response => {
-					
+					console.log(response);
+					if (response.status === 200) {
+						uni.showToast({
+							title: '保存成功',
+							duration: 2000,
+							mask: true
+						})
+						uni.reLaunch({
+							url: '../detail/workOrderDetail?id=' + this.ticketId
+						})
+					}
 				}).catch(error => {
 					console.log(error);
 				})
@@ -368,49 +369,14 @@
 			scroll() {
 				// console.log("滚动了");
 			},
-			async chooseImage(imgArr) {
-				// console.log(imgArr);
-				this.arr = [];
-				for(let i=0;i<imgArr.length;i++){
-					// arr.push(await this.toBase64(imgArr[i]))
-					this.arr.push(imgArr[i])
+			uploadPhotoSuccess(result, entityList) {
+				if(result.statusCode == 200) {
+					this.fileImag = entityList;
 				}
-				// console.log(this.arr)	
-				this.uploadImg();
-			},
-			toBase64(path){
-				return new Promise((resolve, reject) => {
-					//#ifdef MP-WEIXIN || MP-TOUTIAO
-					uni.getFileSystemManager().readFile({
-						filePath: path, //选择图片返回的相对路径
-						encoding: 'base64', //编码格式
-						success: function(ress) {
-							//成功的回调
-							let base64 = 'data:image/jpeg;base64,' + ress.data;
-							resolve(base64)
-					
-						},
-						fail: function(err) {
-							reject(err);
-						}
-					});
-					//#endif
-				})
 			},
 			uploadSuccess(result,entityList) {
 				if(result.statusCode == 200) {
 					this.fileList = entityList;
-					console.log(" fileList " + this.fileList);
-					//上传成功的回调处理
-					uni.showToast({
-						title: '上传成功',
-						icon: 'none'
-					});
-				}else{
-					uni.showToast({
-						title: '上传失败',
-						icon: 'none'
-					});
 				}
 			},
 			comChange(value) {
@@ -418,27 +384,6 @@
 			},
 			yes_noChange(value) {
 				this.isQGP = value
-			},
-			async uploadImg() {
-				for (let i = 0; i < this.arr.length; i++) {
-					uni.uploadFile({
-						url: this.uploadPhotoUrl,
-						filePath: this.arr[i],
-						name: 'photo',
-						header: {
-							'ticketId': this.ticketId,
-							'stageId': this.id
-						},
-						success: (res) => {
-							let json=JSON.parse(res.data);
-							var  fileEntity =json.body.filesEntity;
-							this.fileImage.push(fileEntity);
-						},
-						fail: (err) => {
-							
-						}
-					})
-				}
 			},
 			getImageBlob (url, cb) {
 				var xhr  = new XMLHttpRequest();
