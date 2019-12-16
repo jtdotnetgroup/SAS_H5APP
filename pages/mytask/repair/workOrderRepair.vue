@@ -590,4 +590,8 @@
 		color: #09a0f7;
 		margin-left: 500rpx;
 	}
+	
+	textarea {
+		width: 100%;
+	}
 </style>
