@@ -99,7 +99,8 @@
 				</conf-div>
 				<view v-show="stage.submitAttach === 1">
 					<conf-div title="附件:">
-						<Attachment mode="create" :canUploadFile="true" :uploadFileUrl="uploadFileUrl" :header="header" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess" :stageStatus="stageStatus"></Attachment>
+						<Attachment mode="create" :canUploadFile="true" :uploadFileUrl="uploadFileUrl" :header="header" :showProcess="true" :attachmentList.sync="attachmentList"
+						 @uploadSuccess="uploadSuccess" :stageStatus="stageStatus"></Attachment>
 					</conf-div>
 				</view>
 				<view v-show="stage.signOutFlag === 1">
@@ -147,7 +148,7 @@
 <script>
 	import {format} from '@/utils/formatDate.js'
 	import {ticketRepairSave} from '@/api/Ticket.js'
-	import * as dd from 'dingtalk-jsapi'
+	//import * as dd from 'dingtalk-jsapi'
 	
 	export default {
 		name: "mytaskRepair",
@@ -188,9 +189,12 @@
 						checked: false
 					}
 				],
-				uploadFileUrl: 'http://192.168.3.8:8096/f/mobile/stageProcess/save', //替换成你的后端接收文件地址
+				uploadPhotoUrl: 'http://192.168.3.8:8096/f/mobile/upload/uploadPicture', //替换成你的后端接收文件地址
+				uploadFileUrl: 'http://192.168.3.8:8096/f/mobile/upload/uploadFile', //替换成你的后端接收文件地址
 				attachmentList: [],
+				fileList:[],
 				imageList: [],
+				fileImage:[],
 				stage: {},/* 阶段对象 */
 				stageLists: [],/* 阶段列表（VUEX） */
 				person: '',/* 同行人员 */
@@ -301,8 +305,26 @@
 				this.signOutTime = format(this.$moment())
 			},
 			commit() {
-				console.log("提交");
+				this.commitInfo();
+			},
+			async commitInfo(){
+				console.log("2");
 				let formData = new FormData();
+				var imageInfo = this.fileImag;
+				var  imageId = ""; var imageName = "";
+				if( imageInfo != null){
+					for (var i = 0; i < imageInfo.length; i++) {
+						if(imageInfo.length-1 === i){
+							imageId = imageId + imageInfo[i].id;
+							imageName = imageName + imageInfo[i].fileName;
+						}else{
+							imageId = imageId + imageInfo[i].id+",";
+							imageName = imageName + imageInfo[i].fileName+",";
+						}
+					}
+				}
+				formData.append("photoId",imageId);
+				formData.append("phototName",imageName);
 				formData.append('participant', this.$refs.participant.innerText)/* 同行人员 */
 				formData.append('signInTime', this.$refs.signInTime.innerText)/* 签到时间 */
 				formData.append('completeStatus', this.completeStatus)/* 完成情况 */
@@ -311,6 +333,22 @@
 				formData.append('isQGP', this.isQGP)/* 是否保质期内 */
 				formData.append('cost', this.$refs.cost.inputValue)/* 费用合计 */
 				formData.append('signOutTime', this.signOutTime)/* 签出时间 */
+				var  fileId = "";
+				var fileName = "";
+				var  fileList = this.fileList;
+				if( fileList != null){
+					for (var i = 0; i < fileList.length; i++) {
+						if(fileList.length-1 === i){
+							fileId = fileId + fileList[i].id;
+							fileName = fileName + fileList[i].fileName; 
+						}else{
+							fileId = imageId + fileList[i].id+",";
+							fileName = fileName + fileList[i].fileName+","; 
+						}
+					}
+				}
+				formData.append('fileIds', fileId);
+				formData.append('fileNames', fileName);
 				let header = {
 					'ticketId': this.ticketId,
 					'stageId': this.id
@@ -320,7 +358,6 @@
 				}).catch(error => {
 					console.log(error);
 				})
-				this.uploadImg()
 			},
 			upper() {
 				// console.log("到顶了");
@@ -338,7 +375,8 @@
 					// arr.push(await this.toBase64(imgArr[i]))
 					this.arr.push(imgArr[i])
 				}
-				// console.log(this.arr)		
+				// console.log(this.arr)	
+				this.uploadImg();
 			},
 			toBase64(path){
 				return new Promise((resolve, reject) => {
@@ -359,8 +397,10 @@
 					//#endif
 				})
 			},
-			uploadSuccess(result) {
+			uploadSuccess(result,entityList) {
 				if(result.statusCode == 200) {
+					this.fileList = entityList;
+					console.log(" fileList " + this.fileList);
 					//上传成功的回调处理
 					uni.showToast({
 						title: '上传成功',
@@ -379,10 +419,10 @@
 			yes_noChange(value) {
 				this.isQGP = value
 			},
-			uploadImg() {
+			async uploadImg() {
 				for (let i = 0; i < this.arr.length; i++) {
 					uni.uploadFile({
-						url: this.uploadFileUrl,
+						url: this.uploadPhotoUrl,
 						filePath: this.arr[i],
 						name: 'photo',
 						header: {
@@ -390,7 +430,9 @@
 							'stageId': this.id
 						},
 						success: (res) => {
-							
+							let json=JSON.parse(res.data);
+							var  fileEntity =json.body.filesEntity;
+							this.fileImage.push(fileEntity);
 						},
 						fail: (err) => {
 							

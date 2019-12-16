@@ -73,7 +73,6 @@ export default {
 								encoding: 'base64', //编码格式
 								success: function(ress) {
 									//成功的回调
-									console.log(ress);
 									let base64 = 'data:image/jpeg;base64,' + ress.data;
 									if (_this.imgList.length != 0) {
 										_this.imgList = _this.imgList.concat(base64);

@@ -59,7 +59,9 @@
 			}
 		},
 		data() {
-			return {};
+			return {
+				fileList:[]
+			};
 		},
 		methods: {
 			previewImg(url) {
@@ -213,6 +215,7 @@
 				}
 		
 				for (let i in tempFiles) {
+					
 					let path = tempFiles[i].path;
 					var fileName = tempFiles[i].name;
 					// if(typeof fileNames != 'undefined' && typeof fileNames[i] != 'undefined') {
@@ -238,8 +241,14 @@
 						name: this.fileKeyName,
 						header: this.header,
 						success: res => {
+							 let json=JSON.parse(res.data);
+							 var  fileEntity =json.body.filesEntity;
+							 this.fileList.push(fileEntity);
+							 //var entityList= {"id":fileEntity.id,"fileName":fileEntity.fileName,"path":fileEntity.path};
+							 /* this.fileList.push(entityList);
+							 console.log("-----"+this.fileList); */
 							// 上传完成后处理
-							this.$emit('uploadSuccess', res);
+							this.$emit('uploadSuccess', res,this.fileList);
 							if (res.statusCode  == 200) {
 								this.$set(this.list[index], 'process', 100);
 								this.$emit('update:attachmentList', this.list);
@@ -262,7 +271,7 @@
 			isImg(filePath) {
 				let index = filePath.lastIndexOf('.');
 				let ext = filePath.substr(index + 1);
-				var temp = ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp', 'svg', 'tiff'].indexOf(ext.toLowerCase()) !== -1;
+				var temp = ['docx', 'doc', 'doc', 'pdf', 'txt', 'ppt', 'pptx', 'zip','rar'].indexOf(ext.toLowerCase()) !== -1;
 				return temp;
 			}
 		}
