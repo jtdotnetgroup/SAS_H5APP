@@ -104,7 +104,7 @@
 			modelLabel: () => import('@/components/model-label/model-label.vue')
 		},
 		onLoad(option) {
-			this.id = option.id
+			this.id = uni.getStorageSync('ticketId')
 		},
 		computed: {
 			getTicket() {

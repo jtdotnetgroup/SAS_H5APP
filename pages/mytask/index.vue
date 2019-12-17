@@ -6,9 +6,6 @@
 </template>
 
 <script>
-
-	import {getDicList} from '@/api/Ticket.js'
-	
 	export default{
 		name:"mytask",
 		data() {
@@ -20,17 +17,10 @@
 			carBox: () => import('@/components/carousel-box/carousel-box.vue'), 
 			subSection: () => import('@/components/subsection/subsection.vue')
 		},
-		async onLoad() {
-			await getDicList('工单状态').then(response => {
-				this.$store.dispatch('dic/GetStatusList', response.data.body.dicList)
-			}).catch(error => {
-				console.log(error);
-			}),
-			await getDicList('工单类型').then(response => {
-				this.$store.dispatch('dic/GetTypeList', response.data.body.dicList)
-			}).catch(error => {
-				console.log(error);
-			})
+		onLoad() {
+			this.$store.dispatch('dic/GetStatusList', '工单状态')
+			this.$store.dispatch('dic/GetTypeList', '工单类型')
+			this.$store.dispatch('dic/GetFaultLocaList', '故障部位')
 		}
 	}
 </script>

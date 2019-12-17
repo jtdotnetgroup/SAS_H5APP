@@ -82,8 +82,9 @@
 		},
 		methods: {
 			goDetail(id) {
+				uni.setStorageSync('ticketId', id)
 				uni.navigateTo({
-					url: '../../pages/mytask/detail/workOrderDetail?id=' + id
+					url: '../../pages/mytask/detail/workOrderDetail'
 				})
 			}
 		}

@@ -1,3 +1,5 @@
+import {getStageList} from '@/api/Ticket.js'
+
 const state = {
 	stageList: []
 }
@@ -16,7 +18,11 @@ const mutations = {
 
 const actions = {
 	GetDataList({commit,state},payload){
-		commit("setStageList",payload)
+		getStageList(payload.ticketType, payload.ticketId).then(response => {
+			commit("setStageList",response.data.body.pageList)
+		}).catch(error => {
+			console.log(error);
+		})
 	}
 }
 

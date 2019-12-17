@@ -56,14 +56,14 @@
 				</conf-div>
 				<conf-div title="同行人员:">
 					<view class="big">
-						<span class="label user" ref="participant">{{person}}</span>
+						<span class="label user">{{person}}</span>
 						<span class="iconfont icontianjiayonghu iconStyle Btn" @click="stageStatus != 1 ? selectUser() : ''"></span>
 					</view>
 				</conf-div>
 				<view v-show="stage.signFlag === 1">
 					<conf-div title="签到时间:">
 						<view class="big">
-							<span class="label user" ref="signInTime">{{signInTime}}</span>
+							<span class="label user">{{signInTime}}</span>
 							<span class="iconfont iconqian iconStyle Btn" @click="stageStatus != 1 ? signIn() : ''"></span>
 						</view>
 					</conf-div>
@@ -78,20 +78,29 @@
 				</conf-div>
 				<view v-show="stage.useProcedure === 1">
 					<conf-div title="故障判断:">
-						<textarea placeholder="请输入故障判断" ref="faultJudgement" :value="faultJudgement" :disabled="stageStatus ==1 ? true : false"/>
+						<textarea placeholder="请输入故障判断" v-model="faultJudgement" :disabled="stageStatus ==1 ? true : false"/>
 						<view class="separator"></view>
 						<label class="label operation">操作规程 >></label>
 					</conf-div>
 				</view>
 				<conf-div title="故障部位:">
-					<input placeholder="请输入故障部位" ref="faultLocation" :disabled="stageStatus ==1 ? true : false"/>
+					<!-- <input placeholder="请输入故障部位" v-model="faultLocation" :disabled="stageStatus ==1 ? true : false"/> -->
+					<jsfun-picker 
+						:listArr = "faultLocaList"
+						:defaultArr = "faultLocaDefault"
+						type="multiple" 
+						@click="priceChange" >
+						<view class="label">          
+							{{faultLocaDefault}}
+						</view>
+					</jsfun-picker>
 				</conf-div>
 				<conf-div title="是否保质期内:">
 					<radio-btn :items="yes_no" @radioChange="yes_noChange" :stageStatus="stageStatus"></radio-btn>
 				</conf-div>
 				<view v-show="stage.tmplateFlag === 1">
 					<conf-div title="费用合计(元):">
-						<input placeholder="请输入费用合计(元)" type="number" ref="cost" :disabled="stageStatus ==1 ? true : false"/>
+						<input placeholder="请输入费用合计(元)" type="number" v-model="cost" :disabled="stageStatus ==1 ? true : false"/>
 					</conf-div>
 				</view>
 				<conf-div title="客户邮箱:">
@@ -99,7 +108,7 @@
 				</conf-div>
 				<view v-show="stage.submitAttach === 1">
 					<conf-div title="附件:">
-						<Attachment mode="create" :canUploadFile="true" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess" @deleteSuccess="uploadSuccess" :stageStatus="stageStatus"></Attachment>
+						<Attachment mode="create" :canUploadFile="true" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess" @deleteSuccess="uploadSuccess" :stageStatus="stageStatus" :fileArr="fileArr"></Attachment>
 					</conf-div>
 				</view>
 				<view v-show="stage.signOutFlag === 1">
@@ -156,6 +165,7 @@
 				id: '',/* 阶段id */
 				ticketId: "",/* 工单id */
 				stageStatus: '',/* 阶段完成状态 */
+				ticketType: '',/* 工单类型 */
 				labelStyle: {
 					'fontSize': '25rpx',
 					'display': 'inline-block'
@@ -202,7 +212,11 @@
 				completeStatus: '',/* 完成情况 */
 				isQGP: '',/* 是否保质期内 */
 				dataForm: {},
-				faultJudgement: ''/* 故障判断 */
+				faultJudgement: '',/* 故障判断 */
+				faultLocation: '',/* 故障部位 */
+				cost: '',/* 费用合计 */
+				fileArr: [],
+				faultLocaDefault: ''
 			}
 		},
 		components: {
@@ -214,16 +228,18 @@
 			radioBtn: () => import('@/components/radio-btn/radio-btn.vue'),
 			chooseImage: () => import('@/components/xyz-choose-image/xyz-choose-image.vue'),
 			Attachment: () => import('@/components/jin-attachment/jin-attachment.vue'),
-			modelLabel: () => import('@/components/model-label/model-label.vue')
+			modelLabel: () => import('@/components/model-label/model-label.vue'),
+			jsfunPicker: () => import('@/components/jsfun-picker/jsfun-picker.vue')
 		},
 		onLoad(option) {
 			console.log(option);
 			this.id = option.id
 			this.ticketId = option.ticketId
 			this.stageStatus = option.stageStatus
+			this.ticketType = option.ticketType
 			this.stageLists = this.$store.getters['stage/getStageList']
 			this.stage = this.stageLists.filter(e=>e.id === this.id)[0]
-			// console.log(this.stage);
+			console.log(this.stage);
 			if (this.stage.stageProcess != undefined) {
 				this.person = this.stage.stageProcess.person
 				this.signInTime = format(this.stage.stageProcess.completedDate)
@@ -239,10 +255,13 @@
 						i.checked = true
 					}
 				})
-				var fileArr = this.stage.stageProcess.fileNames.split(',')
-				for (let i = 0; i < fileArr.length; i++) {
-					var file = {'fileName': fileArr[i], 'index': i, 'process': 100, 'type': 'file'}
+				var fileIdArr = this.stage.stageProcess.fileIds.split(',')
+				var fileNameArr = this.stage.stageProcess.fileNames.split(',')
+				for (let i = 0; i < fileNameArr.length; i++) {
+					var file = {'id': fileIdArr[i], 'fileName': fileNameArr[i], 'index': i, 'process': 100, 'type': 'file'}
 					this.attachmentList.push(file)
+					var fileArr = {'id': fileIdArr[i], 'fileName': fileNameArr[i]}
+					this.fileArr.push(fileArr)
 				}
 			}
 			
@@ -274,6 +293,10 @@
 			},
 			formatModel() {
 				return this.stageLists.filter(e=>e.id === this.id)[0].name
+			},
+			faultLocaList() {
+				console.log('故障', this.$store.getters['dic/getFaultLocaList']);
+				return this.$store.getters['dic/getFaultLocaList']
 			}
 		},
 		methods: {
@@ -299,7 +322,6 @@
 				this.commitInfo();
 			},
 			async commitInfo(){
-				console.log("2");
 				let formData = new FormData();
 				var imageInfo = this.fileImag;
 				var  imageId = ""; var imageName = "";
@@ -316,13 +338,13 @@
 				}
 				formData.append("photoId",imageId);
 				formData.append("phototName",imageName);
-				formData.append('participant', this.$refs.participant.innerText)/* 同行人员 */
-				formData.append('signInTime', this.$refs.signInTime.innerText)/* 签到时间 */
+				formData.append('participant', this.person)/* 同行人员 */
+				formData.append('signInTime', this.signInTime)/* 签到时间 */
 				formData.append('completeStatus', this.completeStatus)/* 完成情况 */
-				formData.append('faultJudgement', this.$refs.faultJudgement.valueComposition)/* 故障判断 */
-				formData.append('faultLocation', this.$refs.faultLocation.inputValue)/* 故障部位 */
+				formData.append('faultJudgement', this.faultJudgement)/* 故障判断 */
+				formData.append('faultLocation', this.faultLocation)/* 故障部位 */
 				formData.append('isQGP', this.isQGP)/* 是否保质期内 */
-				formData.append('cost', this.$refs.cost.inputValue)/* 费用合计 */
+				formData.append('cost', this.cost)/* 费用合计 */
 				formData.append('signOutTime', this.signOutTime)/* 签出时间 */
 				var  fileId = "";
 				var fileName = "";
@@ -352,9 +374,11 @@
 							duration: 2000,
 							mask: true
 						})
-						uni.reLaunch({
-							url: '../detail/workOrderDetail?id=' + this.ticketId
+						uni.navigateBack({
+							delta:1
 						})
+						var payload = {'ticketType': this.ticketType, 'ticketId': this.ticketId}
+						this.$store.dispatch('stage/GetDataList', payload)
 					}
 				}).catch(error => {
 					console.log(error);
@@ -375,7 +399,7 @@
 				}
 			},
 			uploadSuccess(result,entityList) {
-				if(result.statusCode == 200) {
+				if(result.statusCode == 200 || result.confirm) {
 					this.fileList = entityList;
 				}
 			},
@@ -431,6 +455,13 @@
 			    })
 			    // console.log(uintArr, blob)
 			    return URL.createObjectURL(blob)
+			},
+			priceChange(data){
+				console.log("==返回值==");
+				console.log(data);
+				console.log(data.indexStr);
+				console.log(data.textStr);
+				this.faultLocaDefault = data.textStr
 			}
 		}
 	}

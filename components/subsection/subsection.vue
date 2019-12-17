@@ -9,8 +9,6 @@
 </template>
 
 <script>
-	import { getWorkOrderList } from '@/api/Ticket.js'
-
 	export default {
 		name: 'subSection',
 		components: {
@@ -56,12 +54,8 @@
 				return items
 			}
 		},
-		async beforeMount() {
-			await getWorkOrderList().then(response => {
-				this.$store.dispatch('workOrder/GetDataList', response.data.body.ticketList)
-			}).catch(error => {
-				console.log(error);
-			})
+		beforeMount() {
+			this.$store.dispatch('workOrder/GetDataList')
 		}
 	}
 </script>

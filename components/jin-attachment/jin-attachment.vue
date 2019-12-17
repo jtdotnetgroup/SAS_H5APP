@@ -50,6 +50,9 @@
 			},
 			stageStatus: {	// 阶段完成状态（为 1 就是已完成，只能查看；为 0 就是继续，可编辑）
 				type: String
+			},
+			fileArr: {	// 上传文件后 后端返回的id和name（查看的时候才用到）
+				type: Array
 			}
 		},
 		computed: {
@@ -294,6 +297,9 @@
 				var temp = ['docx', 'doc', 'doc', 'pdf', 'txt', 'ppt', 'pptx', 'zip','rar'].indexOf(ext.toLowerCase()) !== -1;
 				return temp;
 			}
+		},
+		mounted() {
+			this.fileList = this.fileArr
 		}
 	};
 </script>

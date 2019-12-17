@@ -33,7 +33,6 @@
 
 <script>
 	import {calculationTime} from '@/utils/moment.js'
-	import {getStageList} from '@/api/Ticket.js'
 	import {format} from '@/utils/formatDate.js'
 
 	export default {
@@ -77,7 +76,7 @@
 					}
 				}
 				uni.navigateTo({
-					url: '../../mytask/repair/workOrderRepair?id=' + stageId + "&ticketId=" + ticketId + "&stageStatus=" + stageStatus
+					url: '../../mytask/repair/workOrderRepair?id=' + stageId + "&ticketId=" + ticketId + "&stageStatus=" + stageStatus + "&ticketType=" + this.ticketType
 				})
 			}
 		},
@@ -107,14 +106,11 @@
 				return stageLists
 			}
 		},
-		async beforeMount() {
+		beforeMount() {
 			let ticketType = this.ticketType
 			let ticketId = this.ticketId
-			await getStageList(ticketType, ticketId).then(response => {
-				this.$store.dispatch('stage/GetDataList', response.data.body.pageList)
-			}).catch(error => {
-				console.log(error);
-			})
+			var payload = {'ticketType': ticketType, 'ticketId': ticketId}
+			this.$store.dispatch('stage/GetDataList', payload)
 		}
 	}
 </script>

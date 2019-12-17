@@ -1,3 +1,5 @@
+import { getWorkOrderList } from '@/api/Ticket.js'
+
 const state = {
 	ticketList: []
 }
@@ -15,8 +17,13 @@ const mutations = {
 }
 
 const actions = {
-	GetDataList({commit,state},payload){
-		commit("setTicketList",payload)
+	GetDataList({commit,state}){
+		getWorkOrderList().then(response => {
+			commit("setTicketList",response.data.body.ticketList)
+		}).catch(error => {
+			console.log(error);
+		})
+		
 	}
 }
 
