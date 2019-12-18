@@ -1,13 +1,17 @@
 <template>
 	<view class=" chooseImage " style="display: flex;flex-wrap: wrap;">
 		<view style="position: relative;" v-for="(item, index) in imgList" :key="index" :style="{ width: size + 'rpx', height: size + 'rpx' }">
-			<image :src="imgList[index].path" :style="{ width: size + 'rpx', height: size + 'rpx' }" mode="aspectFill" @click="viewImg(imgList[index])"></image>
-			<view class="icon_close " style="position: absolute;" @click="delImg(index)">
-				<i class="iconfont iconjiaocha" style=""></i>
+			<image :src="imgList[index].path" :style="{ width: size + 'rpx', height: size + 'rpx' }" mode="aspectFill" @click="viewImg(imgList[index].path)"></image>
+			<view v-show="stageStatus != 1">
+				<view class="icon_close " style="position: absolute;" @click="delImg(index)">
+					<i class="iconfont iconjiaocha" style=""></i>
+				</view>
 			</view>
 		</view>
-		<view v-if="imgList.length < num" class="text_center" @click="chooseImage">
-			<image src="/static/upload.png" mode="widthFix" :style="{ width: size + 'rpx' }"></image>
+		<view v-show="stageStatus != 1">
+			<view v-if="imgList.length < num" class="text_center" @click="chooseImage">
+				<image src="/static/upload.png" mode="widthFix" :style="{ width: size + 'rpx' }"></image>
+			</view>
 		</view>
 	</view>
 </template>
@@ -17,6 +21,7 @@
 	import {guid} from '@/utils/common.js'
 	
 export default {
+	name:"chooseImage",
 	props: {
 		size: {
 			//图片的尺寸
@@ -46,6 +51,12 @@ export default {
 		imageList: {
 			type: Array,
 			default: []
+		},
+		stageStatus: {	// 阶段完成状态（为 1 就是已完成，只能查看；为 0 就是继续，可编辑）
+			type: String
+		},
+		photoArr: {
+			type: Array
 		}
 	},
 	data() {
@@ -69,6 +80,7 @@ export default {
 				sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 				sourceType: ['album', 'camera'], //从相册选择
 				success: function(res) {
+					console.log(res);
 					for (var i = 0; i < res.tempFilePaths.length; i++) {
 						var obj = {id: guid(), path: res.tempFilePaths[i]}
 						_this.imgList.push(obj)
@@ -91,9 +103,10 @@ export default {
 								let json=JSON.parse(res.data);
 								var  fileEntity =json.body.filesEntity;
 								_this.fileImage.push(fileEntity);
-								console.log(_this.fileImage);
+								// console.log(_this.fileImage);
 								_this.$emit('uploadPhotoSuccess', res,_this.fileImage);
 								if (res.statusCode  == 200) {
+									console.log('photo', '上传成功');
 									_this.$emit('update:photoList', _this.imgList);
 									_this.$forceUpdate();
 								} else {
@@ -141,15 +154,19 @@ export default {
 			}
 		},
 		viewImg(path) {
+			var urls = []
+			for (var i = 0; i < this.imgList.length; i++) {
+				urls.push(this.imgList[i].path)
+			}
 			uni.previewImage({
-				urls: this.imgList,
+				urls: urls,
 				current: path
 			});
 		}
 	},
 	mounted() {
-		console.log(this.imageList);
 		this.imgList = this.imageList
+		this.fileImage = this.photoArr
 		if (this.isSave) {
 			let str = uni.getStorageSync(this.saveStr);
 			if (str != '') {

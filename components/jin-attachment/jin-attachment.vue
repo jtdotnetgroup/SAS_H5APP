@@ -273,6 +273,7 @@
 							// 上传完成后处理
 							this.$emit('uploadSuccess', res,this.fileList);
 							if (res.statusCode  == 200) {
+								console.log('file', '上传成功');
 								this.$set(this.list[index], 'process', 100);
 								this.$emit('update:attachmentList', this.list);
 								this.$forceUpdate();

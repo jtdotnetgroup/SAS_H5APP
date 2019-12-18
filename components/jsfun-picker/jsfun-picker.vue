@@ -1,5 +1,5 @@
 <template>
-	<view  class="jsfun-picker" @tap="showPicker">
+	<view  class="jsfun-picker" @tap="!disabled ? showPicker() : ''">
 		<view class="box">
 			<view class="label-left">
 				当前选择

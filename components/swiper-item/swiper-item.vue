@@ -10,8 +10,8 @@
 								<!-- <span class="iconfont iconnaozhong alarmClock" ></span> -->
 								<!-- <span class="descstyle">{{dateTime(todo.date)}}</span> -->
 							</view>
-							<view class="uni-steps__column-desc" v-if="completedDate != ''">
-								{{ formatDate(completedDate) }}	
+							<view class="uni-steps__column-desc" v-if="todo.stageProcess != undefined">
+								{{ formatDate(todo.stageProcess.completedDate) }}	
 							</view>
 						</view>
 						<view class="sameLine fiexRight">
@@ -58,8 +58,7 @@
 				goColor:'#1DC21C',  // 绿色
 				activeColor:'rgb(0, 122, 255)',  // 蓝色
 				deactiveColor:'red',			// 红色
-				active: 0,
-				completedDate: ''
+				active: 0
 			}
 		},
 		methods: {
@@ -94,13 +93,9 @@
 			stageList() {
 				let stageLists = this.$store.getters['stage/getStageList']
 				this.active = 0
-				this.completedDate = ''
 				stageLists.forEach((list, index) => {
 					if (list.current == 1) {
 						this.active = index
-					}
-					if (list.stageProcess != undefined) {
-						this.completedDate = list.stageProcess.completedDate
 					}
 				})
 				return stageLists

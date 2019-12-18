@@ -70,7 +70,7 @@
 				</view>
 				<view v-show="stage.photoFlag === 1">
 					<conf-div title="现场拍照:">
-						<chooseImage :num="9" :size="150" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList" :photoList.sync="photoList" @uploadPhotoSuccess="uploadPhotoSuccess" @deletePhotoSuccess="uploadPhotoSuccess" />
+						<chooseImage :num="9" :size="150" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList" :photoList.sync="photoList" @uploadPhotoSuccess="uploadPhotoSuccess" @deletePhotoSuccess="uploadPhotoSuccess" :stageStatus="stageStatus" :photoArr="photoArr" />
 					</conf-div>
 				</view>
 				<conf-div title="完成情况:">
@@ -84,12 +84,12 @@
 					</conf-div>
 				</view>
 				<conf-div title="故障部位:">
-					<!-- <input placeholder="请输入故障部位" v-model="faultLocation" :disabled="stageStatus ==1 ? true : false"/> -->
 					<jsfun-picker 
 						:listArr = "faultLocaList"
 						:defaultArr = "faultLocaDefault"
 						type="multiple" 
-						@click="priceChange" >
+						@click="priceChange"
+						:disabled="stageStatus ==1 ? true : false">
 						<view class="label">          
 							{{faultLocaDefault}}
 						</view>
@@ -216,6 +216,7 @@
 				faultLocation: '',/* 故障部位 */
 				cost: '',/* 费用合计 */
 				fileArr: [],
+				photoArr: [],
 				faultLocaDefault: ''
 			}
 		},
@@ -248,38 +249,46 @@
 				this.completion.forEach((i) => {
 					if (i.value == this.stage.stageProcess.completeStatus) {
 						i.checked = true
+						this.completeStatus = i.value
 					}
 				})
 				this.yes_no.forEach((i) => {
 					if (i.value == this.getTicket.warrantyPeriod) {
 						i.checked = true
+						this.isQGP = i.value
 					}
 				})
-				var fileIdArr = this.stage.stageProcess.fileIds.split(',')
-				var fileNameArr = this.stage.stageProcess.fileNames.split(',')
-				for (let i = 0; i < fileNameArr.length; i++) {
-					var file = {'id': fileIdArr[i], 'fileName': fileNameArr[i], 'index': i, 'process': 100, 'type': 'file'}
+				
+				var photoList = this.stage.stageProcess.photoList
+				for (let i = 0; i < photoList.length; i++) {
+					var path = this.$IP + photoList[i].path
+					var obj ={id: photoList[i].id, path: path}
+					this.imageList.push(obj)
+					var photoArr = {id: photoList[i].id, fileName: photoList[i].fileName}
+					this.photoArr.push(photoArr)
+					this.fileImag = this.photoArr
+				}
+				
+				var filesList = this.stage.stageProcess.filesList
+				for (let i = 0; i < filesList.length; i++) {
+					var file = {'id': filesList[i].id, 'fileName': filesList[i].fileName, 'index': i, 'process': 100, 'type': 'file'}
 					this.attachmentList.push(file)
-					var fileArr = {'id': fileIdArr[i], 'fileName': fileNameArr[i]}
+					var fileArr = {'id': filesList[i].id, 'fileName': filesList[i].fileName}
 					this.fileArr.push(fileArr)
+					this.fileList = this.fileArr
 				}
 			}
 			
-			// var arr = ['http://192.168.3.8:8096/upload/file/car2.jpg']
-			// for (var i = 0; i < arr.length; i++) {
-			// 	this.getFile(arr[i])
-			// }
-			
-			this.completion.forEach((item) => {
-				if (item.checked) {
-					this.completeStatus = item.value
-				}
-			})
-			this.yes_no.forEach((item) => {
-				if (item.checked) {
-					this.isQGP = item.value
-				}
-			})
+			// this.completion.forEach((item) => {
+			// 	if (item.checked) {
+			// 		this.completeStatus = item.value
+			// 	}
+			// })
+			// this.yes_no.forEach((item) => {
+			// 	if (item.checked) {
+			// 		this.isQGP = item.value
+			// 	}
+			// })
 		},
 		computed: {
 			getTicket() {
@@ -295,7 +304,6 @@
 				return this.stageLists.filter(e=>e.id === this.id)[0].name
 			},
 			faultLocaList() {
-				console.log('故障', this.$store.getters['dic/getFaultLocaList']);
 				return this.$store.getters['dic/getFaultLocaList']
 			}
 		},
@@ -394,7 +402,7 @@
 				// console.log("滚动了");
 			},
 			uploadPhotoSuccess(result, entityList) {
-				if(result.statusCode == 200) {
+				if(result.statusCode == 200 || result.confirm) {
 					this.fileImag = entityList;
 				}
 			},
@@ -408,53 +416,6 @@
 			},
 			yes_noChange(value) {
 				this.isQGP = value
-			},
-			getImageBlob (url, cb) {
-				var xhr  = new XMLHttpRequest();
-				xhr.open("get", url, true);
-				xhr.responseType = "blob";
-				xhr.onload = function() {
-					if (this.status == 200) {
-						if(cb) cb(this.response);
-					}
-				};
-				xhr.send();
-			},
-			getFile (url) {
-			    let reader = new FileReader()
-				this.getImageBlob(url, function(blob) {
-					reader.readAsDataURL(blob)
-				})
-				let $this = this
-			    reader.onload = function (e) {
-			      const base64Data = e.target.result
-			      // 调用dataURItoBlob转换方法
-			      // console.log($this.dataURItoBlob(base64Data))
-				  $this.imageList.push($this.dataURItoBlob(base64Data))
-			    }
-			},
-			dataURItoBlob (base64Data) {
-			    // console.log(base64Data, base64Data.length)
-			    let byteString = base64Data
-			    if (base64Data.split(',')[0].indexOf('base64') >= 0) {
-			      byteString = atob(base64Data.split(',')[1]) // base64 解码
-			    } else {
-			      byteString = unescape(base64Data.split(',')[1])
-			    }
-			    // 获取文件类型
-			    let mimeString = base64Data.split(',')[0].match(/:(.*?);/)[1] // mime类型
-			
-			    let uintArr = new Uint8Array(byteString.length) // 创建视图
-			
-			    for (let i = 0; i < byteString.length; i++) {
-			      uintArr[i] = byteString.charCodeAt(i)
-			    }
-			    // 生成blob图片
-			    const blob = new Blob([uintArr], {
-			      type: mimeString
-			    })
-			    // console.log(uintArr, blob)
-			    return URL.createObjectURL(blob)
 			},
 			priceChange(data){
 				console.log("==返回值==");
