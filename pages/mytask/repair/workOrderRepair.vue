@@ -70,7 +70,7 @@
 				</view>
 				<view v-show="stage.photoFlag === 1">
 					<conf-div title="现场拍照:">
-						<chooseImage :num="9" :size="150" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList" :photoList.sync="photoList" @uploadPhotoSuccess="uploadPhotoSuccess" @deletePhotoSuccess="uploadPhotoSuccess" :stageStatus="stageStatus" :photoArr="photoArr" />
+						<chooseImage :num="9" :size="150" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList" :photoList.sync="photoList" @uploadPhotoSuccess="uploadPhotoSuccess" @deletePhotoSuccess="deletePhotoSuccess" :stageStatus="stageStatus" :photoArr="photoArr" />
 					</conf-div>
 				</view>
 				<conf-div title="完成情况:">
@@ -108,7 +108,7 @@
 				</conf-div>
 				<view v-show="stage.submitAttach === 1">
 					<conf-div title="附件:">
-						<Attachment mode="create" :canUploadFile="true" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess" @deleteSuccess="uploadSuccess" :stageStatus="stageStatus" :fileArr="fileArr"></Attachment>
+						<Attachment mode="create" :canUploadFile="true" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess" @deleteSuccess="deleteSuccess" :stageStatus="stageStatus" :fileArr="fileArr"></Attachment>
 					</conf-div>
 				</view>
 				<view v-show="stage.signOutFlag === 1">
@@ -156,6 +156,7 @@
 <script>
 	import {format} from '@/utils/formatDate.js'
 	import {ticketRepairSave} from '@/api/Ticket.js'
+	import {delUploadFile} from '@/api/Ticket.js'
 	//import * as dd from 'dingtalk-jsapi'
 	
 	export default {
@@ -217,7 +218,9 @@
 				cost: '',/* 费用合计 */
 				fileArr: [],
 				photoArr: [],
-				faultLocaDefault: ''
+				faultLocaDefault: '',
+				del_photoId: '',/* 点击删除照片时 需要删除的照片id */
+				del_fileId: ''/* 点击删除文件时 需要删除的文件id */
 			}
 		},
 		components: {
@@ -330,6 +333,8 @@
 				this.commitInfo();
 			},
 			async commitInfo(){
+				this.delUploader(this.del_photoId)/* 删除图片 */
+				this.delUploader(this.del_fileId)/* 删除文件 */
 				let formData = new FormData();
 				var imageInfo = this.fileImag;
 				var  imageId = ""; var imageName = "";
@@ -402,13 +407,25 @@
 				// console.log("滚动了");
 			},
 			uploadPhotoSuccess(result, entityList) {
-				if(result.statusCode == 200 || result.confirm) {
+				if(result.statusCode == 200) {
 					this.fileImag = entityList;
 				}
 			},
+			deletePhotoSuccess(result, entityList, photoId) {
+				if(result.confirm) {
+					this.fileImag = entityList;
+					this.del_photoId = photoId
+				}
+			},
 			uploadSuccess(result,entityList) {
-				if(result.statusCode == 200 || result.confirm) {
+				if(result.statusCode == 200) {
 					this.fileList = entityList;
+				}
+			},
+			deleteSuccess(result, entityList, fileId) {
+				if(result.confirm) {
+					this.fileList = entityList;
+					this.del_fileId = fileId
 				}
 			},
 			comChange(value) {
@@ -423,6 +440,15 @@
 				console.log(data.indexStr);
 				console.log(data.textStr);
 				this.faultLocaDefault = data.textStr
+			},
+			delUploader(id) {
+				delUploadFile(id).then(response => {
+					if (response.status === 200) {
+						console.log('删除成功');
+					}
+				}).catch(error => {
+					console.log(error);
+				})
 			}
 		}
 	}

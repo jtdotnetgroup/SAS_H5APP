@@ -17,7 +17,6 @@
 </template>
 
 <script>
-	import {delUploadFile} from '@/api/Ticket.js'
 	import {guid} from '@/utils/common.js'
 	
 export default {
@@ -106,7 +105,6 @@ export default {
 								// console.log(_this.fileImage);
 								_this.$emit('uploadPhotoSuccess', res,_this.fileImage);
 								if (res.statusCode  == 200) {
-									console.log('photo', '上传成功');
 									_this.$emit('update:photoList', _this.imgList);
 									_this.$forceUpdate();
 								} else {
@@ -127,24 +125,20 @@ export default {
 				content: '确定要删除此项吗？',
 				success: res => {
 					if (res.confirm) {
+						var id
 						this.fileImage.forEach((i, index) => {
 							if (i.id == this.imgList[idx].id) {
-								delUploadFile(i.id).then(response => {
-									if (response.status === 200) {
-										uni.showToast({
-											title: '删除成功',
-											icon: 'none'
-										});
-									}
-								}).catch(error => {
-									console.log(error);
-								})
+								uni.showToast({
+									title: '删除成功',
+									icon: 'none'
+								});
+								id = i.id
 								this.fileImage.splice(index, 1)
 							}
 						})
 						this.imgList.splice(idx, 1);
 						this.$forceUpdate();
-						this.$emit('deletePhotoSuccess', res,this.fileImage);
+						this.$emit('deletePhotoSuccess', res,this.fileImage, id);
 						this.$emit('update:photoList', this.imgList);
 					}
 				}

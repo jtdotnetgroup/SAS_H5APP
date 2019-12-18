@@ -132,24 +132,20 @@
 							if (this.list[index].process != 100) {
 								typeof this.list[index].uploadTask != 'undefined' && this.list[index].uploadTask.abort();
 							}
+							var id
 							this.fileList.forEach((i, idx) => {
 								if (i.id == this.list[index].id) {
-									delUploadFile(i.id).then(response => {
-										if (response.status === 200) {
-											uni.showToast({
-												title: '删除成功',
-												icon: 'none'
-											});
-										}
-									}).catch(error => {
-										console.log(error);
-									})
+									uni.showToast({
+										title: '删除成功',
+										icon: 'none'
+									});
+									id = i.id
 									this.fileList.splice(idx, 1)
 								}
 							})
 							this.list.splice(index, 1);
 							this.$forceUpdate();
-							this.$emit('deleteSuccess', res,this.fileList);
+							this.$emit('deleteSuccess', res,this.fileList, id);
 							this.$emit('update:attachmentList', this.list);
 						}
 					}
