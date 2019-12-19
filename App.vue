@@ -19,11 +19,18 @@
 .content {
 	background-color: #f5f6f8;
 	width: 100%;
-	height: 100%;
+	height: calc(100vh - 50px - env(safe-area-inset-bottom));
 	padding-top: 1px;
-	padding-bottom: 5px;
 }
 uni-page-wrapper {
 	background-color: #f5f6f8;
+}
+
+@supports (bottom: env(safe-area-inset-bottom)){
+	body,
+	.uni-tabbar{
+		padding-bottom: constant(safe-area-inset-bottom);
+		padding-bottom: env(safe-area-inset-bottom);
+	}
 }
 </style>

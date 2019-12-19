@@ -1,5 +1,5 @@
 <template>
-	<view  class="jsfun-picker" @tap="!disabled ? showPicker() : ''">
+	<view  class="fl-picker" @tap.stop="!disabled ? showPicker() : ''">
 		<view class="box">
 			<view class="label-left">
 				当前选择
@@ -8,40 +8,37 @@
 				<slot></slot>
 			</view>
 		</view>
-	 <!-- 遮罩层 -->
-	 <view class="mask" @tap.stop="closePicker" catchtouchmove="true" v-if="isShow"></view>
-	 <!-- 多选控件 -->
-	 <view class="picker" :class="{'pickerShow':isShow}" catchtouchmove="true">
-		 <!-- 标题 -->
-		 <view class="title">
-		 		 <text class="cancel" @tap.stop="closePicker">取消</text>
-		 		 <text class="ok" @tap.stop="okClick">确定</text>
-		 </view>
-		 <!-- 数据列表 -->
-		 <view class="list" v-if="listArr.length>0">
-		 	 <view 
-			 v-for="(item,index) in listArrNew" 
-			 :key="index" 
-			 @tap="itemClick(item)"
-			 :class="{'active':item.select}"
-			 >{{item.name}}</view>
-		 </view > 
-		 <view class="list" v-else>
-		 	 未接收到数据
-		 </view>
-		 <!-- 底部说明 -->
-		 <view class="mess" v-if="mess">
-		 	{{mess}}
-		 </view>
-	 </view>
-	 
-	 
+		<uni-popup ref="popup" type="bottom" :maskClick='maskClick'>
+			<view class="picker" catchtouchmove="true">
+				<!-- 标题 -->
+				<view class="title">
+						 <text class="cancel" @tap.stop="closePicker">取消</text>
+						 <text class="ok" @tap.stop="okClick">确定</text>
+				</view>
+				<!-- 数据列表 -->
+				<view class="list" v-if="listArr.length>0">
+					 <view 
+						v-for="(item,index) in listArrNew" 
+						:key="index" 
+						@tap="itemClick(item)"
+						:class="{'active':item.select}"
+						>{{item.name}}</view>
+				</view> 
+				<view class="list" v-else>
+					 未接收到数据
+				</view>
+				<!-- 底部说明 -->
+				<view class="mess" v-if="mess">
+					{{mess}}
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	export default {
-		name: 'jsfun-picker',
+		name: 'fl-picker',
 		props: {
 			mess: String, //备注说明
 			listArr:{ //数据
@@ -61,32 +58,33 @@
 				type: [String, Boolean],
 				default: false
 			},
+			
+			maskClick: {
+				type: Boolean,
+				default: false
+			}
 		},		
 		data() {
 			return {
 				listArrNew:{},//记录选中的内容
-				isShow:false,
 			}
+		},
+		components: {
+			uniPopup: () => import('@dcloudio/uni-ui/lib/uni-popup/uni-popup.vue'),
 		},
 		watch: {
 			//这里需要监听默认值的改变，重新初始化
 		    defaultArr(val) {
-				console.log(val);
 				this.initValue();
 		    }
 		},
-		onShow() {		
-			this.initValue();
-		},
 		methods: {
 			showPicker(){
-				setTimeout(() => {
-				  this.isShow = true;
-				}, 100);				
+				this.$refs.popup.open()
 			},
 			//关闭
 			closePicker(){				
-				this.isShow = false;
+				this.$refs.popup.close()
 				//点遮罩 点取消关闭说明用户不想修改，所以这里对数据进行初始化
 				this.initValue(); 
 			},
@@ -150,7 +148,7 @@
 </script>
 
 <style lang="scss">
-	.jsfun-picker {
+	.fl-picker {
 		
 		.box {
 			width: 100%;
@@ -160,40 +158,19 @@
 			display: inline;
 			width: 10%;
 			margin-right: 20rpx;
+			font-size: 25upx;
 		}
 		
 		.value-right {
 			display: inline;
 			width: 90%;
 		}
-
-       .mask {
-		  position: fixed;
-		  z-index: 1000;
-		  top: 0;
-		  right: 0;
-		  left: 0;
-		  bottom: 0;
-		  background: rgba(0, 0, 0, 0.6);
-		}
-
-
 		
-        .picker{
-			transition: all .3s ease;
-			transform: translateY(100%);
-			&.pickerShow{
-			   transform:translateY(0);
-			}
+		.picker {
+			background-color: #FFF;
+			color: #666;
+			height: 200px;
 			
-			position: fixed;
-			z-index: 1000;
-			right: 0;
-			left: 0;
-			bottom: 0;
-			background: #fff;	
-			color:#666;
-					
 			.title{
 				display: flex;
 				justify-content: space-between;
@@ -210,7 +187,7 @@
 			
 			.list{
 				padding:0upx 10upx;
-				margin: 20upx 0upx;
+				padding: 20upx 0upx;
 				display: flex;
 				flex-flow: wrap;
 				//列表元素样式
@@ -221,6 +198,7 @@
 					padding:6upx 20upx;
 					border-radius:6upx; 
 					color:#777;
+					font-size: 30rpx;
 				}
 				//列表元素选中的样式
 				.active{
@@ -228,12 +206,13 @@
 					color:#fff;
 				}
 			}
+			
 			.mess{
 				padding:0upx 20upx;
 				margin-bottom: 20upx;
 				text-align:left;
 			}
-		} 
-
+		}
+		
 	}
 </style>

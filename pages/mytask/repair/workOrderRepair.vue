@@ -84,16 +84,17 @@
 					</conf-div>
 				</view>
 				<conf-div title="故障部位:">
-					<jsfun-picker 
-						:listArr = "faultLocaList"
+					<fl-picker
+						:listArr="faultLocaList"
 						:defaultArr = "faultLocaDefault"
 						type="multiple" 
 						@click="priceChange"
-						:disabled="stageStatus ==1 ? true : false">
-						<view class="label">          
+						:disabled="stageStatus ==1 ? true : false"
+						:mess="''">
+						<view class="label">
 							{{faultLocaDefault}}
 						</view>
-					</jsfun-picker>
+					</fl-picker>
 				</conf-div>
 				<conf-div title="是否保质期内:">
 					<radio-btn :items="yes_no" @radioChange="yes_noChange" :stageStatus="stageStatus"></radio-btn>
@@ -120,7 +121,7 @@
 					</conf-div>
 				</view>
 				<view v-show="stageStatus != 1">
-					<view style="height: 75px;"></view>
+					<view class="occupying-box"></view>
 				</view>
 			</scroll-view>
 		</view>
@@ -233,7 +234,7 @@
 			chooseImage: () => import('@/components/xyz-choose-image/xyz-choose-image.vue'),
 			Attachment: () => import('@/components/jin-attachment/jin-attachment.vue'),
 			modelLabel: () => import('@/components/model-label/model-label.vue'),
-			jsfunPicker: () => import('@/components/jsfun-picker/jsfun-picker.vue')
+			flPicker: () => import('@/components/fl-picker/fl-picker.vue')
 		},
 		onLoad(option) {
 			console.log(option);
@@ -281,17 +282,12 @@
 					this.fileList = this.fileArr
 				}
 			}
-			
-			// this.completion.forEach((item) => {
-			// 	if (item.checked) {
-			// 		this.completeStatus = item.value
-			// 	}
-			// })
-			// this.yes_no.forEach((item) => {
-			// 	if (item.checked) {
-			// 		this.isQGP = item.value
-			// 	}
-			// })
+			if (this.stage.malfunction != undefined) {
+				console.log(this.faultLocaList);
+				for (let i = 0; i < this.faultLocaList.length; i++) {
+					this.faultLocaList[i]
+				}
+			}
 		},
 		computed: {
 			getTicket() {
@@ -524,7 +520,14 @@
 		position: fixed;
 		left: 0;
 		bottom: 0;
-		z-index: 999;
+	}
+	
+	@supports (bottom: env(safe-area-inset-bottom)){
+	    body,
+	    .bottom{
+	        padding-bottom: constant(safe-area-inset-bottom);
+	        padding-bottom: env(safe-area-inset-bottom);
+	    }
 	}
 	
 	.bottomIcon {
@@ -556,5 +559,27 @@
 	
 	textarea {
 		width: 100%;
+	}
+	
+	/* iphone X */
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		.occupying-box {
+			height: 105px;
+			background-color: #f5f6f8;
+		}
+	}
+	/* iphone 6~8 */
+	@media only screen and (device-width : 375px) and (device-height : 667px) and (-webkit-device-pixel-ratio : 2) {
+		.occupying-box {
+			height: 105px;
+			background-color: #f5f6f8;
+		}
+	}
+	/* iphone 6 plus~8 plus */
+	@media only screen and (device-width : 414px) and (device-height : 736px) and (-webkit-device-pixel-ratio : 3) {
+		.occupying-box {
+			height: 105px;
+			background-color: #f5f6f8;
+		}
 	}
 </style>
