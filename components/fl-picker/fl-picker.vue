@@ -8,7 +8,7 @@
 				<slot></slot>
 			</view>
 		</view>
-		<uni-popup ref="popup" type="bottom" :maskClick='maskClick'>
+		<uni-popup ref="popup" type="center" :maskClick='maskClick'>
 			<view class="picker" catchtouchmove="true">
 				<!-- 标题 -->
 				<view class="title">

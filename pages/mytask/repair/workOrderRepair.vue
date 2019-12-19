@@ -143,7 +143,7 @@
 						</view>
 					</uni-grid-item>
 					<uni-grid-item>
-						<view class="bottomIcon" @click="">
+						<view class="bottomIcon" @click="giveUp">
 							<span class="iconfont iconfangqi bottomIcon" style="color: #d81e06;"></span>
 							<text class="text">放弃</text>
 						</view>
@@ -327,6 +327,23 @@
 			},
 			commit() {
 				this.commitInfo();
+			},
+			giveUp() {
+				if (this.fileImag != undefined) {
+					for (let i = 0; i < this.fileImag.length; i++) {
+						this.delUploader(this.fileImag[i].id)
+					}
+				}
+				if (this.fileList != undefined) {
+					for (let i = 0; i < this.fileList.length; i++) {
+						this.delUploader(this.fileList[i].id)
+					}
+				}
+				uni.navigateBack({
+					delta:1
+				})
+				var payload = {'ticketType': this.ticketType, 'ticketId': this.ticketId}
+				this.$store.dispatch('stage/GetDataList', payload)
 			},
 			async commitInfo(){
 				this.delUploader(this.del_photoId)/* 删除图片 */
