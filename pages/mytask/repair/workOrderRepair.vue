@@ -268,7 +268,7 @@
 					var path = this.$IP + photoList[i].path
 					var obj ={id: photoList[i].id, path: path}
 					this.imageList.push(obj)
-					var photoArr = {id: photoList[i].id, fileName: photoList[i].fileName}
+					var photoArr = {id: photoList[i].id, fileName: photoList[i].fileName, path: path}
 					this.photoArr.push(photoArr)
 					this.fileImag = this.photoArr
 				}
@@ -277,7 +277,7 @@
 				for (let i = 0; i < filesList.length; i++) {
 					var file = {'id': filesList[i].id, 'fileName': filesList[i].fileName, 'index': i, 'process': 100, 'type': 'file'}
 					this.attachmentList.push(file)
-					var fileArr = {'id': filesList[i].id, 'fileName': filesList[i].fileName}
+					var fileArr = {'id': filesList[i].id, 'fileName': filesList[i].fileName, 'path': filesList[i].path}
 					this.fileArr.push(fileArr)
 					this.fileList = this.fileArr
 				}
@@ -350,20 +350,23 @@
 				this.delUploader(this.del_fileId)/* 删除文件 */
 				let formData = new FormData();
 				var imageInfo = this.fileImag;
-				var  imageId = ""; var imageName = "";
+				var  imageId = ""; var imageName = ""; var imagePath = "";
 				if( imageInfo != null){
 					for (var i = 0; i < imageInfo.length; i++) {
 						if(imageInfo.length-1 === i){
 							imageId = imageId + imageInfo[i].id;
 							imageName = imageName + imageInfo[i].fileName;
+							imagePath = imagePath + imageInfo[i].path;
 						}else{
 							imageId = imageId + imageInfo[i].id+",";
 							imageName = imageName + imageInfo[i].fileName+",";
+							imagePath = imagePath + imageInfo[i].path + ",";
 						}
 					}
 				}
 				formData.append("photoId",imageId);
 				formData.append("phototName",imageName);
+				formData.append("photoPath", imagePath);
 				formData.append('participant', this.person)/* 同行人员 */
 				formData.append('signInTime', this.signInTime)/* 签到时间 */
 				formData.append('completeStatus', this.completeStatus)/* 完成情况 */
@@ -374,20 +377,24 @@
 				formData.append('signOutTime', this.signOutTime)/* 签出时间 */
 				var  fileId = "";
 				var fileName = "";
+				var filePath = "";
 				var  fileList = this.fileList;
 				if( fileList != null){
 					for (var i = 0; i < fileList.length; i++) {
 						if(fileList.length-1 === i){
 							fileId = fileId + fileList[i].id;
 							fileName = fileName + fileList[i].fileName; 
+							filePath = filePath + fileList[i].path; 
 						}else{
 							fileId = fileId + fileList[i].id+",";
 							fileName = fileName + fileList[i].fileName+","; 
+							filePath = filePath + fileList[i].path + ","; 
 						}
 					}
 				}
 				formData.append('fileIds', fileId);
 				formData.append('fileNames', fileName);
+				formData.append('filePath', filePath);
 				let header = {
 					'ticketId': this.ticketId,
 					'stageId': this.id
