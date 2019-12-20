@@ -253,13 +253,11 @@
 				this.completion.forEach((i) => {
 					if (i.value == this.stage.stageProcess.completeStatus) {
 						i.checked = true
-						this.completeStatus = i.value
 					}
 				})
 				this.yes_no.forEach((i) => {
 					if (i.value == this.getTicket.warrantyPeriod) {
 						i.checked = true
-						this.isQGP = i.value
 					}
 				})
 				
@@ -288,6 +286,17 @@
 					this.faultLocaList[i]
 				}
 			}
+			
+			this.completion.forEach((i) => {
+				if (i.checked) {
+					this.completeStatus = i.value
+				}
+			})
+			this.yes_no.forEach((i) => {
+				if (i.checked) {
+					this.isQGP = i.value
+				}
+			})
 		},
 		computed: {
 			getTicket() {
