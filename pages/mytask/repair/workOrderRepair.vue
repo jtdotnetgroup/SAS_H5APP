@@ -471,13 +471,15 @@
 				this.faultLocaDefault = data.textStr
 			},
 			delUploader(id) {
-				delUploadFile(id).then(response => {
-					if (response.status === 200) {
-						console.log('删除成功');
-					}
-				}).catch(error => {
-					console.log(error);
-				})
+				if (id != '') {
+					delUploadFile(id).then(response => {
+						if (response.status === 200) {
+							console.log('删除成功');
+						}
+					}).catch(error => {
+						console.log(error);
+					})
+				}
 			}
 		}
 	}

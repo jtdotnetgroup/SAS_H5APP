@@ -101,7 +101,7 @@
 				return stageLists
 			}
 		},
-		beforeMount() {
+		created() {
 			let ticketType = this.ticketType
 			let ticketId = this.ticketId
 			var payload = {'ticketType': ticketType, 'ticketId': ticketId}
