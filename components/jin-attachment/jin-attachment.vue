@@ -38,7 +38,7 @@
 			},
 			limit: {
 				type: Number, //限制可上传的图片数量
-				default: null
+				default: 0
 			},
 			fileKeyName: {
 				type: String,

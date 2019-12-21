@@ -69,7 +69,7 @@
 					</conf-div>
 				</view>
 				<view v-show="stage.photoFlag === 1">
-					<conf-div title="现场拍照:">
+					<conf-div title="现场拍照(最多只能上传9张):">
 						<chooseImage :num="9" :size="150" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList" :photoList.sync="photoList" @uploadPhotoSuccess="uploadPhotoSuccess" @deletePhotoSuccess="deletePhotoSuccess" :stageStatus="stageStatus" :photoArr="photoArr" />
 					</conf-div>
 				</view>
@@ -108,7 +108,7 @@
 					<span class="label">{{getTicket.client.email}}</span>
 				</conf-div>
 				<view v-show="stage.submitAttach === 1">
-					<conf-div title="附件:">
+					<conf-div title="附件(最多只能上传9份):">
 						<Attachment mode="create" :canUploadFile="true" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess" @deleteSuccess="deleteSuccess" :stageStatus="stageStatus" :fileArr="fileArr"></Attachment>
 					</conf-div>
 				</view>
@@ -262,22 +262,26 @@
 				})
 				
 				var photoList = this.stage.stageProcess.photoList
-				for (let i = 0; i < photoList.length; i++) {
-					var path = this.$IP + photoList[i].path
-					var obj ={id: photoList[i].id, path: path}
-					this.imageList.push(obj)
-					var photoArr = {id: photoList[i].id, fileName: photoList[i].fileName, path: path}
-					this.photoArr.push(photoArr)
-					this.fileImag = this.photoArr
+				if (photoList != undefined) {
+					for (let i = 0; i < photoList.length; i++) {
+						var path = this.$IP + photoList[i].path
+						var obj ={id: photoList[i].id, path: path}
+						this.imageList.push(obj)
+						var photoArr = {id: photoList[i].id, fileName: photoList[i].fileName, path: photoList[i].path}
+						this.photoArr.push(photoArr)
+						this.fileImag = this.photoArr
+					}
 				}
 				
 				var filesList = this.stage.stageProcess.filesList
-				for (let i = 0; i < filesList.length; i++) {
-					var file = {'id': filesList[i].id, 'fileName': filesList[i].fileName, 'index': i, 'process': 100, 'type': 'file'}
-					this.attachmentList.push(file)
-					var fileArr = {'id': filesList[i].id, 'fileName': filesList[i].fileName, 'path': filesList[i].path}
-					this.fileArr.push(fileArr)
-					this.fileList = this.fileArr
+				if (filesList != undefined) {
+					for (let i = 0; i < filesList.length; i++) {
+						var file = {'id': filesList[i].id, 'fileName': filesList[i].fileName, 'index': i, 'process': 100, 'type': 'file'}
+						this.attachmentList.push(file)
+						var fileArr = {'id': filesList[i].id, 'fileName': filesList[i].fileName, 'path': filesList[i].path}
+						this.fileArr.push(fileArr)
+						this.fileList = this.fileArr
+					}
 				}
 			}
 			if (this.stage.malfunction != undefined) {
