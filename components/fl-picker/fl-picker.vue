@@ -12,8 +12,8 @@
 			<view class="picker" catchtouchmove="true">
 				<!-- 标题 -->
 				<view class="title">
-						 <text class="cancel" @tap.stop="closePicker">取消</text>
-						 <text class="ok" @tap.stop="okClick">确定</text>
+						 <text class="cancel" @tap.stop="closePicker">关闭</text>
+						 <!-- <text class="ok" @tap.stop="okClick">确定</text> -->
 				</view>
 				<!-- 数据列表 -->
 				<view class="list" v-if="listArr.length>0">

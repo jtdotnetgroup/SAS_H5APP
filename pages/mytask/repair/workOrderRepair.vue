@@ -74,7 +74,7 @@
 					</conf-div>
 				</view>
 				<conf-div title="完成情况:">
-					<radio-btn :items="completion" @radioChange="comChange" :stageStatus="stageStatus"></radio-btn>
+					<radio-btn :items="completion" @radioChange="comChange" :stageStatus="stageStatus" type="complete"></radio-btn>
 				</conf-div>
 				<view v-show="stage.useProcedure === 1">
 					<conf-div title="故障判断:">
@@ -97,7 +97,7 @@
 					</fl-picker>
 				</conf-div>
 				<conf-div title="是否保质期内:">
-					<radio-btn :items="yes_no" @radioChange="yes_noChange" :stageStatus="stageStatus"></radio-btn>
+					<radio-btn :items="yes_no" @radioChange="yes_noChange" :stageStatus="stageStatus" type="isQGP"></radio-btn>
 				</conf-div>
 				<view v-show="stage.tmplateFlag === 1">
 					<conf-div title="费用合计(元):">
@@ -255,11 +255,6 @@
 						i.checked = true
 					}
 				})
-				this.yes_no.forEach((i) => {
-					if (i.value == this.getTicket.warrantyPeriod) {
-						i.checked = true
-					}
-				})
 				
 				var photoList = this.stage.stageProcess.photoList
 				if (photoList != undefined) {
@@ -285,20 +280,31 @@
 				}
 			}
 			if (this.stage.malfunction != undefined) {
-				console.log(this.faultLocaList);
-				for (let i = 0; i < this.faultLocaList.length; i++) {
-					this.faultLocaList[i]
+				let faultLocaList = this.faultLocaList
+				let faultType = this.stage.malfunction.faultType.split(',')
+				for (let i in faultType) {
+					for (let j in faultLocaList) {
+						if (faultType[i] == faultLocaList[j].id) {
+							if (this.faultLocaDefault == '') {
+								this.faultLocaDefault = faultLocaList[j].value
+							} else {
+								this.faultLocaDefault += "," + faultLocaList[j].value
+							}
+						}
+					}
 				}
 			}
+			
+			this.yes_no.forEach((i) => {
+				if (i.value == this.getTicket.warrantyPeriod) {
+					i.checked = true
+					this.isQGP = i.value
+				}
+			})
 			
 			this.completion.forEach((i) => {
 				if (i.checked) {
 					this.completeStatus = i.value
-				}
-			})
-			this.yes_no.forEach((i) => {
-				if (i.checked) {
-					this.isQGP = i.value
 				}
 			})
 		},

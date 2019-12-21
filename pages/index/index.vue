@@ -65,11 +65,17 @@
 					console.log('当前位置的经度：' + res.longitude);
 					console.log('当前位置的纬度：' + res.latitude);
 					uni.showModal({
-						content: '当前位置的经度：' + res.longitude + '，当前位置的纬度：' + res.latitude
+						title: '提示',
+						// content: '当前位置的经度：' + res.longitude + '，当前位置的纬度：' + res.latitude,
+						content: res
 					})
 				},
 				fail: function (err) {
 					console.log('错误信息：', err);
+					uni.showModal({
+						title: '错误',
+						content: err.errMsg
+					})
 				}
 			});
 		},

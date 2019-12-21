@@ -4,7 +4,7 @@
 			<view class="big">
 				<view class="sameLine label">{{item.name}}</view>
 				<view class="sameLine">
-					<radio class="radioBtn" :value="item.value" :checked="item.checked" :disabled="stageStatus == 1 ? true : false" />
+					<radio class="radioBtn" :value="item.value" :checked="item.checked" :disabled="stageStatus == 1 || type == 'isQGP' ? true : false" />
 				</view>
 				<view class="separator" v-if="index != items.length-1"></view>
 			</view>
@@ -23,7 +23,8 @@
 		},
 		props: {
 			items: Array,
-			stageStatus: String
+			stageStatus: String,
+			type: String
 		},
 		computed: {
 		},
