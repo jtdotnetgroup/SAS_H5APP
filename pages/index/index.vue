@@ -11,6 +11,8 @@
 </template>
 
 <script>
+	// import 'https://webapi.amap.com/maps?v=1.4.15&key=您申请的key值'
+	
 	export default {
 		data() {
 			return {
@@ -59,25 +61,25 @@
 			navIcon: () => import('@/components/nav-icon/nav-icon.vue')
 		},
 		onLoad() {
-			uni.getLocation({
-				type: 'wgs84',
-				success: function (res) {
-					console.log('当前位置的经度：' + res.longitude);
-					console.log('当前位置的纬度：' + res.latitude);
-					uni.showModal({
-						title: '提示',
-						// content: '当前位置的经度：' + res.longitude + '，当前位置的纬度：' + res.latitude,
-						content: res
-					})
-				},
-				fail: function (err) {
-					console.log('错误信息：', err);
-					uni.showModal({
-						title: '错误',
-						content: err.errMsg
-					})
-				}
-			});
+			// uni.getLocation({
+			// 	type: 'wgs84',
+			// 	success: function (res) {
+			// 		console.log('当前位置的经度：' + res.longitude);
+			// 		console.log('当前位置的纬度：' + res.latitude);
+			// 		uni.showModal({
+			// 			title: '提示',
+			// 			// content: '当前位置的经度：' + res.longitude + '，当前位置的纬度：' + res.latitude,
+			// 			content: res
+			// 		})
+			// 	},
+			// 	fail: function (err) {
+			// 		console.log('错误信息：', err);
+			// 		uni.showModal({
+			// 			title: '错误',
+			// 			content: err.errMsg
+			// 		})
+			// 	}
+			// });
 		},
 		methods: {
 			clickItem() {

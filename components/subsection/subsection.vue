@@ -43,15 +43,15 @@
 		computed:{
 			displayList(){
 				let item = this.$store.getters['workOrder/getTicketList']
-				return item.filter(e=>e.ticketStatus===this.current + 1)
+				return item.filter(e=>e.ticketStatus===this.current + 2)
 			},
 			items() {
 				let item = this.$store.getters['dic/getStatusList']
 				let items = []
 				item.forEach((list) => {
-					items.push(list.value) 
+					items.push(list.name) 
 				})
-				return items
+				return items.splice(1)
 			}
 		},
 		beforeMount() {
