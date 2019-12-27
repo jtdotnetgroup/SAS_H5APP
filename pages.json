@@ -3,37 +3,37 @@
 		{
 			"path": "pages/index/index",// 工作台
 			"style": {
-				"disableScroll": true
+				// "disableScroll": true
 			}
 		},
 		{
 			"path":"pages/mytask/index",// 我的工单
 			"style":{
-				"disableScroll": true
+				// "disableScroll": true
 			}
 		},
 		{
 			"path":"pages/schedule/index",// 日程
 			"style":{
-				"disableScroll": true
+				// "disableScroll": true
 			}
 		},
 		{
 			"path":"pages/porfile/index",// 个人设置
 			"style":{
-				"disableScroll": true
+				// "disableScroll": true
 			}
 		},
 		{
 			"path":"pages/mytask/detail/workOrderDetail",// 工单详情
 			"style":{
-				"disableScroll": true
+				// "disableScroll": true
 			}
 		},
 		{
 			"path":"pages/mytask/repair/workOrderRepair",// 工单维护
 			"style":{
-				"disableScroll": true
+				// "disableScroll": true
 			}
 		}
 	],
