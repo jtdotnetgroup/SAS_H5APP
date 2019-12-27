@@ -1,45 +1,39 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/index/index",// 工作台
 			"style": {
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTitleText": "工作台"
+				"disableScroll": true
 			}
 		},
 		{
-			"path":"pages/mytask/index",
+			"path":"pages/mytask/index",// 我的工单
 			"style":{
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTitleText":"我的工单"
+				"disableScroll": true
 			}
 		},
 		{
-			"path":"pages/schedule/index",
+			"path":"pages/schedule/index",// 日程
 			"style":{
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTitleText":"日程"
+				"disableScroll": true
 			}
 		},
 		{
-			"path":"pages/porfile/index",
+			"path":"pages/porfile/index",// 个人设置
 			"style":{
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTitleText":"个人设置"
+				"disableScroll": true
 			}
 		},
 		{
-			"path":"pages/mytask/detail/workOrderDetail",
+			"path":"pages/mytask/detail/workOrderDetail",// 工单详情
 			"style":{
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTitleText":"工单详情"
+				"disableScroll": true
 			}
 		},
 		{
-			"path":"pages/mytask/repair/workOrderRepair",
+			"path":"pages/mytask/repair/workOrderRepair",// 工单维护
 			"style":{
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTitleText":"维修工单"
+				"disableScroll": true
 			}
 		}
 	],

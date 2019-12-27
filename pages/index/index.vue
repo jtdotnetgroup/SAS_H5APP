@@ -14,74 +14,122 @@
 	export default {
 		data() {
 			return {
-				dataList: [
-					{
-						title: "服务管理", 
-						textList: [
-							{text: "客户管理", icon: "icontongxunlu", color: "#97f079"},
-							{text: "工单管理", icon: "icongongdan", color: "#79ddee"},
-							{text: "客户应收", icon: "iconweibaogongdan", color: "#d679ef"},
-							{text: "故障代报", icon: "iconrizhiyichang", color: "#be78f2"},
+				dataList: [{
+						title: "服务管理",
+						textList: [{
+								text: "客户管理",
+								icon: "icontongxunlu",
+								color: "#97f079"
+							},
+							{
+								text: "工单管理",
+								icon: "icongongdan",
+								color: "#79ddee"
+							},
+							{
+								text: "客户应收",
+								icon: "iconweibaogongdan",
+								color: "#d679ef"
+							},
+							{
+								text: "故障代报",
+								icon: "iconrizhiyichang",
+								color: "#be78f2"
+							},
 						]
 					},
 					{
-						title: "日常管理", 
-						textList: [
-							{text: "新增签到", icon: "iconqiandao", color: "#9679f0"},
-							{text: "工作汇报", icon: "iconzhuanxierizhi", color: "#f37ae5"},
-							{text: "任务管理", icon: "iconzhuzhuangtu", color: "#7a9df2"},
-							{text: "流程申报", icon: "iconbiangeng", color: "#7bf199"},
+						title: "日常管理",
+						textList: [{
+								text: "新增签到",
+								icon: "iconqiandao",
+								color: "#9679f0"
+							},
+							{
+								text: "工作汇报",
+								icon: "iconzhuanxierizhi",
+								color: "#f37ae5"
+							},
+							{
+								text: "任务管理",
+								icon: "iconzhuzhuangtu",
+								color: "#7a9df2"
+							},
+							{
+								text: "流程申报",
+								icon: "iconbiangeng",
+								color: "#7bf199"
+							},
 						]
 					},
 					{
-						title: "辅助支持", 
-						textList: [
-							{text: "知识库", icon: "iconzhishi", color: "#a9ef7b"},
-							{text: "知识检索", icon: "iconrongyu", color: "#74f1f1"},
-							{text: "附近客户", icon: "icondingwei", color: "#f28f79"},
-							{text: "操作规程", icon: "iconhetongdingdan", color: "#7ef079"},
+						title: "辅助支持",
+						textList: [{
+								text: "知识库",
+								icon: "iconzhishi",
+								color: "#a9ef7b"
+							},
+							{
+								text: "知识检索",
+								icon: "iconrongyu",
+								color: "#74f1f1"
+							},
+							{
+								text: "附近客户",
+								icon: "icondingwei",
+								color: "#f28f79"
+							},
+							{
+								text: "操作规程",
+								icon: "iconhetongdingdan",
+								color: "#7ef079"
+							},
 						]
 					},
 					{
-						title: "其他功能", 
-						textList: [
-							{text: "贡献榜", icon: "iconkaoqintongji1", color: "#f1bb7a"},
-							{text: "库存查询", icon: "iconfuwuqi", color: "#7aeeef"},
-							{text: "产品追溯", icon: "iconbanben", color: "#a9f07b"},
-							{text: "消息管理", icon: "iconxiaoxi", color: "#7886f1"},
+						title: "其他功能",
+						textList: [{
+								text: "贡献榜",
+								icon: "iconkaoqintongji1",
+								color: "#f1bb7a"
+							},
+							{
+								text: "库存查询",
+								icon: "iconfuwuqi",
+								color: "#7aeeef"
+							},
+							{
+								text: "产品追溯",
+								icon: "iconbanben",
+								color: "#a9f07b"
+							},
+							{
+								text: "消息管理",
+								icon: "iconxiaoxi",
+								color: "#7886f1"
+							},
 						]
 					},
 				]
 			}
 		},
 		components: {
-			navDiv: () => import('@/components/nav-div/nav-div.vue'), 
+			navDiv: () => import('@/components/nav-div/nav-div.vue'),
 			navIcon: () => import('@/components/nav-icon/nav-icon.vue')
 		},
 		onLoad() {
-			uni.getLocation({
-				type: 'wgs84',
-				success: function (res) {
-					console.log('当前位置的经度：' + res.longitude);
-					console.log('当前位置的纬度：' + res.latitude);
-					uni.showModal({
-						title: '提示',
-						// content: '当前位置的经度：' + res.longitude + '，当前位置的纬度：' + res.latitude,
-						content: res
-					})
-				},
-				fail: function (err) {
-					console.log('错误信息：', err);
-					uni.showModal({
-						title: '错误',
-						content: err.errMsg
-					})
-				}
-			});
+			// uni.chooseLocation({
+			//     success: function (res) {
+			//         console.log('位置名称：' + res.name);
+			//         console.log('详细地址：' + res.address);
+			//         console.log('纬度：' + res.latitude);
+			//         console.log('经度：' + res.longitude);
+			//     }
+			// });
 		},
 		methods: {
 			clickItem() {
-				
+
 			}
 		}
 	}

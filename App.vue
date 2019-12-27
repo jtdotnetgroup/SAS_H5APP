@@ -26,6 +26,10 @@ uni-page-wrapper {
 	background-color: #f5f6f8;
 }
 
+.uni-grid-item {
+	width: 81px;
+}
+
 @supports (bottom: env(safe-area-inset-bottom)){
 	body,
 	.uni-tabbar{

@@ -38,7 +38,7 @@
 			},
 			limit: {
 				type: Number, //限制可上传的图片数量
-				default: 0
+				default: 9
 			},
 			fileKeyName: {
 				type: String,
@@ -181,7 +181,7 @@
 				// #endif
 				if (!canUploadFile) {
 					var temps = await uni.chooseImage({
-						count: this.limit == null || this.limit - this.list.length > 9 ? 9 : 9 - limit,
+						count: this.limit == null || this.limit - this.list.length > 9 ? 9 : 9 - this.limit,
 						sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 						sourceType: ['album'] //从相册选择
 					});

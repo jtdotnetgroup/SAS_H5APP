@@ -76,26 +76,26 @@
 				<conf-div title="完成情况:">
 					<radio-btn :items="completion" @radioChange="comChange" :stageStatus="stageStatus" type="complete"></radio-btn>
 				</conf-div>
-				<view v-show="stage.useProcedure === 1">
+				<view v-show="formatModel == '故障预判'">
 					<conf-div title="故障判断:">
 						<textarea placeholder="请输入故障判断" v-model="faultJudgement" :disabled="stageStatus ==1 ? true : false"/>
 						<view class="separator"></view>
 						<label class="label operation">操作规程 >></label>
 					</conf-div>
+					<conf-div title="故障部位:">
+						<fl-picker
+							:listArr="faultLocaList"
+							:defaultArr = "faultLocaDefault"
+							type="multiple" 
+							@click="priceChange"
+							:disabled="stageStatus ==1 ? true : false"
+							:mess="''">
+							<view class="label">
+								{{faultLocaDefault}}
+							</view>
+						</fl-picker>
+					</conf-div>
 				</view>
-				<conf-div title="故障部位:">
-					<fl-picker
-						:listArr="faultLocaList"
-						:defaultArr = "faultLocaDefault"
-						type="multiple" 
-						@click="priceChange"
-						:disabled="stageStatus ==1 ? true : false"
-						:mess="''">
-						<view class="label">
-							{{faultLocaDefault}}
-						</view>
-					</fl-picker>
-				</conf-div>
 				<conf-div title="是否保质期内:">
 					<radio-btn :items="yes_no" @radioChange="yes_noChange" :stageStatus="stageStatus" type="isQGP"></radio-btn>
 				</conf-div>
