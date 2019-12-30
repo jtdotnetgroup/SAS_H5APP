@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<uni-section class="title" :title="title"></uni-section>
+		<uni-section class="title" :title="(required ? star : '') + title"></uni-section>
 		<view class="example-body">
 			<slot></slot>
 		</view>
@@ -12,13 +12,15 @@
 		name: "confDiv",
 		data() {
 			return {
+				star: '* '
 			}
 		},
 		components: {
 			uniSection: () => import('@dcloudio/uni-ui/lib/uni-section/uni-section.vue')
 		},
 		props: {
-			'title': String
+			'title': String,
+			required: Boolean
 		}
 	}
 </script>
