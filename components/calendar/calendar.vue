@@ -1,20 +1,18 @@
 <template>
-	<view class="content">
-		<view class="body_view">
-			<view class="calendar-content" v-if="showCalendar">
-				<view>
-					<uni-calendar @change="change" />
-				</view>
+	<view class="body_view">
+		<view class="calendar-content" v-if="showCalendar">
+			<view>
+				<uni-calendar @change="change" />
 			</view>
-			<view class="calendar_list">
-				<uni-section title="日程列表" type="line"></uni-section>
-				<uni-list>
-					<uni-list-item :show-extra-icon="true" :extra-icon="extraIcon01" :show-arrow="false" title="现场维修" note="2019-12-04" />
-					<uni-list-item :show-extra-icon="true" :extra-icon="extraIcon02" :show-arrow="false" title="测试传输" note="2019-12-08" />
-				</uni-list>
-			</view>
-		</view>	
-	</view>
+		</view>
+		<view class="calendar_list">
+			<uni-section title="日程列表" type="line"></uni-section>
+			<uni-list>
+				<uni-list-item :show-extra-icon="true" :extra-icon="extraIcon01" :show-arrow="false" title="现场维修" note="2019-12-04" />
+				<uni-list-item :show-extra-icon="true" :extra-icon="extraIcon02" :show-arrow="false" title="测试传输" note="2019-12-08" />
+			</uni-list>
+		</view>
+	</view>	
 </template>
 
 <script>
