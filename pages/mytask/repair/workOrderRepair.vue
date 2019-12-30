@@ -325,7 +325,6 @@
 		},
 		methods: {
 			formSubmit(e) {
-				console.log('提交');
 				var rule = []
 				if (this.stage.signFlag === 1) {
 					var singinRule = {value:this.signInTime, checkType:'String', errorMsg:'签到时间不能为空'}
@@ -348,7 +347,6 @@
 					rule.push(singoutRule)
 				}
 				var checkRes = formChecker.check(rule)
-				console.log(checkRes);
 				if (checkRes) {
 					this.commitInfo();
 				} else {
