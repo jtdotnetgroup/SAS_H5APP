@@ -8,12 +8,12 @@
 				<slot></slot>
 			</view>
 		</view>
-		<uni-popup ref="popup" type="center" :maskClick='maskClick'>
+		<uni-popup ref="popup" :type="typeStyle" :maskClick='maskClick'>
 			<view class="picker" catchtouchmove="true">
 				<!-- 标题 -->
 				<view class="title">
 						 <text class="cancel" @tap.stop="closePicker">关闭</text>
-						 <!-- <text class="ok" @tap.stop="okClick">确定</text> -->
+						 <text class="ok" v-show="open == '1'" @tap.stop="okClick">确定</text>
 				</view>
 				<!-- 数据列表 -->
 				<view class="list" v-if="listArr.length>0">
@@ -62,6 +62,14 @@
 			maskClick: {
 				type: Boolean,
 				default: false
+			},
+			typeStyle: {
+				type: String,
+				default: 'bottom'
+			},
+			open: {
+				type: String,
+				default: '0'
 			}
 		},		
 		data() {
