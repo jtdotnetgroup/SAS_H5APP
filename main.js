@@ -9,7 +9,7 @@ Vue.config.productionTip = false
 
 moment.locale('cn')
 Vue.prototype.$moment = moment
-Vue.prototype.$IP = 'http://192.168.3.8:8096'
+Vue.prototype.$IP = 'http://40.73.75.101:8080'
 
 App.mpType = 'app'
 

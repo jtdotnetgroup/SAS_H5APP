@@ -52,7 +52,8 @@ export default {
 			default: []
 		},
 		stageStatus: {	// 阶段完成状态（为 1 就是已完成，只能查看；为 0 就是继续，可编辑）
-			type: String
+			type: String,
+			default: '0'
 		},
 		photoArr: {
 			type: Array

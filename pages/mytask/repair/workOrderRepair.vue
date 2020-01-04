@@ -44,10 +44,9 @@
 				</view>
 			</uni-card>
 		</view>
-		
-		
-		<view class="context">
-			<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
+
+		<form @submit="formSubmit" @reset="formReset">
+			<view class="context">
 				<conf-div title="工作要求:">
 					<span class="label">{{stage.memo}}</span>
 				</conf-div>
@@ -60,25 +59,27 @@
 						<span class="iconfont icontianjiayonghu iconStyle Btn" @click="stageStatus != 1 ? selectUser() : ''"></span>
 					</view>
 				</conf-div>
-				<view v-show="stage.signFlag === 1">
-					<conf-div title="签到时间:">
+				<view v-if="stage.signFlag === 1">
+					<conf-div title="签到时间:" :required="required">
 						<view class="big">
 							<span class="label user">{{signInTime}}</span>
 							<span class="iconfont iconqian iconStyle Btn" @click="stageStatus != 1 ? signIn() : ''"></span>
 						</view>
 					</conf-div>
 				</view>
-				<view v-show="stage.photoFlag === 1">
-					<conf-div title="现场拍照(最多只能上传9张):">
-						<chooseImage :num="9" :size="150" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList" :photoList.sync="photoList" @uploadPhotoSuccess="uploadPhotoSuccess" @deletePhotoSuccess="deletePhotoSuccess" :stageStatus="stageStatus" :photoArr="photoArr" />
+				<view v-if="stage.photoFlag === 1">
+					<conf-div title="现场拍照(最多只能上传9张):" :required="required">
+						<chooseImage :num="9" :size="150" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList"
+						 :photoList.sync="photoList" @uploadPhotoSuccess="uploadPhotoSuccess" @deletePhotoSuccess="deletePhotoSuccess"
+						 :stageStatus="stageStatus" :photoArr="photoArr" />
 					</conf-div>
 				</view>
 				<conf-div title="完成情况:">
 					<radio-btn :items="completion" @radioChange="comChange" :stageStatus="stageStatus" type="complete"></radio-btn>
 				</conf-div>
-				<view v-show="formatModel == '故障预判'">
-					<conf-div title="故障判断:">
-						<textarea placeholder="请输入故障判断" v-model="faultJudgement" :disabled="stageStatus ==1 ? true : false"/>
+				<view v-if="formatModel == '故障预判'">
+					<conf-div title="故障判断:" :required="required">
+						<textarea placeholder="请输入故障判断" v-model="faultJudgement" :disabled="stageStatus ==1 ? true : false" />
 						<view class="separator"></view>
 						<label class="label operation">操作规程 >></label>
 					</conf-div>
@@ -89,7 +90,8 @@
 							type="multiple" 
 							@click="priceChange"
 							:disabled="stageStatus ==1 ? true : false"
-							:mess="''">
+							:mess="''"
+							typeStyle="center">
 							<view class="label">
 								{{faultLocaDefault}}
 							</view>
@@ -99,7 +101,7 @@
 				<conf-div title="是否保质期内:">
 					<radio-btn :items="yes_no" @radioChange="yes_noChange" :stageStatus="stageStatus" type="isQGP"></radio-btn>
 				</conf-div>
-				<view v-show="stage.tmplateFlag === 1">
+				<view v-if="stage.tmplateFlag === 1">
 					<conf-div title="费用合计(元):">
 						<input placeholder="请输入费用合计(元)" type="number" v-model="cost" :disabled="stageStatus ==1 ? true : false"/>
 					</conf-div>
@@ -107,50 +109,49 @@
 				<conf-div title="客户邮箱:">
 					<span class="label">{{getTicket.client.email}}</span>
 				</conf-div>
-				<view v-show="stage.submitAttach === 1">
-					<conf-div title="附件(最多只能上传9份):">
+				<view v-if="stage.submitAttach === 1">
+					<conf-div title="附件(最多只能上传9份):" :required="required">
 						<Attachment mode="create" :canUploadFile="true" :showProcess="true" :attachmentList.sync="attachmentList" @uploadSuccess="uploadSuccess" @deleteSuccess="deleteSuccess" :stageStatus="stageStatus" :fileArr="fileArr"></Attachment>
 					</conf-div>
 				</view>
-				<view v-show="stage.signOutFlag === 1">
-					<conf-div title="签出时间:">
+				<view v-if="stage.signOutFlag === 1">
+					<conf-div title="签出时间:" :required="required">
 						<view class="big">
 							<span class="label user">{{signOutTime}}</span>
 							<span class="iconfont iconqian iconStyle Btn" @click="stageStatus != 1 ? signOut() : ''"></span>
 						</view>
 					</conf-div>
 				</view>
-				<view v-show="stageStatus != 1">
+				<view v-if="stageStatus != 1">
 					<view class="occupying-box"></view>
 				</view>
-			</scroll-view>
-		</view>
-		
-		
-		<view v-show="stageStatus != 1">
-			<view class="bottom">
-				<uni-grid :column="3" :show-border="false"  :square="false">
-					<uni-grid-item>
-						<view class="bottomIcon" @click="commit">
-							<span class="iconfont icontijiao bottomIcon" style="color: #09a0f7;"></span>
-							<text class="text">提交</text>
-						</view>
-					</uni-grid-item>
-					<uni-grid-item>
-						<view class="bottomIcon" @click="">
-							<span class="iconfont iconzancun bottomIcon" style="color: #999999;"></span>
-							<text class="text">暂存</text>
-						</view>
-					</uni-grid-item>
-					<uni-grid-item>
-						<view class="bottomIcon" @click="giveUp">
-							<span class="iconfont iconfangqi bottomIcon" style="color: #d81e06;"></span>
-							<text class="text">放弃</text>
-						</view>
-					</uni-grid-item>
-				</uni-grid>
 			</view>
-		</view>
+		
+			<view v-if="stageStatus != 1">
+				<view class="bottom">
+					<uni-grid :column="3" :show-border="false"  :square="false">
+						<uni-grid-item>
+							<button class="bottomIcon" @click="" form-type="submit">
+								<span class="iconfont icontijiao bottomIcon" style="color: #09a0f7;"></span>
+								<text class="text">提交</text>
+							</button>
+						</uni-grid-item>
+						<uni-grid-item>
+							<button class="bottomIcon" @click="">
+								<span class="iconfont iconzancun bottomIcon" style="color: #999999;"></span>
+								<text class="text">暂存</text>
+							</button>
+						</uni-grid-item>
+						<uni-grid-item>
+							<button class="bottomIcon" @click="" form-type="reset">
+								<span class="iconfont iconfangqi bottomIcon" style="color: #d81e06;"></span>
+								<text class="text">放弃</text>
+							</button>
+						</uni-grid-item>
+					</uni-grid>
+				</view>
+			</view>
+		</form>
 	</view>
 </template>
 
@@ -160,6 +161,7 @@
 	import {delUploadFile} from '@/api/Ticket.js'
 	//import * as dd from 'dingtalk-jsapi'
 	
+	var formChecker = require('@/components/form/validate.js')
 	export default {
 		name: "mytaskRepair",
 		data() {
@@ -173,10 +175,6 @@
 					'display': 'inline-block'
 				},
 				left_right: '右',
-				scrollTop: 0,
-				old: {
-					scrollTop: 0
-				},
 				hasChooseImg: '',
 				completion: [{
 						value: '1',
@@ -204,7 +202,7 @@
 				photoList: [],
 				fileList:[],
 				imageList: [],
-				fileImage:[],
+				fileImag:[],
 				stage: {},/* 阶段对象 */
 				stageLists: [],/* 阶段列表（VUEX） */
 				person: '',/* 同行人员 */
@@ -221,7 +219,8 @@
 				photoArr: [],
 				faultLocaDefault: '',
 				del_photoId: '',/* 点击删除照片时 需要删除的照片id */
-				del_fileId: ''/* 点击删除文件时 需要删除的文件id */
+				del_fileId: '',/* 点击删除文件时 需要删除的文件id */
+				required: true
 			}
 		},
 		components: {
@@ -326,6 +325,55 @@
 			}
 		},
 		methods: {
+			formSubmit(e) {
+				var rule = []
+				if (this.stage.signFlag === 1) {
+					var singinRule = {value:this.signInTime, checkType:'String', errorMsg:'签到时间不能为空'}
+					rule.push(singinRule)
+				}
+				if (this.stage.photoFlag === 1) {
+					var photoRule = {value:this.fileImag, checkType:'length', errorMsg:'必须拍照'}
+					rule.push(photoRule)
+				}
+				if (this.formatModel == '故障预判') {
+					var faultJudgementRule = {value:this.faultJudgement, checkType:'String', errorMsg:'故障预判不能为空'}
+					rule.push(faultJudgementRule)
+				}
+				if (this.stage.submitAttach === 1) {
+					var fileRule = {value:this.fileList, checkType:'length', errorMsg:'必须上传附件'}
+					rule.push(fileRule)
+				}
+				if (this.stage.signOutFlag === 1) {
+					var singoutRule = {value:this.signOutTime, checkType:'String', errorMsg:'签出时间不能为空'}
+					rule.push(singoutRule)
+				}
+				var checkRes = formChecker.check(rule)
+				if (checkRes) {
+					this.commitInfo();
+				} else {
+					uni.showToast({
+						title:formChecker.error,
+						icon:'none'
+					})
+				}
+			},
+			formReset(e) {
+				if (this.fileImag != undefined) {
+					for (let i = 0; i < this.fileImag.length; i++) {
+						this.delUploader(this.fileImag[i].id)
+					}
+				}
+				if (this.fileList != undefined) {
+					for (let i = 0; i < this.fileList.length; i++) {
+						this.delUploader(this.fileList[i].id)
+					}
+				}
+				uni.navigateBack({
+					delta:1
+				})
+				var payload = {'ticketType': this.ticketType, 'ticketId': this.ticketId}
+				this.$store.dispatch('stage/GetDataList', payload)
+			},
 			selectUser() {
 				console.log('选择人员');
 				// dd.ready(() => {
@@ -343,26 +391,6 @@
 			},
 			signOut() {
 				this.signOutTime = format(this.$moment())
-			},
-			commit() {
-				this.commitInfo();
-			},
-			giveUp() {
-				if (this.fileImag != undefined) {
-					for (let i = 0; i < this.fileImag.length; i++) {
-						this.delUploader(this.fileImag[i].id)
-					}
-				}
-				if (this.fileList != undefined) {
-					for (let i = 0; i < this.fileList.length; i++) {
-						this.delUploader(this.fileList[i].id)
-					}
-				}
-				uni.navigateBack({
-					delta:1
-				})
-				var payload = {'ticketType': this.ticketType, 'ticketId': this.ticketId}
-				this.$store.dispatch('stage/GetDataList', payload)
 			},
 			async commitInfo(){
 				this.delUploader(this.del_photoId)/* 删除图片 */
@@ -390,8 +418,6 @@
 				formData.append('signInTime', this.signInTime)/* 签到时间 */
 				formData.append('completeStatus', this.completeStatus)/* 完成情况 */
 				formData.append('faultJudgement', this.faultJudgement)/* 故障判断 */
-				formData.append('faultLocation', this.faultLocation)/* 故障部位 */
-				formData.append('isQGP', this.isQGP)/* 是否保质期内 */
 				formData.append('cost', this.cost)/* 费用合计 */
 				formData.append('signOutTime', this.signOutTime)/* 签出时间 */
 				var  fileId = "";
@@ -435,15 +461,6 @@
 				}).catch(error => {
 					console.log(error);
 				})
-			},
-			upper() {
-				// console.log("到顶了");
-			},
-			lower() {
-				// console.log("到底了");
-			},
-			scroll() {
-				// console.log("滚动了");
 			},
 			uploadPhotoSuccess(result, entityList) {
 				if(result.statusCode == 200) {
@@ -560,11 +577,11 @@
 	
 	.bottom {
 		background-color: #FFFFFF;
-		padding: 20rpx 0;
 		width: 100%;
 		position: fixed;
 		left: 0;
 		bottom: 0;
+		z-index: 999;
 	}
 	
 	@supports (bottom: env(safe-area-inset-bottom)){
@@ -578,6 +595,12 @@
 	.bottomIcon {
 		text-align: center;
 		font-size: 60rpx;
+		line-height: 1.5;
+		background-color: transparent;
+	}
+	
+	uni-button:after {
+		border: none !important;
 	}
 	
 	.big {
@@ -627,4 +650,18 @@
 			background-color: #f5f6f8;
 		}
 	}
+	
+	@media (device-height:480px) and (-webkit-min-device-pixel-ratio:2),(device-height:568px) and (-webkit-min-device-pixel-ratio:2){/* 兼容iphone4/4s5/5 */ 
+		.occupying-box {
+			height: 95px;
+			background-color: #f5f6f8;
+		}
+	}
+	
+	@media only screen and (min-device-width:241px) and (max-device-width:360px){/*奇葩安卓机dpr统一为1  Galaxy 5s*/
+		.occupying-box {
+			height: 95px;
+			background-color: #f5f6f8;
+		}
+	} 
 </style>
