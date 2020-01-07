@@ -1,11 +1,11 @@
 {
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		// {
-		// 	"path": "pages/index/index",// 工作台
-		// 	"style": {
-		// 		// "disableScroll": true
-		// 	}
-		// },
+		{
+			"path": "pages/index/index",// 工作台
+			"style": {
+				// "disableScroll": true
+			}
+		},
 		{
 			"path":"pages/mytask/index",// 我的工单
 			"style":{
@@ -53,12 +53,12 @@
 				"iconPath":"static/mytask.png",
 				"selectedIconPath":"static/mytask1.png"
 			},
-			// {
-			// 	"pagePath":"pages/index/index",
-			// 	"text":"工作台",
-			// 	"iconPath":"static/workbranch.png",
-			// 	"selectedIconPath":"static/workbranch1.png"
-			// },
+			{
+				"pagePath":"pages/index/index",
+				"text":"工作台",
+				"iconPath":"static/workbranch.png",
+				"selectedIconPath":"static/workbranch1.png"
+			},
 			{
 				"text":"日程",
 				"iconPath":"static/schedule.png",

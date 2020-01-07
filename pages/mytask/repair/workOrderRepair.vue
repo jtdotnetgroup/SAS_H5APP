@@ -159,7 +159,8 @@
 	import {format} from '@/utils/formatDate.js'
 	import {ticketRepairSave} from '@/api/Ticket.js'
 	import {delUploadFile} from '@/api/Ticket.js'
-	//import * as dd from 'dingtalk-jsapi'
+	import * as dd from 'dingtalk-jsapi'
+	import {GetJsapiTicket} from '@/api/ddjsapi.js'
 	
 	var formChecker = require('@/components/form/validate.js')
 	export default {
@@ -220,7 +221,10 @@
 				faultLocaDefault: '',
 				del_photoId: '',/* 点击删除照片时 需要删除的照片id */
 				del_fileId: '',/* 点击删除文件时 需要删除的文件id */
-				required: true
+				required: true,
+				timeStamp: "", //签名的方法的参数
+				nonceStr: "",
+				signature: "",
 			}
 		},
 		components: {
@@ -376,15 +380,17 @@
 			},
 			selectUser() {
 				console.log('选择人员');
-				// dd.ready(() => {
+				var params = {
+					url: this.$url
+				}
+				GetJsapiTicket(params).then(res => {
+					this.timeStamp = res.data.body.timeStamp;
+					this.nonceStr = res.data.body.nonceStr;
+					this.signature = res.data.body.signature;
+					this.GETDDUSER()
+				}).catch(err => {
 					
-				// })
-				// dd.error((error) => {
-				// 	uni.showModal({
-				// 		title: '错误',
-				// 		content: 'dd error: ' + JSON.stringify(error)
-				// 	})
-				// })
+				})
 			},
 			signIn() {
 				this.signInTime = format(this.$moment())
@@ -449,7 +455,7 @@
 					if (response.status === 200) {
 						uni.showToast({
 							title: '保存成功',
-							duration: 2000,
+							duration: 1000,
 							mask: true
 						})
 						uni.navigateBack({
@@ -507,6 +513,61 @@
 						console.log(error);
 					})
 				}
+			},
+			GETDDUSER() {
+				var _this = this;
+				
+				_this.DDConfig(); //钉钉配置方法
+				
+				dd.ready(() => {
+					dd.biz.contact.complexPicker({
+					    title:"选择同行人员",            //标题
+					    corpId:_this.$corpId,              //企业的corpId
+					    multiple:true,            //是否多选
+					    limitTips:"超出了",          //超过限定人数返回提示
+					    maxUsers:1000,            //最大可选人数
+					    pickedUsers:[],            //已选用户
+					    pickedDepartments:[],          //已选部门
+					    disabledUsers:[],            //不可选用户
+					    disabledDepartments:[],        //不可选部门
+					    requiredUsers:[],            //必选用户（不可取消选中状态）
+					    requiredDepartments:[],        //必选部门（不可取消选中状态）
+					    appId:344468113,              //微应用的Id
+					    responseUserOnly:true,        //返回人，或者返回人和部门
+					    startWithDepartmentId:0 ,   //仅支持0和-1
+					    onSuccess: function(result) {
+							uni.showModal({
+								title:"提示",
+								content:result
+							})
+					    },
+					   onFail : function(err) {
+						   uni.showModal({
+						   	title: '错误',
+						   	content: 'dd error: ' + JSON.stringify(err)
+						   })
+					   }
+					});
+				})
+				dd.error((error) => {
+					uni.showModal({
+						title: '错误',
+						content: 'dd error: ' + JSON.stringify(error)
+					})
+				})
+			},
+			//钉钉config 配置
+			DDConfig() {
+				var _this = this;
+
+				dd.config({
+					agentId: _this.$agentId,
+					corpId: _this.$corpId,
+					timeStamp: _this.timeStamp,
+					nonceStr: _this.nonceStr,
+					signature: _this.signature,
+					jsApiList: ["biz.contact.complexPicker"]
+				});
 			}
 		}
 	}
