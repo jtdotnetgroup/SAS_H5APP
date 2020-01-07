@@ -87,7 +87,7 @@
 		},
 		methods: {
 			formSubmit(e) {
-				console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value))
+				console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value));
 			},
 			formReset(e) {
 				console.log('清空数据')
