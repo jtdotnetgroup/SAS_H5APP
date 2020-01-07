@@ -118,6 +118,10 @@
 			navIcon: () => import('@/components/nav-icon/nav-icon.vue')
 		},
 		onLoad() {
+			this.$store.dispatch("GET_CODE", this.$corpId).then(async res => {
+				await this.$store.dispatch("GET_TOKEN")
+			})
+			
 			// uni.chooseLocation({
 			//     success: function (res) {
 			//         console.log('位置名称：' + res.name);

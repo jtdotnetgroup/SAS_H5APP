@@ -1,16 +1,23 @@
 import axios from 'axios'
 
 export const http = axios.create({
-	baseURL: 'http://40.73.75.101:8080',
-	timeout: 10000
+	baseURL: 'http://120.77.40.245:8080/sac',
+	timeout: 50000
 })
 
 // Add a request interceptor
 http.interceptors.request.use(function (config) {
     // Do something before request is sent
 	uni.showLoading({
-	    title: '加载中'
+	    title: '加载中',
+		mask: true
 	});
+	config.headers.common['code'] = sessionStorage.getItem('code')
+	if (config.url.indexOf('getAccessToken') < 0) {
+		config.headers.common['userId'] = sessionStorage.getItem('userId')
+		config.headers.common['token'] = sessionStorage.getItem('token')
+		config.headers.common['unVerify'] = '0'
+	}
     return config;
   }, function (error) {
     // Do something with request error

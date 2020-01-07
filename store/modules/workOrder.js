@@ -17,7 +17,7 @@ const mutations = {
 }
 
 const actions = {
-	GetDataList({commit,state}){
+	GetDataList({commit,state}, payload){
 		getWorkOrderList().then(response => {
 			commit("setTicketList",response.data.body.ticketList)
 		}).catch(error => {
