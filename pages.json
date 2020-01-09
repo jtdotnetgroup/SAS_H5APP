@@ -82,7 +82,7 @@
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8",
 		"navigationStyle":"custom"
-	}/* ,
+	},
 	"tabBar":{
 		"backgroundColor":"#FFFFFF",
 		"list":[
@@ -110,13 +110,7 @@
 				"iconPath":"static/porfile1.png",
 				"selectedIconPath":"static/porfile.png",
 				"pagePath":"pages/porfile/index"
-			},
-			{
-				"text":"服务号",
-				"iconPath":"static/1219083.png",
-				"selectedIconPath":"static/1219083.png",
-				"pagePath":"pages/wechat_service_num/workOrder/index"
 			}
 		]
-	} */
+	}
 }
