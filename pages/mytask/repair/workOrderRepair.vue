@@ -207,6 +207,7 @@
 				stage: {},/* 阶段对象 */
 				stageLists: [],/* 阶段列表（VUEX） */
 				person: '',/* 同行人员 */
+				person_DD_ID: '',/* 同行人员钉钉ID */
 				signInTime: '',/* 签到时间 */
 				signOutTime: '',/* 签出时间 */
 				arr: [],/* 图片选择数组 */
@@ -250,6 +251,7 @@
 			console.log(this.stage);
 			if (this.stage.stageProcess != undefined) {
 				this.person = this.stage.stageProcess.person
+				this.person_DD_ID = this.stage.stageProcess.personDDId
 				this.signInTime = format(this.stage.stageProcess.completedDate)
 				this.signOutTime = format(this.stage.stageProcess.completedDate)
 				this.faultJudgement = this.stage.stageProcess.memo
@@ -421,6 +423,7 @@
 				formData.append("phototName",imageName);
 				formData.append("photoPath", imagePath);
 				formData.append('participant', this.person)/* 同行人员 */
+				formData.append('participantDDId', this.person_DD_ID)/* 同行人员钉钉ID */
 				formData.append('signInTime', this.signInTime)/* 签到时间 */
 				formData.append('completeStatus', this.completeStatus)/* 完成情况 */
 				formData.append('faultJudgement', this.faultJudgement)/* 故障判断 */
@@ -455,14 +458,16 @@
 					if (response.status === 200) {
 						uni.showToast({
 							title: '保存成功',
-							duration: 1000,
-							mask: true
+							duration: 500,
+							mask: true,
+							complete: () => {
+								uni.navigateBack({
+									delta:1
+								});
+								var payload = {'ticketType': this.ticketType, 'ticketId': this.ticketId}
+								this.$store.dispatch('stage/GetDataList', payload)
+							}
 						})
-						uni.navigateBack({
-							delta:1
-						})
-						var payload = {'ticketType': this.ticketType, 'ticketId': this.ticketId}
-						this.$store.dispatch('stage/GetDataList', payload)
 					}
 				}).catch(error => {
 					console.log(error);
@@ -520,13 +525,15 @@
 				_this.DDConfig(); //钉钉配置方法
 				
 				dd.ready(() => {
+					var pickedUsers = []
+					pickedUsers.push(_this.person_DD_ID);
 					dd.biz.contact.complexPicker({
 					    title:"选择同行人员",            //标题
 					    corpId:_this.$corpId,              //企业的corpId
-					    multiple:true,            //是否多选
+					    multiple:false,            //是否多选
 					    limitTips:"超出了",          //超过限定人数返回提示
 					    maxUsers:1000,            //最大可选人数
-					    pickedUsers:[],            //已选用户
+					    pickedUsers:pickedUsers,            //已选用户
 					    pickedDepartments:[],          //已选部门
 					    disabledUsers:[],            //不可选用户
 					    disabledDepartments:[],        //不可选部门
@@ -536,10 +543,16 @@
 					    responseUserOnly:true,        //返回人，或者返回人和部门
 					    startWithDepartmentId:0 ,   //仅支持0和-1
 					    onSuccess: function(result) {
-							uni.showModal({
-								title:"提示",
-								content:result
-							})
+							_this.person = '';
+							_this.person_DD_ID = '';
+							for (let i = 0; i < result.users.length; i++) {
+								_this.person += result.users[i].name;
+								_this.person_DD_ID += result.users[i].emplId;
+								if(i != (result.users.length - 1)){
+									_this.person += ",";
+									_this.person_DD_ID += ",";
+								}
+							}
 					    },
 					   onFail : function(err) {
 						   uni.showModal({
