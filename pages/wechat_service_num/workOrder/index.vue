@@ -52,18 +52,12 @@
 			displayList(){
 				let item = this.$store.getters['workOrder/getTicketList']
 				return item.filter(e=>e.ticketStatus===this.current + 2)
-			},
-			items() {
-				let item = this.$store.getters['dic/getStatusList']
-				let items = []
-				item.forEach((list) => {
-					items.push(list.name) 
-				})
-				return items.splice(1)
 			}
 		},
 		beforeMount() {
-			this.$store.dispatch('workOrder/GetDataList')
+			this.$store.dispatch('dic/GetTypeList', '工单类型').then(res => {
+				this.$store.dispatch('workOrder/GetDataList')
+			})
 		},
 		methods:{
 			btn0(){
