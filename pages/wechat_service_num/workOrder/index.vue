@@ -9,7 +9,7 @@
 			<button form-type="reset" type="default" size="mini" @click="btn0">我的设备</button>
 			<button form-type="reset" type="warn" size="mini" @click="btn2">服务评价</button>
 			<button form-type="submit" type="primary" size="mini" @click="btn1">故障详情</button>
-			<button form-type="reset" type="warn" size="mini" @click="btn3">投诉建议</button>
+			<!-- <button form-type="reset" type="warn" size="mini" @click="btn3">投诉建议</button> -->
 		</view>
 	</view>
 </template>
@@ -53,14 +53,15 @@
 				let item = this.$store.getters['workOrder/getTicketList']
 				return item.filter(e=>e.ticketStatus===this.current + 2)
 			},
-			items() {
-				let item = this.$store.getters['dic/getStatusList']
-				let items = []
-				item.forEach((list) => {
-					items.push(list.name) 
-				})
-				return items.splice(1)
-			}
+			// items() {
+			// 	let item = this.$store.getters['dic/getStatusList']
+			// 	let items = []
+			// 	item.forEach((list) => {
+			// 		items.push(list.name) 
+			// 	})
+			// 	return items.splice(1)
+			// }
+			
 		},
 		beforeMount() {
 			this.$store.dispatch('workOrder/GetDataList')
@@ -86,6 +87,13 @@
 					url: '../suggests/suggest'
 				})
 			}
+		},
+		onLoad() {
+			this.$store.dispatch('dic/GetStatusList', '工单状态').then(res=>{ 
+				this.$store.dispatch('dic/GetTypeList', '工单类型').then(res=>{
+					this.$store.dispatch('dic/GetFaultLocaList', '故障部位')
+				})
+			})
 		}
 	}
 </script>
@@ -116,7 +124,7 @@
 		height: calc(100vh - 29px - 60px);
 	}
 	.gird {
-		margin: 15 30rpx;
+		margin: 4px 2px;
 		display: flex;
 		grid-template-columns: 50% 50%;
 	}

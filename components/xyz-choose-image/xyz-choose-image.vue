@@ -57,6 +57,9 @@ export default {
 		},
 		photoArr: {
 			type: Array
+		},
+		requestRUl:{
+			type: String
 		}
 	},
 	data() {
@@ -93,7 +96,7 @@ export default {
 					
 					for (let i = 0; i < _this.imgList.length; i++) {
 						uni.uploadFile({
-							url: _this.uploadPhotoUrl,
+							url: _this.uploadPhotoUrl ,
 							filePath: _this.imgList[i].path,
 							name: 'photo',
 							formData: {

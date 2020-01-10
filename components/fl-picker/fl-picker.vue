@@ -1,7 +1,7 @@
 <template>
 	<view  class="fl-picker" @tap.stop="!disabled ? showPicker() : ''">
 		<view class="box">
-			<view class="label-left">
+			<view class="label-left" v-show="show">
 				当前选择
 			</view>
 			<view class="value-right">
@@ -70,6 +70,10 @@
 			open: {
 				type: String,
 				default: '0'
+			},
+			show:{
+				type: Boolean,
+				default: true
 			}
 		},		
 		data() {

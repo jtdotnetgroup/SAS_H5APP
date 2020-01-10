@@ -1,39 +1,45 @@
 <template>
 	<view class="page">
-		<text class="example-info">
-			尊敬的客户，您好！            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;感谢您对索奥斯一直以来的关心和支持！麻烦您再花上十分钟的时间，对我们的工作给出建议！
-		</text>
-		<view class="example-body">
-			<label class="label">产品满意度：</label>
-			<myRate v-on:change="product" />
-			<span>{{productScore}}</span>
-			<span class="label text-body">{{productRateScoreText}}</span>
-		</view>
-		<view class="example-body">
-			<label class="label">服务满意度：</label>
-			<myRate v-on:change="service" />
-			<span>{{serviceScore}}</span>
-			<span class="label text-body">{{serviceRateScoreText}}</span>
-		</view>
-		<view class="uni-textarea">
-			<textarea  style="border:#EFEFF4 solid;" placeholder="投诉与建议:"/>
-		</view>
-		<view class="example-body-btn">
-			<uni-button class="" type="primary">提交</uni-button>
-		</view>
+		<form @submit="save" @reset="formReset">
+			<text class="example-info">
+				尊敬的客户，您好！				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;感谢您对索奥斯一直以来的关心和支持！麻烦您再花上十分钟的时间，对我们的工作给出建议！
+			</text>
+			<view class="example-body">
+				<label class="label">产品满意度：</label>
+				<myRate v-on:change="product" />
+				<span>{{productScore}}</span>
+				<span class="label text-body">{{productRateScoreText}}</span>
+			</view>
+			<view class="example-body">
+				<label class="label">服务满意度：</label>
+				<myRate v-on:change="service" />
+				<span>{{serviceScore}}</span>
+				<span class="label text-body">{{serviceRateScoreText}}</span>
+			</view>
+			<view class="uni-textarea">
+				<textarea  style="border:#EFEFF4 solid;" placeholder="投诉与建议:" v-model="memo"/>
+			</view>
+			<view class="example-body-btn">
+				<button  form-type="submit" type="primary">提交</button>
+			</view>
+		</form>
 	</view>
 </template>
 
 <script>
+	import {saveSuggest} from '@/api/serviceNumber.js'
 	export default {
 		name:'evaluate',
 		data() {
 			return {
 				productScore: '',
 				serviceScore: '',
+				proScore:"",
+				serScore:"",
 				productRateScoreText: '',
 				serviceRateScoreText: '',
 				rateScoreDesc: ['非常不满意，各方面都很差', '不满意，比较差', '一般满意，还需改善', '比较满意，仍可改善', '非常满意，无可挑剔'],
+				memo:"",
 			}
 		},
 		components: {
@@ -45,11 +51,42 @@
 			product(index) {
 				this.productRateScoreText=this.rateScoreDesc[index.value-1]
 				this.productScore = index.value + "星";
+				this.proScore = index.value;
 			},
 			service(index) {
 				this.serviceRateScoreText = this.rateScoreDesc[index.value-1]
 				this.serviceScore = index.value + "星";
-			}
+				this.serScore = index.value;
+			},
+			save(){
+				let params = new FormData();
+				params.append("proposerId","");// 提议者ID
+				params.append('productScore',this.proScore);// 产品满意度
+				params.append('productScoreLabel', this.productRateScoreText);// 满意度标签
+				params.append('serviceScore', this.serScore);// 服务满意度
+				params.append('serviceScoreLabel', this.serviceRateScoreText);// 满意度标签
+				params.append('memo', this.memo);// 投诉与建议
+				this.onSubmit(params);
+			},
+			onSubmit(formData){
+				saveSuggest(formData).then(response => {
+					console.log(response);
+					if (response.status === 200) {
+						uni.showToast({
+							title: '保存成功',
+							duration: 1000,
+							mask: true
+						})
+						uni.navigateBack({
+							delta:1
+						})
+						// var payload = {'id': "", 'name': ""}
+						//this.$store.dispatch('');
+					}
+				}).catch(error => {
+					console.log(error);
+				})
+			},
 		}
 	}
 </script>
