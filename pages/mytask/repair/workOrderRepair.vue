@@ -75,7 +75,7 @@
 					<conf-div title="现场拍照(最多只能上传9张):" :required="required">
 						<chooseImage :num="9" :size="150" :isSave="false" saveStr="chooseImage" :isClear="hasChooseImg" :imageList="imageList"
 						 :photoList.sync="photoList" @uploadPhotoSuccess="uploadPhotoSuccess" @deletePhotoSuccess="deletePhotoSuccess"
-						 :stageStatus="stageStatus" :photoArr="photoArr" />
+						 :stageStatus="stageStatus" :photoArr="photoArr" :picRequestRUl="picRequestRUl"/>
 					</conf-div>
 				</view>
 				<conf-div title="完成情况:">
@@ -175,6 +175,7 @@
 		name: "mytaskRepair",
 		data() {
 			return {
+				picRequestRUl: '/f/mobile/upload/uploadPicture',  // 请求地址
 				id: '',/* 阶段id */
 				ticketId: "",/* 工单id */
 				stageStatus: '',/* 阶段完成状态 */

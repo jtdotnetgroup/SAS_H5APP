@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import workOrder from './modules/workOrder.js'
 import dic from './modules/dic.js'
 import stage from './modules/stage.js'
+import contact from './modules/contact.js'
 import * as dd from 'dingtalk-jsapi'
 import {GetAccessToken} from '@/api/ddjsapi.js'
 
@@ -88,7 +89,8 @@ const actions = {
 const modules = {
 	workOrder,
 	dic,
-	stage
+	stage,
+	contact
 }
 
 export default new Vuex.Store({

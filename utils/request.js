@@ -17,7 +17,7 @@ http.interceptors.request.use(function (config) {
 	if (config.url.indexOf('getAccessToken') < 0) {
 		config.headers.common['userId'] = sessionStorage.getItem('userId')
 		config.headers.common['token'] = sessionStorage.getItem('token')
-		config.headers.common['unVerify'] = '0'
+		config.headers.common['unVerify'] = '1'
 	}
     return config;
   }, function (error) {

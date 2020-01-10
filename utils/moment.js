@@ -20,3 +20,14 @@ export function calculationTime(dateTime) {
 	}
 	return result
 }
+
+export function isTime(dateTime) {
+	let result
+	let date = moment(dateTime)
+	if (date.isBefore(moment())) {
+		result = 0
+	} else {
+		result = 1
+	}
+	return result
+}
