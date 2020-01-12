@@ -26,7 +26,7 @@
 		},
 		methods: {
 			clickItem(e) {
-				console.log(e);
+				this.$emit('clickItem')
 			}
 		}
 	}
