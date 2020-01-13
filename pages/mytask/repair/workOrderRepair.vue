@@ -267,14 +267,21 @@
 			if (this.stage.stageProcess != undefined) {
 				this.person = this.stage.stageProcess.person
 				this.person_DD_ID = this.stage.stageProcess.personDDId
-				if (this.stage.stageProcess.completeStatus === 1) {
-					var signIn = format(this.stage.stageProcess.completedDate).split(' ')
-					this.signInDate = signIn[0]
-					this.signInTime = signIn[1]
-					var signOut = format(this.stage.stageProcess.completedDate).split(' ')
-					this.signOutDate = signOut[0]
-					this.signOutTime = signOut[1]
+				var stageLogList = this.$store.getters['stage/getSign_Out'].filter(e=>e.stageId === this.id)
+				var maxSignDate = 0
+				var maxOutDate = 0
+				for (var i = 0; i < stageLogList.length; i++) {
+					if (stageLogList[i].signTime > maxSignDate) {
+						maxSignDate = stageLogList[i].signTime;
+						maxOutDate = stageLogList[i].outTime;
+					}
 				}
+				var signIn = format(maxSignDate).split(' ')
+				var signOut = format(maxOutDate).split(' ')
+				this.signInDate = signIn[0]
+				this.signInTime = signIn[1]
+				this.signOutDate = signOut[0]
+				this.signOutTime = signOut[1]
 				this.faultJudgement = this.stage.stageProcess.memo
 				this.completion.forEach((i) => {
 					if (i.value == this.stage.stageProcess.completeStatus) {
