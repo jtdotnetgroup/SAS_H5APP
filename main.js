@@ -17,10 +17,11 @@ Vue.prototype.$url = 'http://120.77.40.245:8691/'
 // Vue.prototype.$agentId = '346116753'
 // Vue.prototype.$url = 'http://40.73.75.101:8090/'	
 
-//moment.locale('cn')
-//Vue.prototype.$moment = moment
+moment.locale('cn')
+Vue.prototype.$moment = moment
 //Vue.prototype.$IP = 'http://120.77.40.245:8080/sac'//捷特
-// Vue.prototype.$IP = 'http://40.73.75.101:8080'// 索奥斯
+//Vue.prototype.$IP = 'http://40.73.75.101:8080'// 索奥斯
+Vue.prototype.$IP = 'http://192.168.3.8:8096'// 
 
 App.mpType = 'app'
 
