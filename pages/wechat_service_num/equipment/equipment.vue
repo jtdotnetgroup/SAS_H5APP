@@ -3,7 +3,7 @@
 		<list-card :dataList="getContactList"></list-card>
 		<view class="gird">
 			<button form-type="submit" type="primary" size="mini" @click="btn">故障申报</button>
-			<button form-type="reset" type="default" size="mini" @click="btn1">服务评价</button>
+			<!-- <button form-type="reset" type="default" size="mini" @click="btn1">服务评价</button> -->
 			<button form-type="reset" type="warn" size="mini" @click="btn3">投诉建议</button>
 		</view>
 	</view>
@@ -23,9 +23,9 @@
 		},
 		methods:{
 			btn(){
-				uni.navigateTo({
+				/* uni.navigateTo({
 					url: '../declare/declare'
-				})
+				}) */
 			},
 			btn1(){
 				uni.navigateTo({
