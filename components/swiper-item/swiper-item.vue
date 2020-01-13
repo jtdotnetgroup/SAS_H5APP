@@ -10,7 +10,7 @@
 								<!-- <span class="iconfont iconnaozhong alarmClock" ></span> -->
 								<!-- <span class="descstyle">{{dateTime(todo.date)}}</span> -->
 							</view>
-							<view class="uni-steps__column-desc" v-if="todo.stageProcess != undefined">
+							<view class="uni-steps__column-desc" v-if="todo.stageProcess != undefined && todo.stageProcess.completedDate != undefined">
 								{{ formatDate(todo.stageProcess.completedDate) }}	
 							</view>
 						</view>

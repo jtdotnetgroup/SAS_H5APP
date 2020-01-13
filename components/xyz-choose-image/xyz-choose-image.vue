@@ -67,7 +67,8 @@ export default {
 			imgList: [],
 			base64: '',
 			uploadPhotoUrl: this.$IP + '/f/mobile/upload/uploadPicture', //替换成你的后端接收文件地址
-			fileImage:[]
+			fileImage:[],
+			commitList: []
 		};
 	},
 	methods: {
@@ -84,9 +85,11 @@ export default {
 				sourceType: ['album', 'camera'], //从相册选择
 				success: function(res) {
 					console.log(res);
+					_this.commitList = []
 					for (var i = 0; i < res.tempFilePaths.length; i++) {
 						var obj = {id: guid(), path: res.tempFilePaths[i]}
 						_this.imgList.push(obj)
+						_this.commitList.push(obj)
 					}
 					
 
@@ -94,22 +97,22 @@ export default {
 						uni.setStorageSync(_this.saveStr, _this.imgList.join(','));
 					}
 					
-					for (let i = 0; i < _this.imgList.length; i++) {
+					for (let i = 0; i < _this.commitList.length; i++) {
 						uni.uploadFile({
 							url: _this.uploadPhotoUrl ,
-							filePath: _this.imgList[i].path,
+							filePath: _this.commitList[i].path,
 							name: 'photo',
 							formData: {
-								id : _this.imgList[i].id
+								id : _this.commitList[i].id
 							},
 							success: (res) => {
 								let json=JSON.parse(res.data);
 								var  fileEntity =json.body.filesEntity;
 								_this.fileImage.push(fileEntity);
-								// console.log(_this.fileImage);
+								console.log('fileImage -> ', _this.fileImage);
 								_this.$emit('uploadPhotoSuccess', res,_this.fileImage);
 								if (res.statusCode  == 200) {
-									_this.$emit('update:photoList', _this.imgList);
+									_this.$emit('update:photoList', _this.commitList);
 									_this.$forceUpdate();
 								} else {
 									

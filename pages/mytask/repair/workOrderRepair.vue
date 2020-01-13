@@ -61,9 +61,13 @@
 				</conf-div>
 				<view v-if="stage.signFlag === 1">
 					<conf-div title="签到时间:" :required="required">
-						<view class="big">
-							<span class="label user">{{signInTime}}</span>
-							<span class="iconfont iconqian iconStyle Btn" @click="stageStatus != 1 ? signIn() : ''"></span>
+						<view class="time">
+							<picker mode="date" :value="signInDate" @change="bindInDateChange" :disabled="stageStatus != 1 ? false : true">
+								<view class="label timeLabel">{{signInDate}}</view>
+							</picker>
+							<picker mode="time" :value="signInTime" @change="bindInTimeChange" :disabled="stageStatus != 1 ? false : true">
+								<view class="label timeLabel">{{signInTime}}</view>
+							</picker>
 						</view>
 					</conf-div>
 				</view>
@@ -116,9 +120,13 @@
 				</view>
 				<view v-if="stage.signOutFlag === 1">
 					<conf-div title="签出时间:" :required="required">
-						<view class="big">
-							<span class="label user">{{signOutTime}}</span>
-							<span class="iconfont iconqian iconStyle Btn" @click="stageStatus != 1 ? signOut() : ''"></span>
+						<view class="time">
+							<picker mode="date" :value="signOutDate" @change="bindOutDateChange" :disabled="stageStatus != 1 ? false : true">
+								<view class="label timeLabel">{{signOutDate}}</view>
+							</picker>
+							<picker mode="time" :value="signOutTime" @change="bindOutTimeChange" :disabled="stageStatus != 1 ? false : true">
+								<view class="label timeLabel">{{signOutTime}}</view>
+							</picker>
 						</view>
 					</conf-div>
 				</view>
@@ -227,6 +235,8 @@
 				timeStamp: "", //签名的方法的参数
 				nonceStr: "",
 				signature: "",
+				signInDate: '',
+				signOutDate: ''
 			}
 		},
 		components: {
@@ -243,6 +253,10 @@
 		},
 		onLoad(option) {
 			console.log(option);
+			this.signInDate = this.$moment().format('YYYY-MM-DD').toString()
+			this.signInTime = this.$moment().format('HH:mm').toString()
+			this.signOutDate = this.$moment().format('YYYY-MM-DD').toString()
+			this.signOutTime = this.$moment().format('HH:mm').toString()
 			this.id = option.id
 			this.ticketId = option.ticketId
 			this.stageStatus = option.stageStatus
@@ -253,8 +267,14 @@
 			if (this.stage.stageProcess != undefined) {
 				this.person = this.stage.stageProcess.person
 				this.person_DD_ID = this.stage.stageProcess.personDDId
-				this.signInTime = format(this.stage.stageProcess.completedDate)
-				this.signOutTime = format(this.stage.stageProcess.completedDate)
+				if (this.stage.stageProcess.completeStatus === 1) {
+					var signIn = format(this.stage.stageProcess.completedDate).split(' ')
+					this.signInDate = signIn[0]
+					this.signInTime = signIn[1]
+					var signOut = format(this.stage.stageProcess.completedDate).split(' ')
+					this.signOutDate = signOut[0]
+					this.signOutTime = signOut[1]
+				}
 				this.faultJudgement = this.stage.stageProcess.memo
 				this.completion.forEach((i) => {
 					if (i.value == this.stage.stageProcess.completeStatus) {
@@ -395,11 +415,17 @@
 					
 				})
 			},
-			signIn() {
-				this.signInTime = format(this.$moment())
+			bindInDateChange(e) {
+				this.signInDate = e.detail.value
 			},
-			signOut() {
-				this.signOutTime = format(this.$moment())
+			bindInTimeChange(e) {
+				this.signInTime = e.detail.value
+			},
+			bindOutDateChange(e) {
+				this.signOutDate = e.detail.value
+			},
+			bindOutTimeChange(e) {
+				this.signOutTime = e.detail.value
 			},
 			async commitInfo(){
 				this.delUploader(this.del_photoId)/* 删除图片 */
@@ -425,11 +451,11 @@
 				formData.append("photoPath", imagePath);
 				formData.append('participant', this.person)/* 同行人员 */
 				formData.append('participantDDId', this.person_DD_ID)/* 同行人员钉钉ID */
-				formData.append('signInTime', this.signInTime)/* 签到时间 */
+				formData.append('signInTime', this.signInDate + ' ' + this.signInTime)/* 签到时间 */
 				formData.append('completeStatus', this.completeStatus)/* 完成情况 */
 				formData.append('faultJudgement', this.faultJudgement)/* 故障判断 */
 				formData.append('cost', this.cost)/* 费用合计 */
-				formData.append('signOutTime', this.signOutTime)/* 签出时间 */
+				formData.append('signOutTime', this.signOutDate + ' ' + this.signOutTime)/* 签出时间 */
 				var  fileId = "";
 				var fileName = "";
 				var filePath = "";
@@ -702,6 +728,11 @@
 	
 	textarea {
 		width: 100%;
+	}
+	
+	.time {
+		display: grid;
+		grid-template-columns: 50% 50%;
 	}
 	
 	/* iphone X */
