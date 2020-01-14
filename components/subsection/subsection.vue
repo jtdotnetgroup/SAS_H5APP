@@ -55,7 +55,7 @@
 			}
 		},
 		beforeMount() {
-			this.$store.dispatch('workOrder/GetDataList')
+			this.$store.dispatch('workOrder/GetDataList', this.$store.getters['getUserId']);
 		}
 	}
 </script>
