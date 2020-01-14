@@ -10,6 +10,33 @@
 			<field label="故障时间: ">
 				<label class="label">{{faultApplyTime}}</label>
 			</field>
+			<field label="项目地址: ">
+				<label class="label"><input class="uni-input" placeholder="填入项目地址" v-model="address"/></label>
+			</field>
+			<field label="所在片区: ">
+				<view class="inline">
+					<fl-picker
+						:listArr="pqLocaList"
+						:defaultArr = "areaText"
+						type="multiple" 
+						@click="pqChange"
+						:disabled="2 ==1 ? true : false"
+						:mess="''"
+						open="1" :show="pqShow">
+						<view class="label">
+							{{areaText}}
+						</view>
+					</fl-picker>
+				</view>
+			</field>
+			<field label="项目联系人: ">
+				<label class="label"><input class="uni-input" placeholder="填入联系人" v-model="contact"></label>
+			</field>
+			<field label="联系电话: ">
+				<label class="label"><input class="uni-input" placeholder="填入联系电话"
+				 maxlength="11"
+				 v-model="telephone" @blur="phone"><span class="validation">{{showTitle}}</span></label>
+			</field>
 			<field label="故障部位: ">
 				<view class="inline">
 					<fl-picker
@@ -60,8 +87,10 @@
 		name:"declare",
 		data() {
 			return {
+				showTitle:'',
 				picRequestRUl: '/f/mobile/upload/uploadPicture',  // 请求地址
 				show:true,
+				pqShow: true,
 				adjust: true,
 				items: [
 					{
@@ -89,6 +118,11 @@
 				photoArr: [],
 				fileImag:[],
 				del_photoId: "",// 删除附件Id
+				area:"",  //  所在片区
+				areaText:"",  //  所在片区文本
+				address:"",
+				contact:"",
+				telephone:"",  
 				name:"",    //名称
 				warrantyPeriod: "",  // 是否保质日期
 				contactNo: "",  // 编号
@@ -105,6 +139,7 @@
 				enginnerUser:"",		// 工程师
 				attachId:""		,// 附件ID
 				urgentLevel:"",  // 紧急程度
+				
 			}
 		},
 		components: {
@@ -116,6 +151,10 @@
 			formSubmit(e) {
 				let params = new FormData();
 				params.append("arress",this.arress);// 接入方式(1 电话 2代报 3信息 4 微信公众号)
+				params.append("address",this.address);  // 项目地址
+				params.append("contact",this.contact);  // 联系人
+				params.append("telephone",this.telephone);  // 联系电话
+				params.append("area",this.area);  // 所在片区
 				params.append("longitude","");// 经度
 				params.append("latitude","");// 纬度
 				params.append('faultType',this.faultType);// 故障类型值
@@ -125,11 +164,27 @@
 				params.append('faultApplyTime', this.faultApplyTime);// 故障申报时间
 				params.append('faultAssignTime', '');// 派工时间
 				params.append('enginnerUser', "");// 工程师
-				params.append('photoArr', this.photoArr);// 附件ID
-				params.append('urgentLevel', this.urgentLevel);// 紧急程度
+				params.append('urgentLevel', this.current);// 紧急程度
 				params.append('warrantyPeriod', this.warrantyPeriod);// 是否保质期
-				
-				let json = {
+				var imageInfo = this.fileImag;
+				var  imageId = ""; var imageName = ""; var imagePath = "";
+				if( imageInfo != null){
+					for (var i = 0; i < imageInfo.length; i++) {
+						if(imageInfo.length-1 === i){
+							imageId = imageId + imageInfo[i].id;
+							imageName = imageName + imageInfo[i].fileName;
+							imagePath = imagePath + imageInfo[i].path;
+						}else{
+							imageId = imageId + imageInfo[i].id+",";
+							imageName = imageName + imageInfo[i].fileName+",";
+							imagePath = imagePath + imageInfo[i].path + ",";
+						}
+					}
+				}
+				params.append("attachId",imageId);
+				params.append("phototName",imageName);
+				params.append("photoPath", imagePath);
+				/* let json = {
 					arress: this.arress,    
 					longitude : "",		
 					latitude: "",		
@@ -146,7 +201,7 @@
 					"photoList" : this.photoList,// 图片信息
 					"urgentLevel": this.current // 紧急程度
 				};
-				 console.log(JSON.parse(JSON.stringify(json)));
+				 console.log(JSON.parse(JSON.stringify(json))); */
 				/*console.log('form发生了submit事件，携带数据为：' + JSON.stringify(params)); */
 				this.onSubmit(params);
 			},
@@ -163,6 +218,13 @@
 				this.faultType =key;
 				this.show  =  false;
 				this.faultLocaDefault = data.textStr
+			},
+			pqChange(data){
+				var  key =data.valueStr;
+				if(key === undefined || key ===""){ return;}
+				this.area =key;
+				this.pqShow  =  false;
+				this.areaText = data.textStr;
 			},
 			radioChange(evt) {
 				for (let i = 0; i < this.items.length; i++) {
@@ -216,9 +278,23 @@
 					})
 				}
 			},
+			phone(){
+				if (this.telephone === '') {
+					this.showTitle = '不可为空';
+				} else if (!(/^1[34578]\d{9}$/.test(this.telephone))) {
+					this.showTitle = '联系电话格式错误';
+					this.telephone = '';
+				}else{
+					this.showTitle = "";
+				}
+			}
 		},
 		onLoad(option){
-			this.$store.dispatch('dic/GetFaultLocaList', '故障部位');
+			this.$store.dispatch('dic/GetRegionList', '片区').then(res=>{
+				this.$store.dispatch('dic/GetFaultLocaList', '故障部位')
+			})
+			/* this.$store.dispatch('dic/GetFaultLocaList', '故障部位');
+			this.$store.dispatch('dic/GetFaultLocaList', '片区'); */
 			let projcet = JSON.parse(option.detailData);
 			this.name = projcet.name;
 			this.deviceNo = projcet.deviceNo;
@@ -229,6 +305,9 @@
 		computed:{
 			faultLocaList() {
 				return this.$store.getters['dic/getFaultLocaList']
+			},
+			pqLocaList() {
+				return this.$store.getters['dic/getRegionList']
 			},
 			time(time){
 				return time =>{
@@ -241,7 +320,8 @@
 
 <style>
 	.label {
-		font-size: 35rpx;
+		font-size: 32rpx;
+		display: inline-flex;
 	}
 	
 	.inline {
@@ -260,5 +340,10 @@
 	.gird {
 		display: grid;
 		grid-template-columns: 50% 50%;
+	}
+	
+	.validation{
+		color: red;
+		font-size: 24rpx;
 	}
 </style>

@@ -4,6 +4,7 @@ const state = {
 	typeList: [],/* 工单类型 */
 	statusList: [],/* 工单状态 */
 	faultLocaList: [],/* 故障部位 */
+	regionList: [],/* 片区部位 */
 }
 
 const getters = {
@@ -15,6 +16,9 @@ const getters = {
 	},
 	getFaultLocaList() {
 		return state.faultLocaList
+	},
+	getRegionList() {
+		return state.regionList
 	}
 }
 
@@ -27,6 +31,9 @@ const mutations = {
 	},
 	setFaultLocaList(state, payload) {
 		state.faultLocaList = payload
+	},
+	setRegionList(state, payload){
+		state.regionList = payload
 	}
 }
 
@@ -48,6 +55,13 @@ const actions = {
 	GetFaultLocaList({commit, state}, payload) {
 		getDicList(payload).then(response => {
 			commit("setFaultLocaList",response.data.body.dicList)
+		}).catch(error => {
+			console.log(error);
+		})
+	},
+	GetRegionList({commit, state}, payload) {
+		getDicList(payload).then(response => {
+			commit("setRegionList",response.data.body.dicList)
 		}).catch(error => {
 			console.log(error);
 		})

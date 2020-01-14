@@ -74,6 +74,12 @@
 			"style":{
 				// "disableScroll": true
 			}
+		},
+		{
+			"path":"pages/wechat_service_num/workOrder/detail/work-order-detail",//  工单详情
+			"style":{
+				// "disableScroll": true
+			}
 		}
 	],
 	"globalStyle": {

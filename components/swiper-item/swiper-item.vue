@@ -51,7 +51,13 @@
 				default () {
 					return ""
 				}
-			}
+			},
+			isNavigateTo: {
+				type: Boolean,
+				default () {
+					return true
+				}
+			},
 		},
 		data() {
 			return {
@@ -63,6 +69,7 @@
 		},
 		methods: {
 			toRepair(stageId,ticketId,stageStatus, index) {
+				if(!this.isNavigateTo){return;}
 				if (index > 0) {
 					if (this.stageList[index-1].stageStatus === 0) {
 						uni.showToast({

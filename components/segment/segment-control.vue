@@ -9,7 +9,7 @@
 		</uni-segmented-control>
         <view class="content">
 			<view v-if="current == 0">
-				<step-item :ticketId="ticketId" :ticketType="ticketType"></step-item>
+				<step-item :ticketId="ticketId" :ticketType="ticketType" :isNavigateTo="isNavigateTo"></step-item>
 			</view>
 			<view v-else-if="current == 1">
 				
@@ -39,7 +39,13 @@
 				default () {
 					return ""
 				}
-			}
+			},
+			isNavigateTo: {
+				type: Boolean,
+				default () {
+					return true
+				}
+			},
 		},
 	    data() {
 			return {

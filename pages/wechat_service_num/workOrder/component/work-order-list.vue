@@ -107,7 +107,7 @@
 			goDetail(id) {
 				uni.setStorageSync('ticketId', id)
 				uni.navigateTo({
-					url: '../detail/work-order-detail'
+					url: './detail/work-order-detail'
 				})
 			},
 			onClick(e){
