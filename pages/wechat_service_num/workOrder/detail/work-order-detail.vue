@@ -115,7 +115,7 @@
 				return ticketList.filter(e => e.ticketId === this.id)[0]
 			},
 			formatModel() {
-				let dic = this.$store.getters['dic/getTypeList']
+				let dic = this.$store.getters['dic/getServiceTypeList']
 				return dic.filter(e=>e.key == this.getTicket.ticketModelId)[0].value
 			},
 			formatTime(dateTime,prop) {

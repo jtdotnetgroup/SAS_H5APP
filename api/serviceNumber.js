@@ -45,3 +45,13 @@ export function saveSuggest(params) {
 		data: params
 	})
 }
+
+/* 获取对应数据字段列表 */
+export function getServiceDicList(treeName) {
+	return http({
+		url: '/f/weChat/dic/list',
+		params: {
+			treeName: treeName
+		}
+	})
+}

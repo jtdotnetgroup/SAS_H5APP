@@ -96,7 +96,7 @@
 				}
 			},
 			formatModel() {
-				let dic = this.$store.getters['dic/getTypeList']
+				let dic = this.$store.getters['dic/getServiceTypeList']
 				let result
 				if (dic != '') {
 					result = dic.filter(e=>e.key == this.info.ticketModelId)[0].value

@@ -74,16 +74,9 @@
 				return item;
 			}
 		},
-		beforeMount() {
-			this.$store.dispatch('dic/GetTypeList', '工单类型').then(res => {
-				this.$store.dispatch('workOrder/GetServiceDataList')
-			})
-		},
 		onLoad() {
-			this.$store.dispatch('dic/GetStatusList', '工单状态').then(res=>{ 
-				this.$store.dispatch('dic/GetTypeList', '工单类型').then(res=>{
-					this.$store.dispatch('dic/GetFaultLocaList', '故障部位')
-				})
+			this.$store.dispatch('dic/GetServiceTypeList', '工单类型').then(res=>{
+				this.$store.dispatch('workOrder/GetServiceDataList')
 			})
 		}
 	}
