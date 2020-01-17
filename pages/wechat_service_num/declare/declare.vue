@@ -10,15 +10,14 @@
 			<field label="故障时间: ">
 				<label class="label">{{faultApplyTime}}</label>
 			</field>
-			<field label="项目地址: ">
+			<field label="项目地址: " :required="true">
 				<label class="label"><input class="uni-input" placeholder="填入项目地址" v-model="address"/></label>
 			</field>
-			<field label="所在片区: ">
+			<field label="所在片区: " :required="true">
 				<view class="inline">
 					<fl-picker
 						:listArr="pqLocaList"
 						:defaultArr = "areaText"
-						type="multiple" 
 						@click="pqChange"
 						:disabled="2 ==1 ? true : false"
 						:mess="''"
@@ -29,15 +28,15 @@
 					</fl-picker>
 				</view>
 			</field>
-			<field label="项目联系人: ">
+			<field label="项目联系人: " :required="true">
 				<label class="label"><input class="uni-input" placeholder="填入联系人" v-model="contact"></label>
 			</field>
-			<field label="联系电话: ">
+			<field label="联系电话: " :required="true">
 				<label class="label"><input class="uni-input" placeholder="填入联系电话"
 				 maxlength="11"
 				 v-model="telephone" @blur="phone"><span class="validation">{{showTitle}}</span></label>
 			</field>
-			<field label="故障部位: ">
+			<field label="故障部位: " :required="true">
 				<view class="inline">
 					<fl-picker
 						:listArr="faultLocaList"
@@ -53,10 +52,10 @@
 					</fl-picker>
 				</view>
 			</field>
-			<field label="故障描述: ">
+			<field label="故障描述: " :required="true">
 				<textarea class="inline textarea" :adjust-position='adjust' v-model="memo"></textarea>
 			</field>
-			<field label="紧急程度: ">
+			<field label="紧急程度: " :required="true">
 				<radio-group class="inline" @change="radioChange">
 					<label v-for="(item, index) in items" :key="item.value">
 						<radio :value="item.value" :checked="index === current" />
@@ -83,6 +82,7 @@
 	import {saveMalfunction} from '@/api/serviceNumber.js'
     import {isTime} from '@/utils/moment.js'
 	
+	var formChecker = require('@/components/form/validate.js')
 	export default {
 		name:"declare",
 		data() {
@@ -203,7 +203,24 @@
 				};
 				 console.log(JSON.parse(JSON.stringify(json))); */
 				/*console.log('form发生了submit事件，携带数据为：' + JSON.stringify(params)); */
-				this.onSubmit(params);
+				var rule = [
+					{value: this.address, checkType:'String', errorMsg:'项目地址不能为空'},
+					{value: this.areaText, checkType:'String', errorMsg:'所在片区不能为空'},
+					{value: this.contact, checkType:'String', errorMsg:'项目联系人不能为空'},
+					{value: this.telephone, checkType:'String', errorMsg:'联系电话不能为空'},
+					{value: this.faultLocaDefault, checkType:'String', errorMsg:'故障部位不能为空'},
+					{value: this.memo, checkType:'String', errorMsg:'故障描述不能为空'}
+				]
+				var checkRes = formChecker.check(rule)
+				if (checkRes) {
+					this.onSubmit(params);
+				} else {
+					uni.showToast({
+						title:formChecker.error,
+						icon:'none'
+					})
+				}
+				
 			},
 			formReset(e) {
 				console.log('清空数据');
@@ -290,11 +307,6 @@
 			}
 		},
 		onLoad(option){
-			this.$store.dispatch('dic/GetRegionList', '片区').then(res=>{
-				this.$store.dispatch('dic/GetFaultLocaList', '故障部位')
-			})
-			/* this.$store.dispatch('dic/GetFaultLocaList', '故障部位');
-			this.$store.dispatch('dic/GetFaultLocaList', '片区'); */
 			let projcet = JSON.parse(option.detailData);
 			this.name = projcet.name;
 			this.deviceNo = projcet.deviceNo;
@@ -304,7 +316,7 @@
 		},
 		computed:{
 			faultLocaList() {
-				return this.$store.getters['dic/getFaultLocaList']
+				return this.$store.getters['dic/getServiceFaultLocaList']
 			},
 			pqLocaList() {
 				return this.$store.getters['dic/getRegionList']

@@ -87,7 +87,7 @@ const actions = {
 	
 	/* 服务号 */
 	GetRegionList({commit, state}, payload) {
-		getDicList(payload).then(response => {
+		getServiceDicList(payload).then(response => {
 			commit("setRegionList",response.data.body.dicList)
 		}).catch(error => {
 			console.log(error);

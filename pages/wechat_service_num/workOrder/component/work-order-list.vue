@@ -1,42 +1,46 @@
 <template>
-	<view @click="goDetail(info.ticketId)">
+	<view>
 		<uni-swipe-action>
-			<uni-swipe-action-item :options="options" @click="onClick" @change="change(info)" >
-				<uni-card class="uniCard">
-					<view class="info">
-						<view class="line">
-							<label class="uni-list-cell uni-list-cell-pd">
-								<view class="label">工单编号：{{ info.ticketNum }}</view>
-							</label>
+			<view v-for="(item, index) in list">
+			<view @click="goDetail(item.ticketId)">
+				<uni-swipe-action-item :options="options" @click="onClick" @change="change(item)" >
+					<uni-card class="uniCard">
+						<view class="info">
+							<view class="line">
+								<label class="uni-list-cell uni-list-cell-pd">
+									<view class="label">工单编号：{{ item.ticketNum }}</view>
+								</label>
+							</view>
+							<view class="line">
+								<label class="uni-list-cell uni-list-cell-pd">
+									<view class="label">设备编号：{{item.equipmentNum}}</view>
+								</label>
+							</view>
+							<view class="line">
+								<label class="uni-list-cell uni-list-cell-pd">
+									<view class="label">设备名称：{{ item.name }}</view>
+								</label>
+							</view>
+							<view class="line">
+								<label class="uni-list-cell uni-list-cell-pd">
+									<view class="label sameLine">联系人：{{ item.enginnerName }}</view>
+									<view class="label sameLine">{{ item.enginnerMobile }}</view>
+								</label>
+							</view>
+							<view class="line">
+								<label class="uni-list-cell uni-list-cell-pd">
+									<view class="label sameLine">申报时间：{{formatDate(item.faulApplyTime)}}</view>
+								</label>
+							</view>
 						</view>
-						<view class="line">
-							<label class="uni-list-cell uni-list-cell-pd">
-								<view class="label">设备编号：{{info.equipmentNum}}</view>
-							</label>
+						<view class="btn">
+							<model-label :modelLabel="formatModel(item.ticketModelId)"></model-label>
+							<phone :phoneNum="item.telephone"></phone>
 						</view>
-						<view class="line">
-							<label class="uni-list-cell uni-list-cell-pd">
-								<view class="label">设备名称：{{ info.name }}</view>
-							</label>
-						</view>
-						<view class="line">
-							<label class="uni-list-cell uni-list-cell-pd">
-								<view class="label sameLine">联系人：{{ info.enginnerName }}</view>
-								<view class="label sameLine">{{ info.enginnerMobile }}</view>
-							</label>
-						</view>
-						<view class="line">
-							<label class="uni-list-cell uni-list-cell-pd">
-								<view class="label sameLine">申报时间：{{formatDate(info.faulApplyTime)}}</view>
-							</label>
-						</view>
-					</view>
-					<view class="btn">
-						<model-label :modelLabel="formatModel"></model-label>
-						<phone :phoneNum="info.telephone"></phone>
-					</view>
-				</uni-card>
-			</uni-swipe-action-item>
+					</uni-card>
+				</uni-swipe-action-item>
+			</view>
+			</view>
 		</uni-swipe-action>
 	</view>
 </template>
@@ -82,7 +86,7 @@
 			uniSwipeActionItem: () => import('@dcloudio/uni-ui/lib/uni-swipe-action-item/uni-swipe-action-item.vue')
 		},
 		props: {
-			'info': Object
+			'list': Array
 		},
 		computed: {
 			formatDate(dateTime) {
@@ -95,15 +99,17 @@
 					return calculationTime(dateTime)
 				}
 			},
-			formatModel() {
-				let dic = this.$store.getters['dic/getServiceTypeList']
-				let result
-				if (dic != '') {
-					result = dic.filter(e=>e.key == this.info.ticketModelId)[0].value
-				} else {
-					result = ''
+			formatModel(ticketModelId) {
+				return ticketModelId => {
+					let dic = this.$store.getters['dic/getServiceTypeList']
+					let result
+					if (dic != '') {
+						result = dic.filter(e=>e.key == ticketModelId)[0].value
+					} else {
+						result = ''
+					}
+					return result
 				}
-				return result
 			}
 		},
 		methods: {
@@ -133,7 +139,7 @@
 					"enginnerMobile" : info.enginnerMobile,
 					
 				}
-				console.log(JSON.parse(JSON.stringify(project)));
+				// console.log(JSON.parse(JSON.stringify(project)));
 				this.detail = project;
 			}
 		}

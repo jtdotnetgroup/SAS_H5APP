@@ -23,7 +23,7 @@
 					</view>
 				</view>
 			</view>
-			<field label="满意度评价:">
+			<field label="满意度评价:" :required="true">
 				<uni-rate :is-fill="isFill" v-on:change="product" :value="rateScore" :disabled="rateScore > 0 ? true : false"></uni-rate>
 				<span class="label">{{satisfiedScore}}</span>
 				<span class="label text-body">{{satisfiedRateScoreText}}</span>
@@ -40,6 +40,8 @@
 
 <script>
 	import {ticketEvaluate} from '@/api/serviceNumber.js'
+	
+	var formChecker = require('@/components/form/validate.js')
 	export default {
 		name:'evaluate',
 		data() {
@@ -79,23 +81,34 @@
 				params.append("ticketNum",this.ticketNum);
 				params.append("ticketComemt",this.ticketComemt);
 				params.append("ticketScore",this.ticketScore);
-				ticketEvaluate(params).then(response => {
-					console.log(response);
-					if (response.status === 200) {
-						uni.showToast({
-							title: '保存成功',
-							duration: 1000,
-							mask: true
-						})
-						uni.navigateBack({
-							delta:1
-						})
-						// var payload = {'id': "", 'name': ""}
-						this.$store.dispatch('contact/GetDataList');
-					}
-				}).catch(error => {
-					console.log(error);
-				})
+				var rule = [
+					{value: this.ticketScore, checkType:'String', errorMsg:'满意度评价必选'}
+				]
+				var checkRes = formChecker.check(rule)
+				if (checkRes) {
+					ticketEvaluate(params).then(response => {
+						console.log(response);
+						if (response.status === 200) {
+							uni.showToast({
+								title: '保存成功',
+								duration: 1000,
+								mask: true
+							})
+							uni.navigateBack({
+								delta:1
+							})
+							// var payload = {'id': "", 'name': ""}
+							this.$store.dispatch('contact/GetDataList');
+						}
+					}).catch(error => {
+						console.log(error);
+					})
+				} else {
+					uni.showToast({
+						title:formChecker.error,
+						icon:'none'
+					})
+				}
 			},
 			loadData(option){
 				if(option.detailData != null){

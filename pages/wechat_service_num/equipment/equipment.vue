@@ -61,7 +61,9 @@
 		},
 		onLoad() {
 			//跳转页面前获取字典列表信息
-			this.$store.dispatch('dic/GetFaultLocaList', '故障部位');
+			this.$store.dispatch('dic/GetRegionList', '片区').then(res=>{
+				this.$store.dispatch('dic/GetServiceFaultLocaList', '故障部位')
+			})
 			this.$store.dispatch('contact/GetDataList')
 		}
 	}

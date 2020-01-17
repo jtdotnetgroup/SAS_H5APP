@@ -1,6 +1,7 @@
 <template>
 	<view class="field">
 		<view class="inline" v-if="label != ''">
+			<span class="require" v-if="required">*</span>
 			<label class="label">{{ label }}</label>
 		</view>
 		<slot></slot>
@@ -18,6 +19,10 @@
 			label: {
 				type: String,
 				default: ''
+			},
+			required: {
+				type: Boolean,
+				default: false
 			}
 		}
 	}
@@ -37,5 +42,9 @@
 	
 	.inline {
 		display: inline-block;
+	}
+	
+	.require {
+		color: red;
 	}
 </style>

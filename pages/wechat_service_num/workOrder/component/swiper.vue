@@ -98,7 +98,7 @@
 				}
 			},
 			stageList() {
-				let stageLists = this.$store.getters['stage/getStageList']
+				let stageLists = this.$store.getters['stage/getServiceStageList']
 				this.active = 0
 				stageLists.forEach((list, index) => {
 					if (list.current == 1) {
@@ -112,7 +112,7 @@
 			let ticketType = this.ticketType
 			let ticketId = this.ticketId
 			var payload = {'ticketType': ticketType, 'ticketId': ticketId}
-			this.$store.dispatch('stage/GetDataList', payload)
+			this.$store.dispatch('stage/GetServiceDataList', payload)
 		}
 	}
 </script>

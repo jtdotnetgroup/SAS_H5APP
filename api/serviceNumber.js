@@ -55,3 +55,14 @@ export function getServiceDicList(treeName) {
 		}
 	})
 }
+
+/* 获取阶段列表 */
+export function getServiceStageList(ticketType, ticketId) {
+	return http({
+		url: '/f/weChat/stage/getStagelist',
+		params: {
+			ticketType: ticketType,
+			ticketId: ticketId
+		}
+	})
+}

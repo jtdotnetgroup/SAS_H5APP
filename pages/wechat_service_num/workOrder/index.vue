@@ -1,8 +1,8 @@
 <template>
 	<view class="content">
-		<uni-segmented-control class="borderStyle" :current="current" :values="items" style-type="button" active-color="#09a0f7" @clickItem="onClickItem()"></uni-segmented-control>
+		<uni-segmented-control class="borderStyle" :current="current" :values="items" style-type="button" active-color="#09a0f7" @clickItem="onClickItem"></uni-segmented-control>
 		<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
-			<work-order-list v-for="(item,index) in displayList" :info="item" :key="index"></work-order-list>
+			<work-order-list :list="displayList"></work-order-list>
 		</scroll-view>
 		<view class="gird">
 			<button form-type="reset" type="default" size="mini" @click="btnEquipment">我的设备</button>
@@ -32,10 +32,10 @@
 			/**
 			 * 点击segmentedControl 事件回调
 			 */
-			onClickItem(index) {
-			  if (this.current !== index) {
-			    this.current = index;
-			  }
+			onClickItem(e) {
+				if (this.current !== e.currentIndex) {
+					this.current = e.currentIndex;
+				}
 			},
 			btnEquipment(){
 				uni.navigateTo({
@@ -70,7 +70,9 @@
 		computed:{
 			displayList(){
 				let item = this.$store.getters['workOrder/getServiceTicketList']
-				//console.log(item);
+				if (this.current != 2) {
+					item = item.filter(e=>e.ticketStatus === this.current + 3)
+				}
 				return item;
 			}
 		},

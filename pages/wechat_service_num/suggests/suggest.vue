@@ -28,6 +28,8 @@
 
 <script>
 	import {saveSuggest} from '@/api/serviceNumber.js'
+	
+	var formChecker = require('@/components/form/validate.js')
 	export default {
 		name:'evaluate',
 		data() {
@@ -66,7 +68,20 @@
 				params.append('serviceScore', this.serScore);// 服务满意度
 				params.append('serviceScoreLabel', this.serviceRateScoreText);// 满意度标签
 				params.append('memo', this.memo);// 投诉与建议
-				this.onSubmit(params);
+				var rule = [
+					{value: this.proScore, checkType:'String', errorMsg:'产品满意度必选'},
+					{value: this.serScore, checkType:'String', errorMsg:'服务满意度必选'},
+					{value: this.memo, checkType:'String', errorMsg:'投诉与建议不能为空'}
+				]
+				var checkRes = formChecker.check(rule)
+				if (checkRes) {
+					this.onSubmit(params);
+				} else {
+					uni.showToast({
+						title:formChecker.error,
+						icon:'none'
+					})
+				}
 			},
 			onSubmit(formData){
 				saveSuggest(formData).then(response => {
