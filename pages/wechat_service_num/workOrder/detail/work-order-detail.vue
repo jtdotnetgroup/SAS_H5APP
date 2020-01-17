@@ -103,7 +103,7 @@
 			uniCard: () => import('@dcloudio/uni-ui/lib/uni-card/uni-card.vue'), 
 			location: () => import('@/components/location/location.vue'), 
 			phone: () => import('@/components/phone/phone.vue'), 
-			segmentControl: () => import('@/components/segment/segment-control.vue'), 
+			segmentControl: () => import('../component/segment.vue'), 
 			modelLabel: () => import('@/components/model-label/model-label.vue')
 		},
 		onLoad(option) {
