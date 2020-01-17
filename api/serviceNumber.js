@@ -1,5 +1,12 @@
 import { http } from '@/utils/request.js'
 
+/* 获取工单列表 */
+export function getServiceWorkOrderList() {
+	return http({
+		url: '/f/weChat/ticket/list'
+	})
+}
+
 /* 获取设备列表 */
 export function getContactList() {
 	return http({

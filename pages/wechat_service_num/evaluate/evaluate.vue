@@ -8,10 +8,10 @@
 			<view class="grid">
 				<view>
 					<field label="编号:">
-						<label>{{clientNum}}</label>
+						<label>{{enginnerNo}}</label>
 					</field>
 					<field label="电话:">
-						<label>{{telephone}}</label>
+						<label>{{enginnerMobile}}</label>
 					</field>
 				</view>
 				<view class="imgDiv img_grid">
@@ -19,20 +19,20 @@
 						<image src="../../../static/user.png" class="img"></image>
 					</view>
 					<view>
-						<label>{{contact}}</label>
+						<label>{{enginnerName}}</label>
 					</view>
 				</view>
 			</view>
 			<field label="满意度评价:">
-				<uni-rate :is-fill="isFill" v-on:change="product"  :value="ticketScore"></uni-rate>
+				<uni-rate :is-fill="isFill" v-on:change="product" :value="rateScore" :disabled="rateScore > 0 ? true : false"></uni-rate>
 				<span class="label">{{satisfiedScore}}</span>
 				<span class="label text-body">{{satisfiedRateScoreText}}</span>
 			</field>
 			<view class="uni-textarea">
-				<textarea  style="border:#EFEFF4 solid;" placeholder="服务评价:"  v-model="ticketComemt"/>
+				<textarea  style="border:#EFEFF4 solid;" placeholder="服务评价:"  v-model="ticketComemt" :disabled="rateScore > 0 ? true : false"/>
 			</view>
 			<view class="example-body-btn">
-				<button class="" form-type="submit" type="primary">提交</button>
+				<button class="" form-type="submit" type="primary" :disabled="rateScore > 0 ? true : false">提交</button><!--  -->
 			</view>
 		</form>
 	</view>
@@ -48,15 +48,16 @@
 				satisfiedScore: '',
 				satisfiedRateScoreText: '',
 				rateScoreDesc: ['非常不满意，各方面都很差', '不满意，比较差', '一般满意，还需改善', '比较满意，仍可改善', '非常满意，无可挑剔'],
+				rateScore: 0,
 				ticketId:"",
 				ticketNum:"",
 				ticketType:"维修工单",
 				ticketModelId:"",
-				contact:"",
-				telephone:"",
-				clientNum:"",
-				ticketComemt: "",
 				ticketScore: "",
+				ticketComemt: "",
+				enginnerNo: "",
+				enginnerName:"",
+				enginnerMobile : "",
 			}
 		},
 		components: {
@@ -72,6 +73,7 @@
 				this.ticketScore = index.value;
 			},
 			onSubmit(){
+				if(this.rateScore > 0){return;}
 				var  params = new FormData();
 				params.append("id",this.ticketId);
 				params.append("ticketNum",this.ticketNum);
@@ -95,6 +97,22 @@
 					console.log(error);
 				})
 			},
+			loadData(option){
+				if(option.detailData != null){
+					this.detail = JSON.parse(option.detailData);
+					//console.log(this.detail);
+					this.ticketId = this.detail.id;
+					this.ticketNum = this.detail.ticketNum;
+					this.ticketModelId = this.detail.ticketModelId;
+					this.ticketComemt  = this.detail.ticketComemt;
+					this.ticketScore = this.detail.ticketScore;
+					this.rateScore = this.detail.ticketScore;
+					this.satisfiedRateScoreText = this.rateScoreDesc[this.detail.ticketScore - 1];
+					this.enginnerNo = this.detail.enginnerNo;
+					this.enginnerName = this.detail.enginnerName;
+					this.enginnerMobile = this.detail.enginnerMobile;
+				}
+			}
 		},
 		computed:{
 			formatModel() {
@@ -109,16 +127,7 @@
 			}
 		},
 		onLoad(option){
-			this.detail = JSON.parse(option.detailData);
-			console.log(this.detail);
-			this.ticketId = this.detail.id;
-			this.ticketNum = this.detail.ticketNum;
-			this.ticketModelId = this.detail.ticketModelId;
-			this.contact  = this.detail.contact;
-			this.telephone = this.detail.telephone;
-			this.clientNum = this.detail.clientNum;
-			this.ticketScore = this.detail.ticketScore;
-			this.product(this.ticketScore);
+			this.loadData(option);
 		}
 	}
 </script>

@@ -1,37 +1,40 @@
 <template>
-	<view @click="goDetail(info.id)">
+	<view @click="goDetail(info.ticketId)">
 		<uni-swipe-action>
 			<uni-swipe-action-item :options="options" @click="onClick" @change="change(info)" >
-				<uni-card class="uniCard" note="true">
+				<uni-card class="uniCard">
 					<view class="info">
 						<view class="line">
 							<label class="uni-list-cell uni-list-cell-pd">
-								<view class="label">{{ info.client.name }}</view>
+								<view class="label">工单编号：{{ info.ticketNum }}</view>
 							</label>
 						</view>
 						<view class="line">
 							<label class="uni-list-cell uni-list-cell-pd">
-								<span class="iconfont iconhuizhengongzuoliang iconStyle"></span>
-								<view class="label sameLine">联系人：{{ info.client.contact }}</view>
-								<view class="label sameLine">{{ info.client.telephone }}</view>
+								<view class="label">设备编号：{{info.equipmentNum}}</view>
 							</label>
 						</view>
 						<view class="line">
 							<label class="uni-list-cell uni-list-cell-pd">
-								<location :labelStyle="label" :label="info.client.area" :left_right="left_right"></location>
+								<view class="label">设备名称：{{ info.name }}</view>
+							</label>
+						</view>
+						<view class="line">
+							<label class="uni-list-cell uni-list-cell-pd">
+								<view class="label sameLine">联系人：{{ info.enginnerName }}</view>
+								<view class="label sameLine">{{ info.enginnerMobile }}</view>
+							</label>
+						</view>
+						<view class="line">
+							<label class="uni-list-cell uni-list-cell-pd">
+								<view class="label sameLine">申报时间：{{formatDate(info.faulApplyTime)}}</view>
 							</label>
 						</view>
 					</view>
 					<view class="btn">
 						<model-label :modelLabel="formatModel"></model-label>
-						<phone :phoneNum="info.client.telephone"></phone>
+						<phone :phoneNum="info.telephone"></phone>
 					</view>
-					<template v-slot:footer>
-						<view class="footer-box">
-							<view class="label">{{ formatDate(info.ticketAssignTime) }}</view>
-							<view class="label right">{{ calTime(formatDate(info.ticketAssignTime)) }}</view>
-						</view>
-					</template>
 				</uni-card>
 			</uni-swipe-action-item>
 		</uni-swipe-action>
@@ -116,17 +119,19 @@
 						url: e.content.url +'?detailData=' + encodeURIComponent(JSON.stringify(this.detail))
 					})
 				}
-						
 			},
 			change(info){
-				console.log(info);
+				//console.log(info);
 				let  project = {
-					"id" : info.id,
+					"id" : info.ticketId,
 					"ticketNum"  : info.ticketNum,
 					"ticketModelId" : info.ticketModelId,
-					"contact" : info.client.contact,
-					"telephone": info.client.telephone,
-					"clientNum" : info.client.clientNum
+					"ticketScore" : info.ticketScore,
+					"ticketComemt" : info.ticketComemt,
+					"enginnerNo" : info.enginnerNo,
+					"enginnerName" : info.enginnerName,
+					"enginnerMobile" : info.enginnerMobile,
+					
 				}
 				console.log(JSON.parse(JSON.stringify(project)));
 				this.detail = project;
