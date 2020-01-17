@@ -69,13 +69,14 @@
 		},
 		computed:{
 			displayList(){
-				let item = this.$store.getters['workOrder/getTicketList']
+				let item = this.$store.getters['workOrder/getServiceTicketList']
+				//console.log(item);
 				return item;
 			}
 		},
 		beforeMount() {
 			this.$store.dispatch('dic/GetTypeList', '工单类型').then(res => {
-				this.$store.dispatch('workOrder/GetDataList')
+				this.$store.dispatch('workOrder/GetServiceDataList')
 			})
 		},
 		onLoad() {

@@ -1,12 +1,7 @@
 <template>
 	<view class="content">
-		<uni-card class="uniCard" note="true">
+		<uni-card class="uniCard title" note="true">
 			<view class="info">
-				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="label">{{getTicket.client.name}}</view>
-					</label>
-				</view>
 				<view class="line">
 					<label class="uni-list-cell uni-list-cell-pd">
 						<view class="sameLine">
@@ -15,14 +10,6 @@
 							</view>
 							<view class="label sameLine fontsmall">
 								{{getTicket.ticketNum}}
-							</view>
-						</view>
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								分配时间：
-							</view>
-							<view class="label sameLine fontsmall">
-								{{formatDate(getTicket.ticketAssignTime)}}
 							</view>
 						</view>
 					</label>
@@ -36,9 +23,33 @@
 					<label class="uni-list-cell uni-list-cell-pd">
 						<view class="sameLine">
 							<view class="label sameLine fontsmall bold">
-								客户地址：
+								设备编号：
 							</view>
-							<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
+							<view class="label sameLine fontsmall">
+								{{getTicket.equipmentNum}}
+							</view>
+						</view>
+					</label>
+					<label class="uni-list-cell uni-list-cell-pd">
+						<view class="sameLine">
+							<view class="label sameLine fontsmall bold">
+								申报时间：
+							</view>
+							<view class="label sameLine fontsmall">
+								{{formatTime(getTicket.faulApplyTime,"YYYY-MM-DD")}}
+							</view>
+						</view>
+					</label>
+				</view>
+				<view class="line">
+					<label class="uni-list-cell uni-list-cell-pd">
+						<view class="sameLine">
+							<view class="label sameLine fontsmall bold">
+								设备名称：
+							</view>
+							<view class="label sameLine fontsmall">
+								{{getTicket.name}}
+							</view>
 						</view>
 					</label>
 				</view>
@@ -49,15 +60,7 @@
 								主联系人：
 							</view>
 							<view class="label sameLine fontsmall">
-								{{getTicket.client.contact}}
-							</view>
-						</view>
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								职位：
-							</view>
-							<view class="label sameLine fontsmall">
-								院长
+								{{getTicket.enginnerName}}
 							</view>
 						</view>
 					</label>
@@ -69,10 +72,10 @@
 								联系方式：
 							</view>
 							<view class="label sameLine fontsmall">
-								{{getTicket.client.telephone}}
+								{{getTicket.enginnerMobile}}
 							</view>
 						</view>
-						<phone :phoneNum="getTicket.client.telephone"></phone>
+						<phone :phoneNum="getTicket.enginnerMobile"></phone>
 					</label>
 				</view>
 			</template>
@@ -82,7 +85,7 @@
 </template>
 
 <script>
-	import {format} from '@/utils/formatDate.js'
+	import {formatDate} from '@/utils/formatDate.js'
 
 	export default {
 		name: "mytaskDetail",
@@ -104,21 +107,21 @@
 			modelLabel: () => import('@/components/model-label/model-label.vue')
 		},
 		onLoad(option) {
-			this.id = uni.getStorageSync('ticketId')
+			this.id = uni.getStorageSync('ticketId');
 		},
 		computed: {
 			getTicket() {
-				let ticketList = this.$store.getters['workOrder/getTicketList']
-				return ticketList.filter(e => e.id === this.id)[0]
-			},
-			formatDate(dateTime) {
-				return dateTime =>{
-					return format(dateTime)
-				}
+				let ticketList = this.$store.getters['workOrder/getServiceTicketList']
+				return ticketList.filter(e => e.ticketId === this.id)[0]
 			},
 			formatModel() {
 				let dic = this.$store.getters['dic/getTypeList']
 				return dic.filter(e=>e.key == this.getTicket.ticketModelId)[0].value
+			},
+			formatTime(dateTime,prop) {
+				return (dateTime,prop) =>{
+					return formatDate(dateTime,prop)
+				}
 			}
 		},
 		methods: {
