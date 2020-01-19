@@ -1,36 +1,25 @@
 <template>
-	<view>
+	<view class="content">
 		<uni-swipe-action>
-			<view v-for="(item, index) in list">
-			<view @click="goDetail(item.ticketId)">
+			<view v-for="(item, index) in list" @click="goDetail(item.ticketId)">
 				<uni-swipe-action-item :options="options" @click="onClick" @change="change(item)" >
 					<uni-card class="uniCard">
 						<view class="info">
 							<view class="line">
-								<label class="uni-list-cell uni-list-cell-pd">
 									<view class="label">工单编号：{{ item.ticketNum }}</view>
-								</label>
 							</view>
 							<view class="line">
-								<label class="uni-list-cell uni-list-cell-pd">
 									<view class="label">设备编号：{{item.equipmentNum}}</view>
-								</label>
 							</view>
 							<view class="line">
-								<label class="uni-list-cell uni-list-cell-pd">
 									<view class="label">设备名称：{{ item.name }}</view>
-								</label>
 							</view>
 							<view class="line">
-								<label class="uni-list-cell uni-list-cell-pd">
 									<view class="label sameLine">联系人：{{ item.enginnerName }}</view>
 									<view class="label sameLine">{{ item.enginnerMobile }}</view>
-								</label>
 							</view>
 							<view class="line">
-								<label class="uni-list-cell uni-list-cell-pd">
 									<view class="label sameLine">申报时间：{{formatDate(item.faulApplyTime)}}</view>
-								</label>
 							</view>
 						</view>
 						<view class="btn">
@@ -39,7 +28,6 @@
 						</view>
 					</uni-card>
 				</uni-swipe-action-item>
-			</view>
 			</view>
 		</uni-swipe-action>
 	</view>

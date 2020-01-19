@@ -1,17 +1,20 @@
 <template>
 	<view class="content">
 		<view v-for="(ditem,index) in dataList" :key="index">
-			<nav-div :title="ditem.title">
-				<view v-for="(titem,index) in ditem.textList" :key="index">
-					<nav-icon :text="titem.text" :icon="titem.icon" :color-style="titem.color" @clickItem="clickItem(titem.pageType, titem.url)"></nav-icon>
-				</view>
-			</nav-div>
+			<view v-if="ditem.show == undefined || ditem.show">
+				<nav-div :title="ditem.title">
+					<view v-for="(titem,index) in ditem.textList" :key="index">
+						<nav-icon :text="titem.text" :icon="titem.icon" :color-style="titem.color" @clickItem="clickItem(titem.pageType, titem.url)"></nav-icon>
+					</view>
+				</nav-div>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
 	export default {
+		name:'index',
 		data() {
 			return {
 				dataList: [{
@@ -43,7 +46,7 @@
 								color: "#be78f2",
 								pageType: 'page',
 								url: ''
-							},
+							}
 						]
 					},
 					{
@@ -75,7 +78,7 @@
 								color: "#7bf199",
 								pageType: 'page',
 								url: ''
-							},
+							}
 						]
 					},
 					{
@@ -107,7 +110,7 @@
 								color: "#7ef079",
 								pageType: 'page',
 								url: ''
-							},
+							}
 						]
 					},
 					{
@@ -139,9 +142,21 @@
 								color: "#7886f1",
 								pageType: 'page',
 								url: ''
-							},
+							}
 						]
 					},
+					{
+						title: "审核",
+						show: false,
+						textList: [{
+								text: "客户用户审核",
+								icon: "iconwodegongdan",
+								color: "#d81e06",
+								pageType: 'page',
+								url: ''
+							}
+						]
+					}
 				]
 			}
 		},
@@ -153,7 +168,7 @@
 			this.$store.dispatch("GET_CODE", this.$corpId).then(async res => {
 				await this.$store.dispatch("GET_TOKEN")
 			})
-			
+
 			// uni.chooseLocation({
 			//     success: function (res) {
 			//         console.log('位置名称：' + res.name);

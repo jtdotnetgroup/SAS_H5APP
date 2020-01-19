@@ -15,6 +15,7 @@
 <style>
 	/*每个页面公共css */
 @import url("./static/iconfont/iconfont.css");
+@import './common/uni.css';
 
 .content {
 	background-color: #f5f6f8;

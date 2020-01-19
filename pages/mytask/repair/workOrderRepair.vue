@@ -4,39 +4,33 @@
 			<uni-card class="uniCard">
 				<view class="info">
 					<view class="line">
-						<label class="uni-list-cell uni-list-cell-pd">
-							<view class="label">{{getTicket.client.name}}</view>
-						</label>
+						<view class="label">{{getTicket.client.name}}</view>
 					</view>
 					<view class="line">
-						<label class="uni-list-cell uni-list-cell-pd">
-							<view class="sameLine">
-								<view class="label sameLine fontsmall bold">
-									工单编号：
-								</view>
-								<view class="label sameLine fontsmall">
-									{{getTicket.ticketNum}}
-								</view>
+						<view class="sameLine">
+							<view class="label sameLine fontsmall bold">
+								工单编号：
 							</view>
-							<view class="sameLine">
-								<view class="label sameLine fontsmall bold">
-									分配时间：
-								</view>
-								<view class="label sameLine fontsmall">
-									{{formatDate(getTicket.ticketAssignTime)}}
-								</view>
+							<view class="label sameLine fontsmall">
+								{{getTicket.ticketNum}}
 							</view>
-						</label>
+						</view>
+						<view class="sameLine">
+							<view class="label sameLine fontsmall bold">
+								分配时间：
+							</view>
+							<view class="label sameLine fontsmall">
+								{{formatDate(getTicket.ticketAssignTime)}}
+							</view>
+						</view>
 					</view>
 					<view class="line">
-						<label class="uni-list-cell uni-list-cell-pd">
-							<view class="sameLine">
-								<view class="label sameLine fontsmall bold">
-									客户地址：
-								</view>
-								<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
+						<view class="sameLine">
+							<view class="label sameLine fontsmall bold">
+								客户地址：
 							</view>
-						</label>
+							<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
+						</view>
 					</view>
 				</view>
 				<view class="btn">

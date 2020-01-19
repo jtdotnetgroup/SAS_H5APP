@@ -3,7 +3,6 @@
 		<uni-card class="uniCard title" note="true">
 			<view class="info">
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
 						<view class="sameLine">
 							<view class="label sameLine fontsmall bold">
 								工单编号：
@@ -12,7 +11,6 @@
 								{{getTicket.ticketNum}}
 							</view>
 						</view>
-					</label>
 				</view>
 			</view>
 			<view class="btn">
@@ -20,7 +18,6 @@
 			</view>
 			<template v-slot:footer>
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
 						<view class="sameLine">
 							<view class="label sameLine fontsmall bold">
 								设备编号：
@@ -29,8 +26,6 @@
 								{{getTicket.equipmentNum}}
 							</view>
 						</view>
-					</label>
-					<label class="uni-list-cell uni-list-cell-pd">
 						<view class="sameLine">
 							<view class="label sameLine fontsmall bold">
 								申报时间：
@@ -39,10 +34,8 @@
 								{{formatTime(getTicket.faulApplyTime,"YYYY-MM-DD")}}
 							</view>
 						</view>
-					</label>
 				</view>
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
 						<view class="sameLine">
 							<view class="label sameLine fontsmall bold">
 								设备名称：
@@ -51,10 +44,8 @@
 								{{getTicket.name}}
 							</view>
 						</view>
-					</label>
 				</view>
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
 						<view class="sameLine">
 							<view class="label sameLine fontsmall bold">
 								主联系人：
@@ -63,10 +54,8 @@
 								{{getTicket.enginnerName}}
 							</view>
 						</view>
-					</label>
 				</view>
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
 						<view class="sameLine">
 							<view class="label sameLine fontsmall bold">
 								联系方式：
@@ -76,7 +65,6 @@
 							</view>
 						</view>
 						<phone :phoneNum="getTicket.enginnerMobile"></phone>
-					</label>
 				</view>
 			</template>
 		</uni-card>

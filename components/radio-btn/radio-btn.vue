@@ -6,7 +6,6 @@
 				<view class="sameLine">
 					<radio class="radioBtn" :value="item.value" :checked="item.checked" :disabled="stageStatus == 1 || type == 'isQGP' ? true : false" />
 				</view>
-				<view class="separator" v-if="index != items.length-1"></view>
 			</view>
 		</label>
 	</radio-group>
@@ -61,10 +60,5 @@
 		position: absolute;
 		right: 50rpx;
 		margin-top: -4rpx;
-	}
-	
-	.separator {
-		border: 1rpx solid #C0C0C0;
-		margin: 10rpx 0;
 	}
 </style>
