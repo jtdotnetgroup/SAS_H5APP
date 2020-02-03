@@ -4,6 +4,7 @@ export const http = axios.create({
 	// baseURL: 'http://localhost:8080/sac',
 	// baseURL: 'http://120.77.40.245:8080/sac',// 捷特
 	baseURL: 'http://40.73.75.101:8080',// 索奥斯
+	'http://192.168.2.102',
 	timeout: 50000
 })
 
@@ -18,7 +19,7 @@ http.interceptors.request.use(function (config) {
 	if (config.url.indexOf('getAccessToken') < 0) {
 		config.headers.common['userId'] = sessionStorage.getItem('userId')
 		config.headers.common['token'] = sessionStorage.getItem('token')
-		config.headers.common['unVerify'] = '0'
+		config.headers.common['unVerify'] = '1'
 	}
     return config;
   }, function (error) {
