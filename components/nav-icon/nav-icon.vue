@@ -49,7 +49,7 @@
 	
 	.text {
 		font-size: 25rpx;
-		margin-top: 10rpx;
+		margin-top: 40rpx;
 		text-align: center;
 	}
 </style>

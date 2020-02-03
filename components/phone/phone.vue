@@ -30,7 +30,7 @@
 .phone {
 	font-size: 70upx;
 	position: absolute;
-	top: 120upx;
+	top: 45px;
 	right: 50upx;
 }
 </style>

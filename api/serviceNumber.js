@@ -45,3 +45,24 @@ export function saveSuggest(params) {
 		data: params
 	})
 }
+
+/* 获取对应数据字段列表 */
+export function getServiceDicList(treeName) {
+	return http({
+		url: '/f/weChat/dic/list',
+		params: {
+			treeName: treeName
+		}
+	})
+}
+
+/* 获取阶段列表 */
+export function getServiceStageList(ticketType, ticketId) {
+	return http({
+		url: '/f/weChat/stage/getStagelist',
+		params: {
+			ticketType: ticketType,
+			ticketId: ticketId
+		}
+	})
+}

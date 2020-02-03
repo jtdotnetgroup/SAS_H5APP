@@ -86,6 +86,12 @@
 			"style":{
 				// "disableScroll": true
 			}
+		},
+		{
+			"path":"pages/index/examine/examine",//  客户用户审核
+			"style":{
+				// "disableScroll": true
+			}
 		}
 	],
 	"globalStyle": {

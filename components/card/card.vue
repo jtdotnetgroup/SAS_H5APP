@@ -3,21 +3,15 @@
 		<uni-card class="uniCard" note="true">
 			<view class="info">
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="label">{{ info.client.name }}</view>
-					</label>
+					<view class="label">{{ info.client.name }}</view>
 				</view>
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<span class="iconfont iconhuizhengongzuoliang iconStyle"></span>
-						<view class="label sameLine">联系人：{{ info.client.contact }}</view>
-						<view class="label sameLine">{{ info.client.telephone }}</view>
-					</label>
+					<span class="iconfont iconhuizhengongzuoliang iconStyle"></span>
+					<view class="label sameLine">联系人：{{ info.client.contact }}</view>
+					<view class="label sameLine">{{ info.client.telephone }}</view>
 				</view>
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<location :labelStyle="label" :label="info.client.area" :left_right="left_right"></location>
-					</label>
+					<location :labelStyle="label" :label="info.client.area" :left_right="left_right"></location>
 				</view>
 			</view>
 			<view class="btn">

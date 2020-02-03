@@ -3,29 +3,25 @@
 		<uni-card class="uniCard" note="true">
 			<view class="info">
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="label">{{getTicket.client.name}}</view>
-					</label>
+					<view class="label">{{getTicket.client.name}}</view>
 				</view>
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								工单编号：
-							</view>
-							<view class="label sameLine fontsmall">
-								{{getTicket.ticketNum}}
-							</view>
+					<view class="sameLine">
+						<view class="label sameLine fontsmall bold">
+							工单编号：
 						</view>
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								分配时间：
-							</view>
-							<view class="label sameLine fontsmall">
-								{{formatDate(getTicket.ticketAssignTime)}}
-							</view>
+						<view class="label sameLine fontsmall">
+							{{getTicket.ticketNum}}
 						</view>
-					</label>
+					</view>
+					<view class="sameLine">
+						<view class="label sameLine fontsmall bold">
+							分配时间：
+						</view>
+						<view class="label sameLine fontsmall">
+							{{formatDate(getTicket.ticketAssignTime)}}
+						</view>
+					</view>
 				</view>
 			</view>
 			<view class="btn">
@@ -33,47 +29,41 @@
 			</view>
 			<template v-slot:footer>
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								客户地址：
-							</view>
-							<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
+					<view class="sameLine">
+						<view class="label sameLine fontsmall bold">
+							客户地址：
 						</view>
-					</label>
+						<location :labelStyle="labelStyle" :label="getTicket.client.area" :left_right="left_right"></location>
+					</view>
 				</view>
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								主联系人：
-							</view>
-							<view class="label sameLine fontsmall">
-								{{getTicket.client.contact}}
-							</view>
+					<view class="sameLine">
+						<view class="label sameLine fontsmall bold">
+							主联系人：
 						</view>
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								职位：
-							</view>
-							<view class="label sameLine fontsmall">
-								院长
-							</view>
+						<view class="label sameLine fontsmall">
+							{{getTicket.client.contact}}
 						</view>
-					</label>
+					</view>
+					<view class="sameLine">
+						<view class="label sameLine fontsmall bold">
+							职位：
+						</view>
+						<view class="label sameLine fontsmall">
+							院长
+						</view>
+					</view>
 				</view>
 				<view class="line">
-					<label class="uni-list-cell uni-list-cell-pd">
-						<view class="sameLine">
-							<view class="label sameLine fontsmall bold">
-								联系方式：
-							</view>
-							<view class="label sameLine fontsmall">
-								{{getTicket.client.telephone}}
-							</view>
+					<view class="sameLine">
+						<view class="label sameLine fontsmall bold">
+							联系方式：
 						</view>
-						<phone :phoneNum="getTicket.client.telephone"></phone>
-					</label>
+						<view class="label sameLine fontsmall">
+							{{getTicket.client.telephone}}
+						</view>
+					</view>
+					<phone :phoneNum="getTicket.client.telephone"></phone>
 				</view>
 			</template>
 		</uni-card>

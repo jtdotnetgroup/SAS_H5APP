@@ -59,9 +59,9 @@
 		},
 		methods: {
 			onClick(e){
-				console.log(e);
+				// console.log(e);
 				if (e.index == 0) {
-					console.log('当前点击的是第'+e.index+'个按钮，点击内容是'+e.content.text)
+					// console.log('当前点击的是第'+e.index+'个按钮，点击内容是'+e.content.text)
 					uni.navigateTo({
 						url: '../declare/declare?detailData=' + encodeURIComponent(JSON.stringify(this.detail))
 					})

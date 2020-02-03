@@ -1,6 +1,8 @@
 <template>
 	<view>
-		<list-card :dataList="getContactList"></list-card>
+		<scroll-view :scroll-top="scrollTop" scroll-y="true" class="scroll-Y" @scrolltoupper="upper" @scrolltolower="lower" @scroll="scroll">
+			<list-card :dataList="getContactList"></list-card>
+		</scroll-view>
 		<view class="gird">
 			<button form-type="submit" type="primary" size="mini" @click="btn">故障申报</button>
 			<!-- <button form-type="reset" type="default" size="mini" @click="btn1">服务评价</button> -->
@@ -15,7 +17,11 @@
 		name: 'equipment',
 		data() {
 			return {
-				name:"name"
+				name:"name",
+				scrollTop: 0,
+				old: {
+					scrollTop: 0
+				}
 			}
 		},
 		components: {
@@ -37,7 +43,15 @@
 					url: '../suggests/suggest'
 				})
 			},
-			
+			upper() {
+				// console.log("到顶了");
+			},
+			lower() {
+				// console.log("到底了");
+			},
+			scroll() {
+				// console.log("滚动了");
+			},
 		},
 		computed:{
 			getContactList(){
@@ -47,7 +61,9 @@
 		},
 		onLoad() {
 			//跳转页面前获取字典列表信息
-			this.$store.dispatch('dic/GetFaultLocaList', '故障部位');
+			this.$store.dispatch('dic/GetRegionList', '片区').then(res=>{
+				this.$store.dispatch('dic/GetServiceFaultLocaList', '故障部位')
+			})
 			this.$store.dispatch('contact/GetDataList')
 		}
 	}
@@ -56,13 +72,41 @@
 <style>
 	.gird {
 		padding: 10px 0px;
-		display: flex;
-		grid-template-columns: 50% 50%;
+		position: fixed;
 		bottom: 0;
 	}
-	.gird {
-		margin: 4px 2px;
-		display: flex;
-		grid-template-columns: 50% 50%;
+	button {
+		margin: 0 16px;
+	}
+	.scroll-Y {
+		height: calc(100vh - 54px);
+	}
+	
+	/* iphone X */
+	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+		.scroll-Y {
+			height: calc(100vh - 54px);
+		}
+		button {
+			margin: 0 19px;
+		}
+	}
+	/* iphone 6~8 */
+	@media only screen and (device-width : 375px) and (device-height : 667px) and (-webkit-device-pixel-ratio : 2) {
+		.scroll-Y {
+			height: calc(100vh - 54px);
+		}
+		button {
+			margin: 0 19px;
+		}
+	}
+	/* iphone 6 plus~8 plus */
+	@media only screen and (device-width : 414px) and (device-height : 736px) and (-webkit-device-pixel-ratio : 3) {
+		.scroll-Y {
+			height: calc(100vh - 54px);
+		}
+		button {
+			margin: 0 19px;
+		}
 	}
 </style>

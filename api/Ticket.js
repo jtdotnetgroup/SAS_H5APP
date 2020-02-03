@@ -22,9 +22,12 @@ export function getStageList(ticketType, ticketId) {
 }
 
 /* 获取工单列表 */
-export function getWorkOrderList() {
+export function getWorkOrderList(userId) {
 	return http({
-		url: '/f/mobile/ticket/list'
+		url: '/f/mobile/ticket/list',
+		params: {
+			userId: userId
+		}
 	})
 }
 
