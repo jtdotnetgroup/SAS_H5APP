@@ -2,19 +2,22 @@
 	<view class="content">
 		<view class="uni-list">
 			<checkbox-group @change="checkboxChange">
-				<label class="uni-list-cell uni-list-cell-pd" v-for="item in items" :key="item.value">
+				<label class="uni-list-cell uni-list-cell-pd" v-for="item in items" :key="item.id">
 					<view>
-						<checkbox :value="item.value" :checked="item.checked" />
+						<checkbox :value="item.id" :checked="isChecked.indexOf(item.id) > -1" />
 					</view>
 					<view class="name">{{item.name}}</view>
-					<view class="company">公司名称：{{item.company}}</view>
+					<view class="company">
+						<div>公司名称：</div>
+						<div class="companyName">{{item.client.name}}</div>
+					</view>
 				</label>
 			</checkbox-group>
 		</view>
 		<view class="seize"></view>
 		<view class="foot">
 			<view class="bottom">
-				<checkbox class="checked-all" @click="checkedAll" :checked="items.length === getCheckedLength()"/>
+				<checkbox class="checked-all" @click="checkedAll" :checked="isCheckedAll"/>
 				<button type="primary" class="confirm" @click="confirm">审核确认</button>
 			</view>
 		</view>
@@ -23,30 +26,16 @@
 </template>
 
 <script>
+	import {updateStatus} from '@/api/client_user.js'
+	import qs from 'qs'
+	
 	export default {
 		name: 'examine',
 		data() {
 			return {
-				items: [
-					{
-						value: 'wen',
-						name: '小文文',
-						company: '佛山捷特科技',
-						checked: false
-					},
-					{
-						value: 'qing',
-						name: '小青青',
-						company: '佛山捷特科技',
-						checked: false
-					},
-					{
-						value: 'xing',
-						name: '小星星',
-						company: '佛山捷特科技',
-						checked: false
-					}
-				]
+				items: [],
+				isChecked: [],
+				isCheckedAll: false
 			}
 		},
 		components: {
@@ -55,36 +44,54 @@
 			checkboxChange: function (e) {
 				let items = this.items,
 					values = e.detail.value;
-				for (let i = 0, lenI = items.length; i < lenI; ++i) {
-					const item = items[i]
-					if(values.includes(item.value)){
-						item.checked = true
-					}else{
-						item.checked = false
-					}
+				this.isChecked = values
+				if (this.isChecked.length === this.items.length) {
+					this.isCheckedAll = true
+				} else {
+					this.isCheckedAll = false
 				}
-			},
-			getCheckedLength(){ 
-				var l = 0;
-				for (let item of this.items) {
-					l = item.checked ? l+1 : l
-				}
-				return l
 			},
 			checkedAll() {
-				var eq = this.getCheckedLength() === this.items.length;
-				for (let item of this.items) {
-					item.checked = !eq
+				this.isCheckedAll = !this.isCheckedAll
+				if (this.isCheckedAll) {
+					this.isChecked = []
+					for (let items of this.items) {
+						this.isChecked.push(items.id)
+					}
+				} else {
+					this.isChecked = []
 				}
 			},
 			confirm() {
-				var result = []
-				for (let item of this.items) {
-					if (item.checked) {
-						result.push()
-					}
+				if (this.isChecked.length === 0) {
+					uni.showToast({
+						title: "最少选择一个",
+						duration: 1000,
+						icon: "none",
+						mask: true
+					})
+					return
 				}
+				updateStatus({ids: this.isChecked}).then(res => {
+					if (res.status === 200) {
+						uni.showToast({
+							title: res.data.msg,
+							duration: 1000,
+							mask: true
+						})
+						this.$store.dispatch("clientUser/GetDataList").then(res => {
+							this.items = res
+						})
+					}
+				}).catch(err => {
+					console.log(err);
+				})
 			}
+		},
+		onLoad() {
+			this.$store.dispatch("clientUser/GetDataList").then(res => {
+				this.items = res
+			})
 		}
 	}
 </script>
@@ -97,7 +104,11 @@
 	
 	.company {
 		position: absolute;
-		left: 150px;
+		left: 135px;
+	}
+	
+	.companyName {
+		margin-left: 20px;
 	}
 	
 	.bottom {

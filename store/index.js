@@ -4,6 +4,7 @@ import workOrder from './modules/workOrder.js'
 import dic from './modules/dic.js'
 import stage from './modules/stage.js'
 import contact from './modules/contact.js'
+import clientUser from './modules/clientUser.js'
 import * as dd from 'dingtalk-jsapi'
 import {GetAccessToken} from '@/api/ddjsapi.js'
 
@@ -90,7 +91,8 @@ const modules = {
 	workOrder,
 	dic,
 	stage,
-	contact
+	contact,
+	clientUser
 }
 
 export default new Vuex.Store({
