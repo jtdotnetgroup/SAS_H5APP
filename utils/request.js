@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const http = axios.create({
-	baseURL: 'http://192.168.2.102:8096',// 捷特
+	 baseURL: 'http://169.168.2.106:8096',
 	// baseURL: 'http://120.77.40.245:8080/sac',// 捷特
 	//baseURL: 'http://40.73.75.101:8080',// 索奥斯
 	timeout: 50000
@@ -31,6 +31,12 @@ http.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
 	uni.hideLoading();
+	uni.showToast({
+		title: response.data.msg,
+		duration: 1000,
+		icon: "none",
+		mask: true
+	})
     return response;
   }, function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
