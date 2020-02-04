@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 export const http = axios.create({
+	baseURL: 'http://192.168.2.102:8096',// 捷特
 	// baseURL: 'http://120.77.40.245:8080/sac',// 捷特
-	baseURL: 'http://40.73.75.101:8080',// 索奥斯
-	'http://192.168.2.102',
+	//baseURL: 'http://40.73.75.101:8080',// 索奥斯
 	timeout: 50000
 })
 
