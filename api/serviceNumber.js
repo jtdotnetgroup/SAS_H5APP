@@ -1,5 +1,23 @@
 import { http } from '@/utils/request.js'
 
+/*  网页授权认证  */
+export function authorize(params) {
+	return http({
+		url: '/f/weChat/authorize',
+		method: 'post',
+		data: params
+	})
+}
+
+/*  授权认证加入  */
+export function authorizeJoin(params) {
+	return http({
+		url: '/f/weChat/service/login/authorize',
+		method: 'post',
+		data: params
+	})
+}
+
 /* 获取工单列表 */
 export function getServiceWorkOrderList() {
 	return http({
