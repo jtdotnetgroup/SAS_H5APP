@@ -105,14 +105,10 @@
 					const value = uni.getStorageSync('setUserData');
 					if (value) {
 						//有登录信息
-						console.log("已登录用户：",value);
 						_this.$store.dispatch("setUserData",value); //存入状态
-						uni.reLaunch({
-							url: '../../../pages/wechat_service_num/workOrder/index',
-						});
 					}
 				} catch (e) {
-					// error
+					console.log(e);
 				} */
 			},
 		    startLogin(){
@@ -195,7 +191,6 @@
 					console.log(error);
 				})					
 				/* getLogin().then(res => {
-					//console.log(res)
 					//简单验证下登录（不安全）
 					if(_this.enterpriseName==res.data.username && _this.phoneNumber==res.data.password){
 						let userdata={
@@ -204,7 +199,6 @@
 							"accesstoken":res.data.accesstoken,
 						} //保存用户信息和accesstoken
 						authorizeJoin(userdata).then(response => {
-							console.log(response);
 							if (response.status === 200) {
 								// var payload = {'id': "", 'name': ""}
 								this.$store.dispatch('');
@@ -220,19 +214,10 @@
 						}).catch(error => {
 							console.log(error);
 						})						
-					}else{
-						_this.phoneNumber=""
-						uni.showToast({
-							icon: 'error',
-							position: 'bottom',
-							title: '账号或密码错误，账号admin密码admin'
-						});
 					}
-					uni.hideLoading();
 				}).catch(err => {
-					uni.hideLoading();
+					console.log(err);
 				}) */
-				
 		    },
 			// 截取code
 			GetUrlParame (parameName) {
