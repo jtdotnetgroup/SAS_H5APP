@@ -1,11 +1,12 @@
 import { http } from '@/utils/request.js'
 
 /*  网页授权认证  */
-export function authorize(params) {
+export function authorize(code) {
 	return http({
-		url: '/f/weChat/authorize',
-		method: 'post',
-		data: params
+		url: '/f/weChat/service/oauthLogin',
+		params: {
+			code: code
+		}
 	})
 }
 
@@ -37,7 +38,7 @@ export function saveMalfunction(params) {
 	return http({
 		url: '/f/weChat/malfunction/save',
 		method: 'post',
-		 headers: {
+		headers: {
 			"Content-Type": "text/html;charset=UTF-8"
 		},
 		data: params

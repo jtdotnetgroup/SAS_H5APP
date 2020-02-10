@@ -58,6 +58,12 @@
 			}
 		},
 		{
+			"path":"pages/wechat_service_num/login/oauth",//  授权页面
+			"style":{
+				// "disableScroll": true
+			}
+		},
+		{
 			"path":"pages/wechat_service_num/declare/declare",// 故障申报
 			"style":{
 				// "disableScroll": true

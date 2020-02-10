@@ -15,7 +15,8 @@ const debug = process.env.NODE_ENV !== 'production'
 const state = {
 	code: '',
 	token: '',
-	userId: ''
+	userId: '',
+	openId: '',
 }
 
 const getters = {
@@ -27,6 +28,9 @@ const getters = {
 	},
 	getUserId() {
 		return state.userId
+	},
+	getOpenId(){
+		return stage.openId
 	}
 }
 
@@ -42,6 +46,9 @@ const mutations = {
 	SET_USERID(state, payload) {
 		sessionStorage.setItem('userId', payload)
 		state.userId = payload
+	},
+	SET_OPENID(state, payload){
+		state.openId = payload
 	}
 }
 
