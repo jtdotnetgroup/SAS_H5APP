@@ -12,9 +12,11 @@ Vue.prototype.$corpId = 'ding2ced2e5420af006835c2f4657eb6378f'	// 企业ID
 Vue.prototype.$agentId = '344468113'
 Vue.prototype.$url = 'http://120.77.40.245:8691/'
 
-Vue.prototype.$appId = 'wx35360545b97a547b'
-// Vue.prototype.$oauthUrl = 'http://elt.natapp4.cc/f/weChat/service/oauthLogin'
-Vue.prototype.$oauthUrl = 'http://elt.natapp4.cc/#/pages/wechat_service_num/login/index'
+/* 微信配置 */
+Vue.prototype.$appId = 'wx35360545b97a547b'  // 微信appId
+Vue.prototype.$oauthUrl = 'http://192.168.0.106:8691/#/pages/wechat_service_num/login/index'  // 本地
+// Vue.prototype.$oauthUrl = 'http://120.77.40.245:8691/#/pages/wechat_service_num/login/index'  // 捷特
+// Vue.prototype.$oauthUrl = 'http://40.73.75.101:8090/#/pages/wechat_service_num/login/index'      // 索奥斯
 
 // 索奥斯
 // Vue.prototype.$corpId = 'dinge122d3ee13ff396f35c2f4657eb6378f'	// 企业ID
@@ -24,7 +26,7 @@ Vue.prototype.$oauthUrl = 'http://elt.natapp4.cc/#/pages/wechat_service_num/logi
 moment.locale('cn')
 Vue.prototype.$moment = moment
 // Vue.prototype.$IP = 'http://120.77.40.245:8080/sac'//捷特
-//Vue.prototype.$IP = 'http://40.73.75.101:8080'// 索奥斯
+// Vue.prototype.$IP = 'http://40.73.75.101:8080'// 索奥斯
 Vue.prototype.$IP = 'http://192.168.0.106:8096' // 
 
 App.mpType = 'app'
