@@ -16,7 +16,7 @@ Vue.config.productionTip = false
 Vue.prototype.$appId = 'wx35360545b97a547b'  // 微信appId
 // Vue.prototype.$oauthUrl = 'http://192.168.0.106:8691/#/pages/wechat_service_num/login/index'  // 本地
 // Vue.prototype.$oauthUrl = 'http://120.77.40.245:8691/#/pages/wechat_service_num/login/index'  // 捷特
-Vue.prototype.$oauthUrl = 'http://40.73.75.101:8090/#/pages/wechat_service_num/login/index'      // 索奥斯
+Vue.prototype.$oauthUrl = 'http://www.southtech.cn/#/pages/wechat_service_num/login/index'      // 索奥斯
 
 // 索奥斯
 Vue.prototype.$corpId = 'dinge122d3ee13ff396f35c2f4657eb6378f'	// 企业ID
