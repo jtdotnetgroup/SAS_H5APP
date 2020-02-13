@@ -16,12 +16,12 @@ Vue.config.productionTip = false
 Vue.prototype.$appId = 'wx35360545b97a547b'  // 微信appId
 // Vue.prototype.$oauthUrl = 'http://192.168.0.106:8691/#/pages/wechat_service_num/login/index'  // 本地
 // Vue.prototype.$oauthUrl = 'http://120.77.40.245:8691/#/pages/wechat_service_num/login/index'  // 捷特
-Vue.prototype.$oauthUrl = 'http://www.southtech.cn:8086/#/pages/wechat_service_num/login/index'      // 索奥斯
+Vue.prototype.$oauthUrl = 'http://www.southtech.cn/H5_WEB/#/pages/wechat_service_num/login/index'      // 索奥斯
 
 // 索奥斯
 Vue.prototype.$corpId = 'dinge122d3ee13ff396f35c2f4657eb6378f'	// 企业ID
 Vue.prototype.$agentId = '346116753'
-Vue.prototype.$url = 'http://www.southtech.cn:8086/'	
+Vue.prototype.$url = 'http://www.southtech.cn/H5_WEB/'	
 
 moment.locale('cn')
 Vue.prototype.$moment = moment
