@@ -73,6 +73,10 @@
     },
     "h5" : {
         "title" : "索奥斯售后服务",
-        "domain" : ""
+        "domain" : "",
+        "router" : {
+            "mode" : "history",
+            "base" : "/H5_WEB/"
+        }
     }
 }
