@@ -69,6 +69,7 @@
 		},
 		computed:{
 			displayList(){
+				//this.$store.getters.weChatUser
 				let item = this.$store.getters['workOrder/getServiceTicketList']
 				if (this.current != 2) {
 					item = item.filter(e=>e.ticketStatus === this.current + 3)
@@ -76,7 +77,10 @@
 				return item;
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			console.log(option.openId);
+			console.log(option.clientUserId);
+			console.log(option.clientId);
 			this.$store.dispatch('dic/GetServiceTypeList', '工单类型').then(res=>{
 				this.$store.dispatch('workOrder/GetServiceDataList')
 			})

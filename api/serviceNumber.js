@@ -20,9 +20,15 @@ export function authorizeJoin(params) {
 }
 
 /* 获取工单列表 */
-export function getServiceWorkOrderList() {
+export function getServiceWorkOrderList(clientId,clientUsersId,openId) {
 	return http({
-		url: '/f/weChat/ticket/list'
+		url: '/f/weChat/ticket/list',
+		method: 'post',
+		params: {
+			clientId: clientId,
+			clientUsersId: clientUsersId,
+			openId : openId
+		}
 	})
 }
 

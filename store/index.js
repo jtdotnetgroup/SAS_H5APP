@@ -16,7 +16,7 @@ const state = {
 	code: '',
 	token: '',
 	userId: '',
-	openId: '',
+	weChatUser: {},
 }
 
 const getters = {
@@ -29,7 +29,7 @@ const getters = {
 	getUserId() {
 		return state.userId
 	},
-	getOpenId(){
+	getWeChatUser(){
 		return stage.openId
 	}
 }
@@ -47,7 +47,7 @@ const mutations = {
 		sessionStorage.setItem('userId', payload)
 		state.userId = payload
 	},
-	SET_OPENID(state, payload){
+	SET_WECHAT_USER(state, payload){
 		state.openId = payload
 	}
 }
@@ -91,7 +91,10 @@ const actions = {
 				reject()
 			})
 		})
-	}
+	},
+	GET_WECHAT_USER({commit, state}, payload) {
+		commit("SET_WECHAT_USER", payload)
+	},
 }
 
 const modules = {

@@ -73,6 +73,13 @@
     },
     "h5" : {
         "title" : "索奥斯售后服务",
-        "domain" : ""
+        "domain" : "",
+        "router" : {
+            "mode" : "hash",
+            "base" : ""
+        },
+        "devServer" : {
+            "https" : false
+        }
     }
 }
