@@ -21,7 +21,7 @@ Vue.prototype.$oauthUrl = 'http://www.southtech.cn/H5_WEB/#/pages/wechat_service
 // 索奥斯
 Vue.prototype.$corpId = 'dinge122d3ee13ff396f35c2f4657eb6378f'	// 企业ID
 Vue.prototype.$agentId = '346116753'
-Vue.prototype.$url = 'http://40.73.75.101:8090/'	
+Vue.prototype.$url = 'http://www.southtech.cn/H5_WEB/'	
 
 moment.locale('cn')
 Vue.prototype.$moment = moment

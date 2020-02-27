@@ -75,11 +75,8 @@
         "title" : "索奥斯售后服务",
         "domain" : "",
         "router" : {
-            "mode" : "hash",
-            "base" : ""
-        },
-        "devServer" : {
-            "https" : false
+            "mode" : "history",
+            "base" : "/H5_WEB/"
         }
     }
 }
