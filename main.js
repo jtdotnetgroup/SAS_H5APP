@@ -26,7 +26,7 @@ Vue.prototype.$url = 'http://www.southtech.cn/H5_WEB/'
 moment.locale('cn')
 Vue.prototype.$moment = moment
 // Vue.prototype.$IP = 'http://120.77.40.245:8080/sac'//捷特
-Vue.prototype.$IP = 'http://40.73.75.101:8080'// 索奥斯
+Vue.prototype.$IP = 'http://40.73.75.101:80'// 索奥斯
 // Vue.prototype.$IP = 'http://192.168.0.106:8096' // 
 
 App.mpType = 'app'
