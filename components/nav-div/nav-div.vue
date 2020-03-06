@@ -32,7 +32,7 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		padding: 0;
-		font-size: 14rpx;
+		font-size: 2rem;
 		background-color: #ffffff;
 	}
 	
@@ -63,6 +63,7 @@
 	.title {
 		background-color: #FFFFFF !important;
 		margin-top: 15upx !important;
+		height: 72rpx !important;
 	}
 	
 	.container {

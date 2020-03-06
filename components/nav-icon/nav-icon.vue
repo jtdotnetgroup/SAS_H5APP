@@ -35,15 +35,15 @@
 <style>
 	.iconfont {
 		font-family: "iconfont" !important;
-		font-size: 90upx;
+		font-size: 2rem;
 		font-style: normal;
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 	}
 	
 	.image {
-		width: 90rpx;
-		height: 90rpx;
+		width: 2rem;
+		height: 2rem;
 		margin: 0 auto;
 	}
 	
