@@ -64,6 +64,9 @@
 	.borderStyle {
 		margin: 15upx;
 	}
+	.borderStyle /deep/ .segmented-control__text {
+		font-size: 6rpx !important;
+	}
 	/* iphone X */
 	@media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
 		.scroll-Y {
