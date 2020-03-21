@@ -78,9 +78,11 @@
 								_this.nickName = response.data.body.userInfo.nickname;
 						    break
 						  case '200':
+								this.$store.dispatch('GET_WECHAT_USER',response.data.body.userInfo);
 								uni.reLaunch({
-									url: '../../../pages/wechat_service_num/workOrder/index?openId='+userInfo.openId+"&clientUserId="+userInfo.id
-									+"&clientId="+userInfo.client.id,
+									url: '../../../pages/wechat_service_num/workOrder/index?openId='+response.data.body.userInfo.openId
+														+"&clientUserId="+response.data.body.userInfo.id
+														+"&clientId="+response.data.body.userInfo.clientId
 								});
 						    break
 						  case '300':
@@ -162,9 +164,11 @@
 						let errorCode  = response.data.errorCode;
 						switch (errorCode) {
 						  case '1':
+								this.$store.dispatch('GET_WECHAT_USER',response.data.body.userInfo);
 								uni.reLaunch({
-									url: '../../../pages/wechat_service_num/workOrder/index?openId='+userInfo.openId+"&clientUserId="+userInfo.id
-									+"&clientId="+userInfo.client.id,
+									url: '../../../pages/wechat_service_num/workOrder/index?openId='+response.data.body.userInfo.openId
+														+"&clientUserId="+response.data.body.userInfo.id
+														+"&clientId="+response.data.body.userInfo.clientId
 								});
 						    break
 						  case '2':

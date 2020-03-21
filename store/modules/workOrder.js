@@ -36,7 +36,7 @@ const actions = {
 	},
 	// 服务工单信息
 	GetServiceDataList({commit,state}, payload){
-		getServiceWorkOrderList().then(response => {
+		getServiceWorkOrderList(payload).then(response => {
 			commit("setServiceTicketList",response.data.body.ticketList)
 		}).catch(error => {
 			console.log(error);
